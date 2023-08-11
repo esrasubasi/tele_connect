@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.tele_connect">
-    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+     <uses-permission android:name="android.permission.READ_SMS"/>
+     <uses-permission android:name="android.permission.SEND_SMS"/>
    <application
         android:label="tele_connect"
         android:name="${applicationName}"
@@ -10,6 +12,8 @@
 		    android:permission="android.permission.BROADCAST_SMS" android:exported="true">
 		    <intent-filter>
 			<action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+            <action android:name="android.permission.READ_SMS"/>
+            <action android:name="android.permission.SEND_SMS"/>
 		    </intent-filter>
 		</receiver>
         
