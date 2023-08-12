@@ -31,7 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  sms_advanced: ^1.1.0
+  
     
 
 
@@ -45,6 +45,7 @@ dependencies:
   readsms: ^0.0.2+2
   telephony: ^0.2.0
   flutter_sms: ^2.3.3
+  workmanager: ^0.5.1
 
 dev_dependencies:
   flutter_test:
