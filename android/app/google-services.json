@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "825408921847",
+    "project_id": "teleconnect-e3c89",
+    "storage_bucket": "teleconnect-e3c89.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:825408921847:android:d42f986164cc9e67f573f2",
+        "android_client_info": {
+          "package_name": "com.example.tele_connect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "825408921847-in54lfevmk3p1vknuo5fh2mo22p39iss.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkOs9BATMfj9Z86vIExDErm0w-p9tGPNA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "825408921847-in54lfevmk3p1vknuo5fh2mo22p39iss.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "825408921847-6iq5j0073hvpqrtp6k8crjh33o9mbg3o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.teleConnect"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
