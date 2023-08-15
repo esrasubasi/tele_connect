@@ -24,6 +24,7 @@ class SmsReadView extends StatelessWidget {
 }
 
 class Home extends StatefulWidget {
+  
   @override
   State<Home> createState() => _HomeState();
 }
@@ -31,12 +32,15 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final GeneralViewModel viewModel = GeneralViewModel(); 
   bool isOn = false;
+  List<String> telnos=[];
+  
   
   @override
   
   Widget build(BuildContext context) {
+    
+  telnos.clear;
   
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -94,7 +98,7 @@ class _HomeState extends State<Home> {
                       personSelect: data['PersonSelect'] ?? false,
                     );
                   }).toList();
-
+                  
                   return Container(
                     height: 300,
                     margin: const EdgeInsets.all(10.0),
@@ -106,8 +110,18 @@ class _HomeState extends State<Home> {
                       scrollDirection: Axis.vertical,
                       child: Column(
                         children: [
-                          for (final person in persons) PadCheckB(person),
+                          
+                          for (final person in persons) PadCheckB(person,telnos),
+              
+                          Text(telnos.toString()),
+
+                          
+
+                          
+
+                          
                         ],
+                        
                       ),
                     ),
                   );
@@ -140,14 +154,19 @@ class _HomeState extends State<Home> {
     
   }
 
-  Padding PadCheckB(Person person) {
+  Padding PadCheckB(Person person,List<String> telno) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: CheckboxListTile(
         title: Text(person.personName),
         subtitle: Text(person.personNumber),
         value: person.personSelect,
-        onChanged: (bool? newValue) {viewModel.updatePersonSelect(person.personName, newValue);          },
+        onChanged: (bool? newValue) {viewModel.updatePersonSelect(person.personName, newValue);
+        if(person.personSelect==false){
+          telno.add(person.personNumber);
+        }else{
+          telno.remove(person.personNumber);
+        }          },
         activeColor: Colors.green[700],
         checkColor: Colors.white,
         tileColor: Colors.white,
