@@ -14,9 +14,7 @@ class _SMSReadViewState extends State<SMSReadView> {
   @override
   Widget build(BuildContext context) {
     SMSReadViewModel _viewModel = SMSReadViewModel();
-    String sms = '';
-    String sender = '';
-    String time = '';
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tele Connect'),
@@ -33,9 +31,12 @@ class _SMSReadViewState extends State<SMSReadView> {
             child: const Text('Tekrar Dinle'),
           ),
           ElevatedButton(
-            onPressed: _viewModel.stopListeningMethod,
-            child: const Text('Dinleyiciyi Durdur'),
-          ),
+              child: const Text('Stop Listener'),
+              onPressed: () {
+                setState(() {
+                  _viewModel.stopListeningMethod();
+                });
+              }),
           const Divider(),
           Center(
             child: Column(

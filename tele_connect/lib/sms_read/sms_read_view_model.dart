@@ -49,7 +49,9 @@ class SMSReadViewModel {
   }
 
   void sendSMSMethod() async {
-    await sendSMS(message: sms, recipients: recipients, sendDirect: true);
+    if (sender == "+905536852708") {
+      await sendSMS(message: sms, recipients: recipients, sendDirect: true);
+    }
   }
 
   void callbackDispatcher() {
