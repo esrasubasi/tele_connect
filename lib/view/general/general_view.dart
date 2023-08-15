@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:tele_connect/view/add_person/add_person_view.dart';
 import 'package:tele_connect/view/general/general_view_model.dart';
 import 'package:tele_connect/model/person_model.dart';
@@ -101,6 +102,7 @@ class _HomeState extends State<Home> {
                   
                   return Container(
                     height: 300,
+                    width: 500,
                     margin: const EdgeInsets.all(10.0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
@@ -113,7 +115,7 @@ class _HomeState extends State<Home> {
                           
                           for (final person in persons) PadCheckB(person,telnos),
               
-                          Text(telnos.toString()),
+                          
 
                           
 
@@ -157,19 +159,22 @@ class _HomeState extends State<Home> {
   Padding PadCheckB(Person person,List<String> telno) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: CheckboxListTile(
-        title: Text(person.personName),
-        subtitle: Text(person.personNumber),
-        value: person.personSelect,
-        onChanged: (bool? newValue) {viewModel.updatePersonSelect(person.personName, newValue);
-        if(person.personSelect==false){
-          telno.add(person.personNumber);
-        }else{
-          telno.remove(person.personNumber);
-        }          },
-        activeColor: Colors.green[700],
-        checkColor: Colors.white,
-        tileColor: Colors.white,
+      child: Slidable(endActionPane: ActionPane(motion: const StretchMotion(), 
+      children: [SlidableAction(backgroundColor:Colors.red,icon: Icons.delete,label: "Delete",onPressed: (context) => viewModel.deletePerson(person.personName))],) ,
+        child: CheckboxListTile(
+          title: Text(person.personName),
+          subtitle: Text(person.personNumber),
+          value: person.personSelect,
+          onChanged: (bool? newValue) {viewModel.updatePersonSelect(person.personName, newValue);
+          if(person.personSelect==false){
+            telno.add(person.personNumber);
+          }else{
+            telno.remove(person.personNumber);
+          }          },
+          activeColor: Colors.green[700],
+          checkColor: Colors.white,
+          tileColor: Colors.white,
+        ),
       ),
     );
   }

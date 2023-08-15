@@ -11,8 +11,12 @@ class GeneralViewModel {
         .doc(personName)
         .update({'PersonSelect': newValue});
   }
+  Future<void> deletePerson(String personName)async{
 
+  await FirebaseFirestore.instance.collection("Person").doc(personName).delete();
+  
 }
 
+}
 
 
