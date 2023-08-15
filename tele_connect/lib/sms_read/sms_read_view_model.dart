@@ -12,7 +12,7 @@ class SMSReadViewModel {
   String? textContent = 'Mesajlar bekleniyor...';
   SmsReceiver? smsReceiver;
 
-  List<String> recipients = ["+905313562627"];
+  List<String> recipients = ["+905536852708"];
 
   Future<bool> getPermission() async {
     if (await Permission.sms.status == PermissionStatus.granted) {
@@ -50,5 +50,18 @@ class SMSReadViewModel {
 
   void sendSMSMethod() async {
     await sendSMS(message: sms, recipients: recipients, sendDirect: true);
+  }
+
+  void callbackDispatcher() {
+    Workmanager().executeTask((task, inputData) {
+      onSmsReceived(sms);
+      sendSMS(message: sms, recipients: recipients);
+      Workmanager().registerPeriodicTask(
+        "periodic-task-identifier",
+        "simplePeriodicTask",
+        frequency: const Duration(minutes: 30),
+      );
+      return Future.value(true);
+    });
   }
 }
