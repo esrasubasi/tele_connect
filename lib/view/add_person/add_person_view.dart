@@ -31,6 +31,9 @@ class _PersonAppState extends State<PersonApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: () => RouteHelper.push(context, SmsReadView())),
         centerTitle: true,
         title: Text("Kişi Ekle", style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.green[700],

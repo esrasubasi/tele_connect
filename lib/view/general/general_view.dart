@@ -134,7 +134,7 @@ class _HomeState extends State<Home> {
                       RouteHelper.push(context, PersonView());
                     },
                     icon: Padding(
-                      padding: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(12.0),
                       child: Icon(Icons.add_circle),
                     ),
                     iconSize: 100,
