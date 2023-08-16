@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:tele_connect/core/constant/app_constant.dart';
 import 'package:tele_connect/view/general/general_view.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -25,7 +27,7 @@ class _MyAppState extends State<MyApp> {
             future: _initialization,
             builder: (context, snapshot) {
               if (snapshot.hasError) {
-                return Center(child: Text("Hata"));
+                return Center(child: Text(AppConstant.ERROR_TEXT));
               } else if (snapshot.hasData) {
                 return SmsReadView();
               } else {
