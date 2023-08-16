@@ -39,45 +39,46 @@ class _SendAppState extends State<SendApp> {
         backgroundColor: Colors.green[700],
       ),
       body: SafeArea(
-        child: Center(
-          child: Column(children: [
-            TextField(
-              controller: Sender,
-              decoration: InputDecoration(
-                hintText: AppConstant.SEND_SMS_HINT_TEXT,
-                border: OutlineInputBorder(),
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    Sender.clear();
-                  },
-                  icon: Icon(Icons.clear),
+        child: Column(children: [
+          SizedBox(
+            height: 150,
+          ),
+          TextField(
+            controller: Sender,
+            decoration: InputDecoration(
+              hintText: AppConstant.SEND_SMS_HINT_TEXT,
+              border: OutlineInputBorder(),
+              suffixIcon: IconButton(
+                onPressed: () {
+                  Sender.clear();
+                },
+                icon: Icon(Icons.clear),
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              SavedSender = Sender.text;
+              RouteHelper.push(context, SmsReadView());
+            },
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 120),
+              padding: EdgeInsets.all(18.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: Colors.green[700],
+              ),
+              child: Text(
+                "Kaydet",
+                style: TextStyle(
+                  fontSize: 25,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            TextButton(
-              onPressed: () {
-                SavedSender = Sender.text;
-                RouteHelper.push(context, SmsReadView());
-              },
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 120),
-                padding: EdgeInsets.all(18.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: Colors.green[700],
-                ),
-                child: Text(
-                  "Kaydet",
-                  style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          ]),
-        ),
+          ),
+        ]),
       ),
     );
   }
