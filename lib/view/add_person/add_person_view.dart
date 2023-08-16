@@ -1,8 +1,10 @@
 // ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:tele_connect/core/constant/app_constant.dart';
+import 'package:tele_connect/core/helper/route_helper.dart';
 import 'package:tele_connect/view/add_person/add_person_view_model.dart';
-
+import 'package:tele_connect/view/general/general_view.dart';
 
 void main() {
   runApp(PersonView());
@@ -23,10 +25,8 @@ class PersonApp extends StatefulWidget {
 }
 
 class _PersonAppState extends State<PersonApp> {
-  final PersonAddViewModel viewModel = PersonAddViewModel();
   AddPersonViewModel personViewModel = AddPersonViewModel();
 
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +43,7 @@ class _PersonAppState extends State<PersonApp> {
               TextField(
                 controller: personViewModel.textName,
                 decoration: InputDecoration(
-                  hintText: "Name",
+                  hintText: AppConstant.HINT_TEXT_NAME,
                   border: OutlineInputBorder(),
                   suffixIcon: IconButton(
                     onPressed: () {
@@ -56,9 +56,9 @@ class _PersonAppState extends State<PersonApp> {
               SizedBox(height: 30),
               TextField(
                 controller: personViewModel.textPhone,
-                keyboardType: TextInputType.phone, 
+                keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
-                  hintText: "Phone",
+                  hintText: AppConstant.HINT_TEXT_NUMBER,
                   border: OutlineInputBorder(),
                   suffixIcon: IconButton(
                     onPressed: () {
@@ -71,9 +71,9 @@ class _PersonAppState extends State<PersonApp> {
               SizedBox(height: 30),
               TextField(
                 controller: personViewModel.textEmail,
-                keyboardType: TextInputType.emailAddress, 
+                keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                  hintText: "Email",
+                  hintText: AppConstant.HINT_TEXT_EMAIL,
                   border: OutlineInputBorder(),
                   suffixIcon: IconButton(
                     onPressed: () {
@@ -90,19 +90,19 @@ class _PersonAppState extends State<PersonApp> {
                   String addNumber = personViewModel.textPhone.text;
                   String addEmail = personViewModel.textEmail.text;
 
-                  await viewModel.addPerson(addName, addNumber, addEmail);
+                  await personViewModel.addPerson(addName, addNumber, addEmail);
 
-                  Navigator.pop(context); 
+                  RouteHelper.pop(context, SmsReadView());
                 },
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 140),
-                  padding: EdgeInsets.all(20.0),
+                  margin: EdgeInsets.symmetric(horizontal: 120),
+                  padding: EdgeInsets.all(18.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
                     color: Colors.green[700],
                   ),
                   child: Text(
-                    "Save",
+                    "Kaydet",
                     style: TextStyle(
                       fontSize: 25,
                       color: Colors.white,
