@@ -1,20 +1,15 @@
 // ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:tele_connect/core/constant/app_constant.dart';
+import 'package:tele_connect/core/constant/color_constant.dart';
 import 'package:tele_connect/core/helper/route_helper.dart';
 import 'package:tele_connect/view/add_person/add_person_view.dart';
 import 'package:tele_connect/view/general/general_view_model.dart';
 import 'package:tele_connect/core/model/person_model.dart';
 import 'package:tele_connect/view/selectSend/select_send_view.dart';
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(SmsReadView());
-}
 
 class SmsReadView extends StatelessWidget {
   @override
@@ -43,12 +38,12 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "Vpn Kodları",
-          style: TextStyle(color: Colors.white),
+          AppConstant.GENERAL_TITLE_TEXT,
+          style: TextStyle(color: ColorConstant.MAIN_COLOR),
         ),
-        backgroundColor: Colors.green[700],
+        backgroundColor: ColorConstant.MAIN_COLOR2,
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: ColorConstant.MAIN_COLOR,
       body: SafeArea(
         child: Column(
           children: [
@@ -66,7 +61,7 @@ class _HomeState extends State<Home> {
                   },
                 );
               },
-              activeColor: Colors.green[700],
+              activeColor: ColorConstant.MAIN_COLOR2,
             ),
             SizedBox(
               height: 20,
@@ -98,7 +93,7 @@ class _HomeState extends State<Home> {
                   margin: const EdgeInsets.all(10.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
-                    border: Border.all(color: Colors.black54, width: 3),
+                    border: Border.all(color: ColorConstant.MAIN_COLORB54, width: 3),
                   ),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
@@ -125,7 +120,7 @@ class _HomeState extends State<Home> {
                       child: Icon(Icons.message),
                     ),
                     iconSize: 100,
-                    color: Colors.green[700]),
+                    color: ColorConstant.MAIN_COLOR2),
                 SizedBox(
                   width: 135,
                 ),
@@ -138,7 +133,7 @@ class _HomeState extends State<Home> {
                       child: Icon(Icons.add_circle),
                     ),
                     iconSize: 100,
-                    color: Colors.green[700]),
+                    color: ColorConstant.MAIN_COLOR2),
               ],
             ),
           ],
@@ -153,14 +148,7 @@ class _HomeState extends State<Home> {
       child: Slidable(
         endActionPane: ActionPane(
           motion: const StretchMotion(),
-          children: [
-            SlidableAction(
-                backgroundColor: Colors.red,
-                icon: Icons.delete,
-                label: "Delete",
-                onPressed: (context) =>
-                    viewModel.deletePerson(person.personName))
-          ],
+          children: [SlidableAction(backgroundColor: ColorConstant.MAIN_COLORR, icon: Icons.delete, label: "Delete", onPressed: (context) => viewModel.deletePerson(person.personName))],
         ),
         child: CheckboxListTile(
           title: Text(person.personName),
@@ -174,9 +162,9 @@ class _HomeState extends State<Home> {
               telno.remove(person.personNumber);
             }
           },
-          activeColor: Colors.green[700],
-          checkColor: Colors.white,
-          tileColor: Colors.white,
+          activeColor: ColorConstant.MAIN_COLOR2,
+          checkColor: ColorConstant.MAIN_COLOR,
+          tileColor: ColorConstant.MAIN_COLOR,
         ),
       ),
     );
