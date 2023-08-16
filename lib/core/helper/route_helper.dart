@@ -6,6 +6,6 @@ class RouteHelper {
   }
 
   static pop(BuildContext context, Widget view) {
-    Navigator.pop(context);
+    Navigator.pop(context, MaterialPageRoute(builder: (context) => view));
   }
 }
