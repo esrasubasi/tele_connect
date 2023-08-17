@@ -3,9 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:provider/provider.dart';
 import 'package:tele_connect/core/constant/app_constant.dart';
 import 'package:tele_connect/core/constant/color_constant.dart';
 import 'package:tele_connect/core/helper/route_helper.dart';
+import 'package:tele_connect/core/provider/switch_provider.dart';
 import 'package:tele_connect/view/add_person/add_person_view.dart';
 import 'package:tele_connect/view/general/general_view_model.dart';
 import 'package:tele_connect/core/model/person_model.dart';
@@ -14,8 +16,11 @@ import 'package:tele_connect/view/selectSend/select_send_view.dart';
 class SmsReadView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Home(),
+    return ChangeNotifierProvider(
+      create: (context) => SwitchProvider(),
+      child: MaterialApp(
+        home: Home(),
+      ),
     );
   }
 }
@@ -27,11 +32,12 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final GeneralViewModel viewModel = GeneralViewModel();
-  bool isOn = false;
   List<String> telnos = [];
 
   @override
   Widget build(BuildContext context) {
+    final swiprovider = Provider.of<SwitchProvider>(context);
+    bool isOn = swiprovider.isOn;
     telnos.clear;
 
     return Scaffold(
@@ -53,13 +59,7 @@ class _HomeState extends State<Home> {
             Switch(
               value: isOn,
               onChanged: (value) {
-                setState(
-                  () {
-                    isOn = value;
-                    if (isOn == true) {
-                    } else {}
-                  },
-                );
+                swiprovider.toggleIsOn(value);
               },
               activeColor: ColorConstant.MAIN_COLOR2,
             ),
