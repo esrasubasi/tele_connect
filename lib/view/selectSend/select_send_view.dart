@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:tele_connect/core/constant/app_constant.dart';
 import 'package:tele_connect/core/helper/route_helper.dart';
+import 'package:tele_connect/main.dart';
 import 'package:tele_connect/view/general/general_view.dart';
 import 'package:tele_connect/core/constant/color_constant.dart';
 
@@ -26,7 +27,8 @@ class SendApp extends StatefulWidget {
 
 class _SendAppState extends State<SendApp> {
   final TextEditingController Sender = TextEditingController();
-  String SavedSender = "";
+  final Home func = Home();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +62,7 @@ class _SendAppState extends State<SendApp> {
               RouteHelper.push(context, SmsReadView());
             },
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 120),
+              margin: EdgeInsets.symmetric(horizontal: 100),
               padding: EdgeInsets.all(18.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),

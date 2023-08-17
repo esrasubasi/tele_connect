@@ -8,6 +8,7 @@ import 'package:tele_connect/core/constant/app_constant.dart';
 import 'package:tele_connect/core/constant/color_constant.dart';
 import 'package:tele_connect/core/helper/route_helper.dart';
 import 'package:tele_connect/core/provider/switch_provider.dart';
+import 'package:tele_connect/main.dart';
 import 'package:tele_connect/view/add_person/add_person_view.dart';
 import 'package:tele_connect/view/general/general_view_model.dart';
 import 'package:tele_connect/core/model/person_model.dart';
@@ -32,13 +33,31 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final GeneralViewModel viewModel = GeneralViewModel();
-  List<String> telnos = [];
+  final SMSReadViewModel readModel = SMSReadViewModel();
+  List<String> telno = [];
+  void initState() {
+    readModel.SavedSend = SavedSender;
+    super.initState();
+    readModel.getPermission().then((value) {
+      if (value) {
+        readModel.plugin.read();
+        readModel.plugin.smsStream.listen((event) {
+          setState(() {
+            readModel.sms = event.body;
+            readModel.sender = event.sender;
+            readModel.time = event.timeReceived.toString();
+          });
+          readModel.onSmsReceived(readModel.sms);
+          readModel.sendSMSMethod();
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final swiprovider = Provider.of<SwitchProvider>(context);
     bool isOn = swiprovider.isOn;
-    telnos.clear;
 
     return Scaffold(
       appBar: AppBar(
@@ -99,7 +118,7 @@ class _HomeState extends State<Home> {
                     scrollDirection: Axis.vertical,
                     child: Column(
                       children: [
-                        for (final person in persons) PadCheckB(person, telnos),
+                        for (final person in persons) PadCheckB(person),
                       ],
                     ),
                   ),
@@ -109,32 +128,34 @@ class _HomeState extends State<Home> {
             SizedBox(
               height: 50,
             ),
-            Row(
-              children: [
-                IconButton(
-                    onPressed: () {
-                      RouteHelper.push(context, SendView());
-                    },
-                    icon: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Icon(Icons.message),
-                    ),
-                    iconSize: 100,
-                    color: ColorConstant.MAIN_COLOR2),
-                SizedBox(
-                  width: 135,
-                ),
-                IconButton(
-                    onPressed: () {
-                      RouteHelper.push(context, PersonView());
-                    },
-                    icon: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Icon(Icons.add_circle),
-                    ),
-                    iconSize: 100,
-                    color: ColorConstant.MAIN_COLOR2),
-              ],
+            SafeArea(
+              child: Row(
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        RouteHelper.push(context, SendView());
+                      },
+                      icon: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Icon(Icons.message),
+                      ),
+                      iconSize: 100,
+                      color: ColorConstant.MAIN_COLOR2),
+                  SizedBox(
+                    width: 80,
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        RouteHelper.push(context, PersonView());
+                      },
+                      icon: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Icon(Icons.add_circle),
+                      ),
+                      iconSize: 100,
+                      color: ColorConstant.MAIN_COLOR2),
+                ],
+              ),
             ),
           ],
         ),
@@ -142,7 +163,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Padding PadCheckB(Person person, List<String> telno) {
+  Padding PadCheckB(Person person) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Slidable(
@@ -157,9 +178,9 @@ class _HomeState extends State<Home> {
           onChanged: (bool? newValue) {
             viewModel.updatePersonSelect(person.personName, newValue);
             if (person.personSelect == false) {
-              telno.add(person.personNumber);
+              recipients.add(person.personNumber);
             } else {
-              telno.remove(person.personNumber);
+              recipients.remove(person.personNumber);
             }
           },
           activeColor: ColorConstant.MAIN_COLOR2,

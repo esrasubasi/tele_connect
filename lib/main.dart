@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:tele_connect/core/constant/app_constant.dart';
 import 'package:tele_connect/view/general/general_view.dart';
 
+String SavedSender = "";
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 

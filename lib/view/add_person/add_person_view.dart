@@ -97,7 +97,7 @@ class _PersonAppState extends State<PersonApp> {
                   RouteHelper.push(context, SmsReadView());
                 },
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 120),
+                  margin: EdgeInsets.symmetric(horizontal: 100),
                   padding: EdgeInsets.all(18.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
