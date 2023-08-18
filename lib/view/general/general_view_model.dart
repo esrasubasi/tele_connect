@@ -3,6 +3,7 @@ import 'package:flutter_sms/flutter_sms.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:readsms/readsms.dart';
 import 'package:sms_receiver/sms_receiver.dart';
+import 'package:tele_connect/core/model/person_model.dart';
 
 final List<String> recipients = [];
 
@@ -65,5 +66,21 @@ class GeneralViewModel {
 
   Future<void> deletePerson(String personName) async {
     await FirebaseFirestore.instance.collection("Person").doc(personName).delete();
+  }
+}
+
+void ifmethod(Person person) {
+  int counter = 0;
+  if (person.personSelect == true) {
+    for (int i = 0; i < recipients.length; i++) {
+      if (recipients[i] == person.personNumber) {
+        counter++;
+      }
+    }
+    if (counter == 0) {
+      recipients.add(person.personNumber);
+    }
+  } else {
+    recipients.remove(person.personNumber);
   }
 }

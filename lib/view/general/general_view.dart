@@ -118,7 +118,7 @@ class _HomeState extends State<Home> {
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: Column(
-                      children: [for (final person in persons) PadCheckB(person)],
+                      children: [for (final person in persons) PadCheckB(person), Text(recipients.toString())],
                     ),
                   ),
                 );
@@ -141,7 +141,7 @@ class _HomeState extends State<Home> {
                       iconSize: 100,
                       color: ColorConstant.MAIN_COLOR2),
                   SizedBox(
-                    width: 80,
+                    width: 70,
                   ),
                   IconButton(
                       onPressed: () {
@@ -163,6 +163,7 @@ class _HomeState extends State<Home> {
   }
 
   Padding PadCheckB(Person person) {
+    ifmethod(person);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Slidable(
@@ -176,11 +177,6 @@ class _HomeState extends State<Home> {
           value: person.personSelect,
           onChanged: (bool? newValue) {
             viewModel.updatePersonSelect(person.personName, newValue);
-            if (person.personSelect == false) {
-              recipients.add(person.personNumber);
-            } else {
-              recipients.remove(person.personNumber);
-            }
           },
           activeColor: ColorConstant.MAIN_COLOR2,
           checkColor: ColorConstant.MAIN_COLOR,
