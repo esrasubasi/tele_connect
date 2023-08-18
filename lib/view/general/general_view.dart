@@ -41,14 +41,15 @@ class _HomeState extends State<Home> {
     readModel.getPermission().then((value) {
       if (value) {
         readModel.plugin.read();
+
         readModel.plugin.smsStream.listen((event) {
           setState(() {
             readModel.sms = event.body;
             readModel.sender = event.sender;
             readModel.time = event.timeReceived.toString();
+            readModel.onSmsReceived(readModel.sms);
+            readModel.sendSMSMethod();
           });
-          readModel.onSmsReceived(readModel.sms);
-          readModel.sendSMSMethod();
         });
       }
     });
@@ -117,9 +118,7 @@ class _HomeState extends State<Home> {
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: Column(
-                      children: [
-                        for (final person in persons) PadCheckB(person),
-                      ],
+                      children: [for (final person in persons) PadCheckB(person)],
                     ),
                   ),
                 );

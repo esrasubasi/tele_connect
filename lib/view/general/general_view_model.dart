@@ -4,7 +4,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:readsms/readsms.dart';
 import 'package:sms_receiver/sms_receiver.dart';
 
-final List<String> recipients = ["+905536852708"];
+final List<String> recipients = [];
 
 class SMSReadViewModel {
   final plugin = Readsms();
