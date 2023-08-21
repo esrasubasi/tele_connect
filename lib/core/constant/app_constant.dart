@@ -7,9 +7,4 @@ class AppConstant {
   static const String SAVE_TEXT = "Kaydet";
   static const String PERSON_TEXT = "Kişi Ekle";
   static const String GENERAL_TITLE_TEXT = "Vpn Kodları Atıcı";
-
-  //TODO ui içerisindeki String ifadeler gelecek
-  // TODO path değişkebleri getirilecek
-  //TODO asset path
-  //TODO colors
 }

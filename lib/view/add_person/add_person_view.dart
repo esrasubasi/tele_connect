@@ -32,10 +32,10 @@ class _PersonAppState extends State<PersonApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(icon: Icon(Icons.arrow_back, color: ColorConstant.MAIN_COLORB), onPressed: () => RouteHelper.push(context, SmsReadView())),
+        leading: IconButton(icon: Icon(Icons.arrow_back, color: ColorConstant.MAIN_BLACK), onPressed: () => RouteHelper.push(context, SmsReadView())),
         centerTitle: true,
         title: Text(AppConstant.PERSON_TEXT, style: TextStyle(color: ColorConstant.MAIN_COLOR)),
-        backgroundColor: ColorConstant.MAIN_COLOR2,
+        backgroundColor: ColorConstant.MAIN_COLOR_GREEN700,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -101,7 +101,7 @@ class _PersonAppState extends State<PersonApp> {
                   padding: EdgeInsets.all(18.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
-                    color: ColorConstant.MAIN_COLOR2,
+                    color: ColorConstant.MAIN_COLOR_GREEN700,
                   ),
                   child: Text(
                     AppConstant.SAVE_TEXT,

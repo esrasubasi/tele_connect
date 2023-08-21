@@ -33,10 +33,10 @@ class _SendAppState extends State<SendApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(icon: Icon(Icons.arrow_back, color: ColorConstant.MAIN_COLORB), onPressed: () => RouteHelper.push(context, SmsReadView())),
+        leading: IconButton(icon: Icon(Icons.arrow_back, color: ColorConstant.MAIN_BLACK), onPressed: () => RouteHelper.push(context, SmsReadView())),
         centerTitle: true,
         title: Text(AppConstant.SEND_SMS_HINT_TEXT, style: TextStyle(color: ColorConstant.MAIN_COLOR)),
-        backgroundColor: ColorConstant.MAIN_COLOR2,
+        backgroundColor: ColorConstant.MAIN_COLOR_GREEN700,
       ),
       body: SafeArea(
         child: Column(children: [
@@ -66,7 +66,7 @@ class _SendAppState extends State<SendApp> {
               padding: EdgeInsets.all(18.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
-                color: ColorConstant.MAIN_COLOR2,
+                color: ColorConstant.MAIN_COLOR_GREEN700,
               ),
               child: Text(
                 AppConstant.SAVE_TEXT,
