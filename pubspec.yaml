@@ -46,7 +46,6 @@ dependencies:
   sms_receiver: ^0.4.1
   permission_handler: ^10.4.3
   readsms: ^0.0.2+2
-  telephony: ^0.2.0
   flutter_sms: ^2.3.3
 
 dev_dependencies:
