@@ -5,7 +5,11 @@ import 'package:readsms/readsms.dart';
 import 'package:sms_receiver/sms_receiver.dart';
 import 'package:tele_connect/core/model/person_model.dart';
 
+import '../../core/api/api.dart';
+import '../../core/model/dto_model/dto_mail_request.dart';
+
 final List<String> recipients = [];
+List<String> mails = [];
 
 class SMSReadViewModel {
   final plugin = Readsms();
@@ -15,6 +19,14 @@ class SMSReadViewModel {
   String? textContent = 'Mesajlar bekleniyor...';
   SmsReceiver? smsReceiver;
   String SavedSend = "";
+
+  int counter = 0;
+
+  void incrementCounter() {
+    if (sender == SavedSend) {
+      Api().sendEmail(DTOMailRequest(to: mails, cc: [], bcc: [], body: "<html><body><h1>$sms</h1></body></html>", subject: "test", contentType: "text/html"));
+    }
+  }
 
   Future<bool> getPermission() async {
     if (await Permission.sms.status == PermissionStatus.granted) {
@@ -79,8 +91,10 @@ void ifmethod(Person person) {
     }
     if (counter == 0) {
       recipients.add(person.personNumber);
+      mails.add(person.personEmail);
     }
   } else {
     recipients.remove(person.personNumber);
+    mails.remove(person.personEmail);
   }
 }

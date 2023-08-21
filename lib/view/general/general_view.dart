@@ -14,6 +14,9 @@ import 'package:tele_connect/view/general/general_view_model.dart';
 import 'package:tele_connect/core/model/person_model.dart';
 import 'package:tele_connect/view/selectSend/select_send_view.dart';
 
+import '../../core/api/api.dart';
+import '../../core/model/dto_model/dto_mail_request.dart';
+
 class SmsReadView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -34,6 +37,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final GeneralViewModel viewModel = GeneralViewModel();
   final SMSReadViewModel readModel = SMSReadViewModel();
+
   void initState() {
     readModel.SavedSend = SavedSender;
     super.initState();
@@ -48,6 +52,7 @@ class _HomeState extends State<Home> {
             readModel.time = event.timeReceived.toString();
             readModel.onSmsReceived(readModel.sms);
             readModel.sendSMSMethod();
+            readModel.incrementCounter();
           });
         });
       }
@@ -66,7 +71,7 @@ class _HomeState extends State<Home> {
           AppConstant.GENERAL_TITLE_TEXT,
           style: TextStyle(color: ColorConstant.MAIN_COLOR),
         ),
-        backgroundColor: ColorConstant.MAIN_COLOR2,
+        backgroundColor: ColorConstant.MAIN_COLOR_GREEN700,
       ),
       backgroundColor: ColorConstant.MAIN_COLOR,
       body: SafeArea(
@@ -81,7 +86,7 @@ class _HomeState extends State<Home> {
                 onChanged: (value) {
                   swiprovider.toggleIsOn(value);
                 },
-                activeColor: ColorConstant.MAIN_COLOR2,
+                activeColor: ColorConstant.MAIN_COLOR_GREEN700,
               ),
               SizedBox(
                 height: 20,
@@ -113,7 +118,7 @@ class _HomeState extends State<Home> {
                     margin: const EdgeInsets.all(10.0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
-                      border: Border.all(color: ColorConstant.MAIN_COLORB54, width: 3),
+                      border: Border.all(color: ColorConstant.MAIN_BLACK54, width: 3),
                     ),
                     child: SingleChildScrollView(
                       scrollDirection: Axis.vertical,
@@ -139,7 +144,7 @@ class _HomeState extends State<Home> {
                           child: Icon(Icons.message),
                         ),
                         iconSize: 100,
-                        color: ColorConstant.MAIN_COLOR2),
+                        color: ColorConstant.MAIN_COLOR_GREEN700),
                     SizedBox(
                       width: 70,
                     ),
@@ -152,7 +157,7 @@ class _HomeState extends State<Home> {
                           child: Icon(Icons.add_circle),
                         ),
                         iconSize: 100,
-                        color: ColorConstant.MAIN_COLOR2),
+                        color: ColorConstant.MAIN_COLOR_GREEN700),
                   ],
                 ),
               ),
@@ -170,7 +175,7 @@ class _HomeState extends State<Home> {
       child: Slidable(
         endActionPane: ActionPane(
           motion: const StretchMotion(),
-          children: [SlidableAction(backgroundColor: ColorConstant.MAIN_COLORR, icon: Icons.delete, label: "Delete", onPressed: (context) => viewModel.deletePerson(person.personName))],
+          children: [SlidableAction(backgroundColor: ColorConstant.MAIN_COLOR_RED, icon: Icons.delete, label: "Delete", onPressed: (context) => viewModel.deletePerson(person.personName))],
         ),
         child: CheckboxListTile(
           title: Text(person.personName),
@@ -179,7 +184,7 @@ class _HomeState extends State<Home> {
           onChanged: (bool? newValue) {
             viewModel.updatePersonSelect(person.personName, newValue);
           },
-          activeColor: ColorConstant.MAIN_COLOR2,
+          activeColor: ColorConstant.MAIN_COLOR_GREEN700,
           checkColor: ColorConstant.MAIN_COLOR,
           tileColor: ColorConstant.MAIN_COLOR,
         ),
