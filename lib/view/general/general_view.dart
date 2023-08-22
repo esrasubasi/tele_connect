@@ -79,7 +79,7 @@ class _HomeState extends BaseState<Home> {
           child: Column(
             children: [
               SizedBox(
-                height: 20,
+                height: dynamicHeight(0.03),
               ),
               Switch(
                 value: isOn,
@@ -89,7 +89,7 @@ class _HomeState extends BaseState<Home> {
                 activeColor: ColorConstant.MAIN_COLOR_GREEN700,
               ),
               SizedBox(
-                height: 20,
+                height: dynamicHeight(0.03),
               ),
               StreamBuilder<QuerySnapshot>(
                 stream: viewModel.personsStream,
