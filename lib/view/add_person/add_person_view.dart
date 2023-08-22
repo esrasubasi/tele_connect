@@ -55,8 +55,7 @@ class _PersonAppState extends BaseState<PersonApp> {
               SizedBox(height: dynamicHeight(0.04)),
               TextButton(
                 onPressed: () {
-                  personViewModel.addnew();
-                  RouteHelper.push(context, SmsReadView());
+                  personViewModel.addnew(context);
                 },
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 0.27),
