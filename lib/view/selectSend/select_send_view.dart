@@ -1,11 +1,14 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
+import 'package:tele_connect/core/components/custom_textfield.dart';
 import 'package:tele_connect/core/constant/app_constant.dart';
 import 'package:tele_connect/core/helper/route_helper.dart';
 import 'package:tele_connect/main.dart';
 import 'package:tele_connect/view/general/general_view.dart';
 import 'package:tele_connect/core/constant/color_constant.dart';
+
+import '../../core/components/screen_field.dart';
 
 void main() {
   runApp(SendView());
@@ -25,7 +28,7 @@ class SendApp extends StatefulWidget {
   State<SendApp> createState() => _SendAppState();
 }
 
-class _SendAppState extends State<SendApp> {
+class _SendAppState extends BaseState<SendApp> {
   final TextEditingController Sender = TextEditingController();
   final Home func = Home();
 
@@ -40,29 +43,14 @@ class _SendAppState extends State<SendApp> {
       ),
       body: SafeArea(
         child: Column(children: [
-          SizedBox(
-            height: 150,
-          ),
-          TextField(
-            controller: Sender,
-            decoration: InputDecoration(
-              hintText: AppConstant.SEND_SMS_HINT_TEXT,
-              border: OutlineInputBorder(),
-              suffixIcon: IconButton(
-                onPressed: () {
-                  Sender.clear();
-                },
-                icon: Icon(Icons.clear),
-              ),
-            ),
-          ),
+          CustomTextField(controller: Sender, hintText: AppConstant.SEND_SMS_HINT_TEXT, keyboardType: TextInputType.none),
           TextButton(
             onPressed: () {
               SavedSender = Sender.text;
               RouteHelper.push(context, SmsReadView());
             },
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 100),
+              margin: EdgeInsets.symmetric(horizontal: dynamicWidth(0.27)),
               padding: EdgeInsets.all(18.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),

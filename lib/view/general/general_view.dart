@@ -13,7 +13,7 @@ import 'package:tele_connect/view/add_person/add_person_view.dart';
 import 'package:tele_connect/view/general/general_view_model.dart';
 import 'package:tele_connect/core/model/person_model.dart';
 import 'package:tele_connect/view/selectSend/select_send_view.dart';
-
+import 'package:tele_connect/core/components/screen_field.dart';
 import '../../core/api/api.dart';
 import '../../core/model/dto_model/dto_mail_request.dart';
 
@@ -34,7 +34,7 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends BaseState<Home> {
   final GeneralViewModel viewModel = GeneralViewModel();
   final SMSReadViewModel readModel = SMSReadViewModel();
 
@@ -113,8 +113,8 @@ class _HomeState extends State<Home> {
                   }).toList();
 
                   return Container(
-                    height: 300,
-                    width: 500,
+                    height: dynamicHeight(0.4),
+                    width: dynamicWidth(0.95),
                     margin: const EdgeInsets.all(10.0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
@@ -130,7 +130,7 @@ class _HomeState extends State<Home> {
                 },
               ),
               SizedBox(
-                height: 50,
+                height: dynamicHeight(0.042),
               ),
               SafeArea(
                 child: Row(
@@ -140,20 +140,20 @@ class _HomeState extends State<Home> {
                           RouteHelper.push(context, SendView());
                         },
                         icon: Padding(
-                          padding: const EdgeInsets.all(10.0),
+                          padding: const EdgeInsets.all(6.0),
                           child: Icon(Icons.message),
                         ),
                         iconSize: 100,
                         color: ColorConstant.MAIN_COLOR_GREEN700),
-                    SizedBox(
-                      width: 70,
+                    Expanded(
+                      child: SizedBox(),
                     ),
                     IconButton(
                         onPressed: () {
                           RouteHelper.push(context, PersonView());
                         },
                         icon: Padding(
-                          padding: const EdgeInsets.all(12.0),
+                          padding: const EdgeInsets.all(5.0),
                           child: Icon(Icons.add_circle),
                         ),
                         iconSize: 100,

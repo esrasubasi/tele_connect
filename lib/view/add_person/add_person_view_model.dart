@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddPersonViewModel {
+  void addnew() async {
+    String addName = textName.text;
+    String addNumber = textPhone.text;
+    String addEmail = textEmail.text;
+
+    await addPerson(addName, addNumber, addEmail);
+  }
+
   final TextEditingController textName = TextEditingController();
   final TextEditingController textPhone = TextEditingController();
   final TextEditingController textEmail = TextEditingController();
