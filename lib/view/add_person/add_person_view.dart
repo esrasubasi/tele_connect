@@ -1,11 +1,14 @@
 // ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:tele_connect/core/components/custom_textfield.dart';
 import 'package:tele_connect/core/constant/app_constant.dart';
 import 'package:tele_connect/core/constant/color_constant.dart';
 import 'package:tele_connect/core/helper/route_helper.dart';
 import 'package:tele_connect/view/add_person/add_person_view_model.dart';
 import 'package:tele_connect/view/general/general_view.dart';
+
+import '../../core/components/screen_field.dart';
 
 void main() {
   runApp(PersonView());
@@ -25,7 +28,7 @@ class PersonApp extends StatefulWidget {
   State<PersonApp> createState() => _PersonAppState();
 }
 
-class _PersonAppState extends State<PersonApp> {
+class _PersonAppState extends BaseState<PersonApp> {
   AddPersonViewModel personViewModel = AddPersonViewModel();
 
   @override
@@ -41,63 +44,22 @@ class _PersonAppState extends State<PersonApp> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 100),
-              TextField(
-                controller: personViewModel.textName,
-                decoration: InputDecoration(
-                  hintText: AppConstant.HINT_TEXT_NAME,
-                  border: OutlineInputBorder(),
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      personViewModel.textName.clear();
-                    },
-                    icon: Icon(Icons.clear),
-                  ),
-                ),
+              SizedBox(height: dynamicHeight(0.14)),
+              CustomTextField(controller: personViewModel.textPhone, keyboardType: TextInputType.phone, hintText: AppConstant.HINT_TEXT_NUMBER),
+              SizedBox(
+                height: dynamicHeight(0.04),
               ),
-              SizedBox(height: 30),
-              TextField(
-                controller: personViewModel.textPhone,
-                keyboardType: TextInputType.phone,
-                decoration: InputDecoration(
-                  hintText: AppConstant.HINT_TEXT_NUMBER,
-                  border: OutlineInputBorder(),
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      personViewModel.textPhone.clear();
-                    },
-                    icon: Icon(Icons.clear),
-                  ),
-                ),
-              ),
-              SizedBox(height: 30),
-              TextField(
-                controller: personViewModel.textEmail,
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  hintText: AppConstant.HINT_TEXT_EMAIL,
-                  border: OutlineInputBorder(),
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      personViewModel.textEmail.clear();
-                    },
-                    icon: Icon(Icons.clear),
-                  ),
-                ),
-              ),
-              SizedBox(height: 30),
+              CustomTextField(controller: personViewModel.textName, keyboardType: TextInputType.name, hintText: AppConstant.HINT_TEXT_NAME),
+              SizedBox(height: dynamicHeight(0.04)),
+              CustomTextField(controller: personViewModel.textEmail, keyboardType: TextInputType.emailAddress, hintText: AppConstant.HINT_TEXT_EMAIL),
+              SizedBox(height: dynamicHeight(0.04)),
               TextButton(
-                onPressed: () async {
-                  String addName = personViewModel.textName.text;
-                  String addNumber = personViewModel.textPhone.text;
-                  String addEmail = personViewModel.textEmail.text;
-
-                  await personViewModel.addPerson(addName, addNumber, addEmail);
-
+                onPressed: () {
+                  personViewModel.addnew();
                   RouteHelper.push(context, SmsReadView());
                 },
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 100),
+                  margin: EdgeInsets.symmetric(horizontal: 0.27),
                   padding: EdgeInsets.all(18.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
