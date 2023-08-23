@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: non_constant_identifier_names
 
+import 'package:flutter/material.dart';
 import '../../core/helper/route_helper.dart';
-import '../../main.dart';
 import '../general/general_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 

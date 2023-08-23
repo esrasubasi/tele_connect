@@ -1,4 +1,4 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors
+// ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:tele_connect/core/components/custom_textfield.dart';
@@ -7,7 +7,6 @@ import 'package:tele_connect/core/constant/color_constant.dart';
 import 'package:tele_connect/core/helper/route_helper.dart';
 import 'package:tele_connect/view/add_person/add_person_view_model.dart';
 import 'package:tele_connect/view/general/general_view.dart';
-
 import '../../core/components/screen_field.dart';
 
 class PersonView extends StatelessWidget {

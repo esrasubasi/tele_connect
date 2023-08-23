@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_sms/flutter_sms.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -5,7 +7,6 @@ import 'package:readsms/readsms.dart';
 import 'package:sms_receiver/sms_receiver.dart';
 import 'package:tele_connect/core/model/person_model.dart';
 import 'package:tele_connect/core/model/sender_model.dart';
-
 import '../../core/api/api.dart';
 import '../../core/model/dto_mail_request.dart';
 
@@ -31,7 +32,7 @@ class SMSReadViewModel {
     }
     if (check == true) {
       //subject değişecek , cc'de de mails kullanılacak
-      Api().sendEmail(DTOMailRequest(to: mails, cc: mails, bcc: [], body: "<html><body><h1>$sms</h1></body></html>", subject: "VPN CODE", contentType: "text/html"));
+      Api().sendEmail(DTOMailRequest(to: mails, cc: [], bcc: [], body: "<html><body><h1>$sms</h1></body></html>", subject: "VPN CODE", contentType: "text/html"));
     }
   }
 
@@ -103,7 +104,7 @@ class GeneralViewModel {
   }
 }
 
-void ifmethod(Person person) {
+void checkIfin(Person person) {
   int counter = 0;
   if (person.personSelect == true) {
     for (int i = 0; i < recipients.length; i++) {
@@ -121,7 +122,7 @@ void ifmethod(Person person) {
   }
 }
 
-void ifmethodS(Senders sender) {
+void checkIfinSend(Senders sender) {
   int counter = 0;
   if (sender.SenderSelect == true) {
     for (int i = 0; i < sendernumbers.length; i++) {

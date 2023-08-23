@@ -1,4 +1,4 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, non_constant_identifier_names
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,15 +9,13 @@ import 'package:tele_connect/core/constant/color_constant.dart';
 import 'package:tele_connect/core/helper/route_helper.dart';
 import 'package:tele_connect/core/model/sender_model.dart';
 import 'package:tele_connect/core/provider/switch_provider.dart';
-import 'package:tele_connect/main.dart';
 import 'package:tele_connect/view/add_person/add_person_view.dart';
 import 'package:tele_connect/view/general/general_view_model.dart';
 import 'package:tele_connect/core/model/person_model.dart';
 import 'package:tele_connect/view/selectSend/select_send_view.dart';
 import 'package:tele_connect/core/components/screen_field.dart';
-import '../../core/api/api.dart';
-import '../../core/model/dto_mail_request.dart';
-import '../selectSend/select_send_view_model.dart';
+//değişicek init state
+//switch tuşu yerine button üstünde dinliyo dinlemiyo falan yazan
 
 class SmsReadView extends StatelessWidget {
   @override
@@ -50,8 +48,6 @@ class _HomeState extends BaseState<Home> {
           setState(() {
             readModel.sms = event.body;
             readModel.sender = event.sender;
-            readModel.time = event.timeReceived.toString();
-            readModel.onSmsReceived(readModel.sms);
             readModel.sendSMSMethod();
             readModel.mailSender();
           });
@@ -90,7 +86,7 @@ class _HomeState extends BaseState<Home> {
                 activeColor: ColorConstant.MAIN_COLOR_GREEN700,
               ),
               Text(
-                "Mesaj ve Mail Atılacak Kişiler",
+                AppConstant.CONTAINER_NAME_SEND,
                 style: TextStyle(color: ColorConstant.MAIN_BLACK54, fontWeight: FontWeight.bold, fontSize: 18),
               ),
               StreamBuilder<QuerySnapshot>(
@@ -132,7 +128,7 @@ class _HomeState extends BaseState<Home> {
                 },
               ),
               Text(
-                "Mesaj Alınacaklar",
+                AppConstant.CONTAINER_NAME_SENDER,
                 style: TextStyle(color: ColorConstant.MAIN_BLACK54, fontWeight: FontWeight.bold, fontSize: 18),
               ),
               StreamBuilder<QuerySnapshot>(
@@ -207,7 +203,7 @@ class _HomeState extends BaseState<Home> {
   }
 
   Padding PadCheckBP(Person person) {
-    ifmethod(person);
+    checkIfin(person);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Slidable(
@@ -231,7 +227,7 @@ class _HomeState extends BaseState<Home> {
   }
 
   Padding PadCheckBS(Senders sender) {
-    ifmethodS(sender);
+    checkIfinSend(sender);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Slidable(

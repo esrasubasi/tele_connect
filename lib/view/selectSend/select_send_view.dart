@@ -1,15 +1,12 @@
-// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, use_key_in_widget_constructors
+// ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:tele_connect/core/components/custom_textfield.dart';
 import 'package:tele_connect/core/constant/app_constant.dart';
 import 'package:tele_connect/core/helper/route_helper.dart';
-import 'package:tele_connect/main.dart';
 import 'package:tele_connect/view/general/general_view.dart';
 import 'package:tele_connect/core/constant/color_constant.dart';
-
 import '../../core/components/screen_field.dart';
-
 import 'package:tele_connect/view/selectSend/select_send_view_model.dart';
 
 class SendView extends StatelessWidget {
