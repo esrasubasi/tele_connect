@@ -31,7 +31,7 @@ class SMSReadViewModel {
     }
     if (check == true) {
       //subject değişecek , cc'de de mails kullanılacak
-      Api().sendEmail(DTOMailRequest(to: mails, cc: [], bcc: [], body: "<html><body><h1>$sms</h1></body></html>", subject: "test", contentType: "text/html"));
+      Api().sendEmail(DTOMailRequest(to: mails, cc: mails, bcc: [], body: "<html><body><h1>$sms</h1></body></html>", subject: "VPN CODE", contentType: "text/html"));
     }
   }
 

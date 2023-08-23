@@ -132,7 +132,7 @@ class _HomeState extends BaseState<Home> {
                 },
               ),
               Text(
-                "Mesaj Alınacak Kişiler",
+                "Mesaj Alınacaklar",
                 style: TextStyle(color: ColorConstant.MAIN_BLACK54, fontWeight: FontWeight.bold, fontSize: 18),
               ),
               StreamBuilder<QuerySnapshot>(
@@ -179,7 +179,7 @@ class _HomeState extends BaseState<Home> {
                         },
                         icon: Padding(
                           padding: const EdgeInsets.all(6.0),
-                          child: Icon(Icons.message),
+                          child: Icon(Icons.add_comment),
                         ),
                         iconSize: 100,
                         color: ColorConstant.MAIN_COLOR_GREEN700),
@@ -191,8 +191,8 @@ class _HomeState extends BaseState<Home> {
                           RouteHelper.push(context, PersonView());
                         },
                         icon: Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Icon(Icons.add_circle),
+                          padding: const EdgeInsets.all(1.0),
+                          child: Icon(Icons.person_add),
                         ),
                         iconSize: 100,
                         color: ColorConstant.MAIN_COLOR_GREEN700),
