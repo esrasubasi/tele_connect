@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:tele_connect/core/constant/app_constant.dart';
 import 'package:tele_connect/core/constant/color_constant.dart';
 import 'package:tele_connect/core/helper/route_helper.dart';
+import 'package:tele_connect/core/model/sender_model.dart';
 import 'package:tele_connect/core/provider/switch_provider.dart';
 import 'package:tele_connect/main.dart';
 import 'package:tele_connect/view/add_person/add_person_view.dart';
@@ -40,7 +41,6 @@ class _HomeState extends BaseState<Home> {
   final SMSReadViewModel readModel = SMSReadViewModel();
 
   void initState() {
-    readModel.SavedSend = savedSender;
     super.initState();
     readModel.getPermission().then((value) {
       if (value) {
@@ -53,7 +53,7 @@ class _HomeState extends BaseState<Home> {
             readModel.time = event.timeReceived.toString();
             readModel.onSmsReceived(readModel.sms);
             readModel.sendSMSMethod();
-            readModel.incrementCounter();
+            readModel.mailSender();
           });
         });
       }
@@ -80,7 +80,7 @@ class _HomeState extends BaseState<Home> {
           child: Column(
             children: [
               SizedBox(
-                height: dynamicHeight(0.03),
+                height: dynamicHeight(0.01),
               ),
               Switch(
                 value: isOn,
@@ -89,8 +89,9 @@ class _HomeState extends BaseState<Home> {
                 },
                 activeColor: ColorConstant.MAIN_COLOR_GREEN700,
               ),
-              SizedBox(
-                height: dynamicHeight(0.03),
+              Text(
+                "Mesaj ve Mail Atılacak Kişiler",
+                style: TextStyle(color: ColorConstant.MAIN_BLACK54, fontWeight: FontWeight.bold, fontSize: 18),
               ),
               StreamBuilder<QuerySnapshot>(
                 stream: viewModel.personsStream,
@@ -114,7 +115,7 @@ class _HomeState extends BaseState<Home> {
                   }).toList();
 
                   return Container(
-                    height: dynamicHeight(0.4),
+                    height: dynamicHeight(0.3),
                     width: dynamicWidth(0.95),
                     margin: const EdgeInsets.all(10.0),
                     decoration: BoxDecoration(
@@ -124,15 +125,51 @@ class _HomeState extends BaseState<Home> {
                     child: SingleChildScrollView(
                       scrollDirection: Axis.vertical,
                       child: Column(
-                        children: [for (final person in persons) PadCheckB(person), Text(recipients.toString())],
+                        children: [for (final person in persons) PadCheckBP(person), Text(recipients.toString())],
                       ),
                     ),
                   );
                 },
               ),
-              SizedBox(
-                height: dynamicHeight(0.042),
+              Text(
+                "Mesaj Alınacak Kişiler",
+                style: TextStyle(color: ColorConstant.MAIN_BLACK54, fontWeight: FontWeight.bold, fontSize: 18),
               ),
+              StreamBuilder<QuerySnapshot>(
+                  stream: viewModel.sendersStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    }
+
+                    if (!snapshot.hasData) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+
+                    final senders = snapshot.data!.docs.map((doc) {
+                      final data = doc.data() as Map<String, dynamic>;
+                      return Senders(
+                        SenderName: data['SenderName'],
+                        SenderNumber: data['SenderNumber'],
+                        SenderSelect: data['SenderSelect'] ?? false,
+                      );
+                    }).toList();
+                    return Container(
+                      height: dynamicHeight(0.3),
+                      width: dynamicWidth(0.95),
+                      margin: const EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        border: Border.all(color: ColorConstant.MAIN_BLACK54, width: 3),
+                      ),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Column(
+                          children: [for (final sender in senders) PadCheckBS(sender), Text(sendernumbers.toString())],
+                        ),
+                      ),
+                    );
+                  }),
               SafeArea(
                 child: Row(
                   children: [
@@ -169,7 +206,7 @@ class _HomeState extends BaseState<Home> {
     );
   }
 
-  Padding PadCheckB(Person person) {
+  Padding PadCheckBP(Person person) {
     ifmethod(person);
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -184,6 +221,30 @@ class _HomeState extends BaseState<Home> {
           value: person.personSelect,
           onChanged: (bool? newValue) {
             viewModel.updatePersonSelect(person.personName, newValue);
+          },
+          activeColor: ColorConstant.MAIN_COLOR_GREEN700,
+          checkColor: ColorConstant.MAIN_COLOR,
+          tileColor: ColorConstant.MAIN_COLOR,
+        ),
+      ),
+    );
+  }
+
+  Padding PadCheckBS(Senders sender) {
+    ifmethodS(sender);
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Slidable(
+        endActionPane: ActionPane(
+          motion: const StretchMotion(),
+          children: [SlidableAction(backgroundColor: ColorConstant.MAIN_COLOR_RED, icon: Icons.delete, label: "Delete", onPressed: (context) => viewModel.deleteSender(sender.SenderName))],
+        ),
+        child: CheckboxListTile(
+          title: Text(sender.SenderName),
+          subtitle: Text(sender.SenderNumber),
+          value: sender.SenderSelect,
+          onChanged: (bool? newValue) {
+            viewModel.updateSenderSelect(sender.SenderName, newValue);
           },
           activeColor: ColorConstant.MAIN_COLOR_GREEN700,
           checkColor: ColorConstant.MAIN_COLOR,

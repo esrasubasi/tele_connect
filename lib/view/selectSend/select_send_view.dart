@@ -27,7 +27,7 @@ class SendApp extends StatefulWidget {
 }
 
 class _SendAppState extends BaseState<SendApp> {
-  selectSend modelsend = selectSend();
+  AddSenderViewModel modelsend = AddSenderViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -39,40 +39,42 @@ class _SendAppState extends BaseState<SendApp> {
         backgroundColor: ColorConstant.MAIN_COLOR_GREEN700,
       ),
       body: SafeArea(
-        child: Column(children: [
-          SizedBox(
-            height: dynamicHeight(0.14),
-          ),
-          CustomTextField(controller: modelsend.Sender, hintText: AppConstant.SEND_SMS_HINT_TEXT, keyboardType: TextInputType.none, maxLenght: 50),
-          TextButton(
-            onPressed: () {
-              modelsend.selectsendonpress(context);
-            },
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: dynamicWidth(0.27)),
-              padding: EdgeInsets.all(18.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                color: ColorConstant.MAIN_COLOR_GREEN700,
-              ),
-              child: Text(
-                AppConstant.SAVE_TEXT,
-                style: TextStyle(
-                  fontSize: 25,
-                  color: ColorConstant.MAIN_COLOR,
-                  fontWeight: FontWeight.bold,
+        child: SingleChildScrollView(
+          child: Column(children: [
+            SizedBox(
+              height: dynamicHeight(0.14),
+            ),
+            CustomTextField(controller: modelsend.SenderPhone, hintText: AppConstant.SEND_SMS_HINT_TEXT, keyboardType: TextInputType.phone, maxLenght: 50),
+            SizedBox(
+              height: dynamicHeight(0.04),
+            ),
+            CustomTextField(controller: modelsend.SenderName, hintText: AppConstant.SEND_SMS_NAME_HINT_TEXT, keyboardType: TextInputType.name, maxLenght: 50),
+            TextButton(
+              onPressed: () {
+                modelsend.addnew(context);
+              },
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: dynamicWidth(0.27)),
+                padding: EdgeInsets.all(18.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: ColorConstant.MAIN_COLOR_GREEN700,
+                ),
+                child: Text(
+                  AppConstant.SAVE_TEXT,
+                  style: TextStyle(
+                    fontSize: 25,
+                    color: ColorConstant.MAIN_COLOR,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
-          ),
-          SizedBox(
-            height: dynamicHeight(0.14),
-          ),
-          Text(
-            "Kayıtlı Numara: $savedSender",
-            style: TextStyle(fontSize: 18, color: ColorConstant.MAIN_BLACK54, fontWeight: FontWeight.bold),
-          ),
-        ]),
+            SizedBox(
+              height: dynamicHeight(0.14),
+            ),
+          ]),
+        ),
       ),
     );
   }

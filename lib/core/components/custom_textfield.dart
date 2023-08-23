@@ -9,7 +9,7 @@ Widget CustomTextField({
   return TextField(
     controller: controller,
     maxLength: maxLenght,
-    keyboardType: TextInputType.phone,
+    keyboardType: keyboardType,
     decoration: InputDecoration(
       hintText: hintText,
       border: OutlineInputBorder(),
