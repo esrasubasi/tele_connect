@@ -10,10 +10,6 @@ import 'package:tele_connect/view/general/general_view.dart';
 
 import '../../core/components/screen_field.dart';
 
-void main() {
-  runApp(PersonView());
-}
-
 class PersonView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -45,13 +41,13 @@ class _PersonAppState extends BaseState<PersonApp> {
           child: Column(
             children: [
               SizedBox(height: dynamicHeight(0.14)),
-              CustomTextField(controller: personViewModel.textPhone, keyboardType: TextInputType.phone, hintText: AppConstant.HINT_TEXT_NUMBER),
+              CustomTextField(controller: personViewModel.textPhone, keyboardType: TextInputType.phone, hintText: AppConstant.HINT_TEXT_NUMBER, maxLenght: 13),
               SizedBox(
                 height: dynamicHeight(0.04),
               ),
-              CustomTextField(controller: personViewModel.textName, keyboardType: TextInputType.name, hintText: AppConstant.HINT_TEXT_NAME),
+              CustomTextField(controller: personViewModel.textName, keyboardType: TextInputType.name, hintText: AppConstant.HINT_TEXT_NAME, maxLenght: 50),
               SizedBox(height: dynamicHeight(0.04)),
-              CustomTextField(controller: personViewModel.textEmail, keyboardType: TextInputType.emailAddress, hintText: AppConstant.HINT_TEXT_EMAIL),
+              CustomTextField(controller: personViewModel.textEmail, keyboardType: TextInputType.emailAddress, hintText: AppConstant.HINT_TEXT_EMAIL, maxLenght: 350),
               SizedBox(height: dynamicHeight(0.04)),
               TextButton(
                 onPressed: () {

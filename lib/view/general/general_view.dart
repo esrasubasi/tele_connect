@@ -15,7 +15,8 @@ import 'package:tele_connect/core/model/person_model.dart';
 import 'package:tele_connect/view/selectSend/select_send_view.dart';
 import 'package:tele_connect/core/components/screen_field.dart';
 import '../../core/api/api.dart';
-import '../../core/model/dto_model/dto_mail_request.dart';
+import '../../core/model/dto_mail_request.dart';
+import '../selectSend/select_send_view_model.dart';
 
 class SmsReadView extends StatelessWidget {
   @override
@@ -39,7 +40,7 @@ class _HomeState extends BaseState<Home> {
   final SMSReadViewModel readModel = SMSReadViewModel();
 
   void initState() {
-    readModel.SavedSend = SavedSender;
+    readModel.SavedSend = savedSender;
     super.initState();
     readModel.getPermission().then((value) {
       if (value) {

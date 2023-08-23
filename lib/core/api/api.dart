@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 
-import '../model/dto_model/dto_mail_request.dart';
+import '../model/dto_mail_request.dart';
 
 class Api {
   Future sendEmail(DTOMailRequest data) async {

@@ -10,9 +10,7 @@ import 'package:tele_connect/core/constant/color_constant.dart';
 
 import '../../core/components/screen_field.dart';
 
-void main() {
-  runApp(SendView());
-}
+import 'package:tele_connect/view/selectSend/select_send_view_model.dart';
 
 class SendView extends StatelessWidget {
   @override
@@ -29,8 +27,7 @@ class SendApp extends StatefulWidget {
 }
 
 class _SendAppState extends BaseState<SendApp> {
-  final TextEditingController Sender = TextEditingController();
-  final Home func = Home();
+  selectSend modelsend = selectSend();
 
   @override
   Widget build(BuildContext context) {
@@ -43,11 +40,13 @@ class _SendAppState extends BaseState<SendApp> {
       ),
       body: SafeArea(
         child: Column(children: [
-          CustomTextField(controller: Sender, hintText: AppConstant.SEND_SMS_HINT_TEXT, keyboardType: TextInputType.none),
+          SizedBox(
+            height: dynamicHeight(0.14),
+          ),
+          CustomTextField(controller: modelsend.Sender, hintText: AppConstant.SEND_SMS_HINT_TEXT, keyboardType: TextInputType.none, maxLenght: 50),
           TextButton(
             onPressed: () {
-              SavedSender = Sender.text;
-              RouteHelper.push(context, SmsReadView());
+              modelsend.selectsendonpress(context);
             },
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: dynamicWidth(0.27)),
@@ -65,6 +64,13 @@ class _SendAppState extends BaseState<SendApp> {
                 ),
               ),
             ),
+          ),
+          SizedBox(
+            height: dynamicHeight(0.14),
+          ),
+          Text(
+            "Kayıtlı Numara: $savedSender",
+            style: TextStyle(fontSize: 18, color: ColorConstant.MAIN_BLACK54, fontWeight: FontWeight.bold),
           ),
         ]),
       ),

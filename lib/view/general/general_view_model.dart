@@ -6,7 +6,7 @@ import 'package:sms_receiver/sms_receiver.dart';
 import 'package:tele_connect/core/model/person_model.dart';
 
 import '../../core/api/api.dart';
-import '../../core/model/dto_model/dto_mail_request.dart';
+import '../../core/model/dto_mail_request.dart';
 
 final List<String> recipients = [];
 List<String> mails = [];
@@ -20,10 +20,10 @@ class SMSReadViewModel {
   SmsReceiver? smsReceiver;
   String SavedSend = "";
 
-  int counter = 0;
-
+//func adı değişmeli
   void incrementCounter() {
     if (sender == SavedSend) {
+      //subject değişecek , cc'de de mails kullanılacak
       Api().sendEmail(DTOMailRequest(to: mails, cc: [], bcc: [], body: "<html><body><h1>$sms</h1></body></html>", subject: "test", contentType: "text/html"));
     }
   }
