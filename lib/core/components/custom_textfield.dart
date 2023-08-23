@@ -4,9 +4,11 @@ Widget CustomTextField({
   TextEditingController? controller,
   TextInputType? keyboardType,
   String? hintText,
+  int? maxLenght,
 }) {
   return TextField(
     controller: controller,
+    maxLength: maxLenght,
     keyboardType: TextInputType.phone,
     decoration: InputDecoration(
       hintText: hintText,
