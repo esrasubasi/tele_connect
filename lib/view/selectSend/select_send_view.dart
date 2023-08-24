@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tele_connect/core/components/custom_textfield.dart';
 import 'package:tele_connect/core/constant/app_constant.dart';
 import 'package:tele_connect/core/helper/route_helper.dart';
@@ -12,8 +13,11 @@ import 'package:tele_connect/view/selectSend/select_send_view_model.dart';
 class SendView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: SendApp(),
+    return ChangeNotifierProvider(
+      create: (context) => AddSenderViewModel(),
+      child: MaterialApp(
+        home: SendApp(),
+      ),
     );
   }
 }
@@ -24,10 +28,10 @@ class SendApp extends StatefulWidget {
 }
 
 class _SendAppState extends BaseState<SendApp> {
-  AddSenderViewModel modelsend = AddSenderViewModel();
-
   @override
   Widget build(BuildContext context) {
+    final selectProvider = Provider.of<AddSenderViewModel>(context);
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(icon: Icon(Icons.arrow_back, color: ColorConstant.MAIN_BLACK), onPressed: () => RouteHelper.push(context, SmsReadView())),
@@ -41,32 +45,37 @@ class _SendAppState extends BaseState<SendApp> {
             SizedBox(
               height: dynamicHeight(0.14),
             ),
-            CustomTextField(controller: modelsend.SenderPhone, hintText: AppConstant.SEND_SMS_HINT_TEXT, keyboardType: TextInputType.phone, maxLenght: 50),
+            CustomTextField(controller: selectProvider.SenderPhone, hintText: AppConstant.SEND_SMS_HINT_TEXT, keyboardType: TextInputType.phone, maxLenght: 13),
             SizedBox(
               height: dynamicHeight(0.04),
             ),
-            CustomTextField(controller: modelsend.SenderName, hintText: AppConstant.SEND_SMS_NAME_HINT_TEXT, keyboardType: TextInputType.name, maxLenght: 50),
-            TextButton(
-              onPressed: () {
-                modelsend.addnew(context);
-              },
-              child: Container(
+            CustomTextField(controller: selectProvider.SenderName, hintText: AppConstant.SEND_SMS_NAME_HINT_TEXT, keyboardType: TextInputType.name, maxLenght: 50),
+            Container(
                 margin: EdgeInsets.symmetric(horizontal: dynamicWidth(0.27)),
                 padding: EdgeInsets.all(18.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
                   color: ColorConstant.MAIN_COLOR_GREEN700,
                 ),
-                child: Text(
-                  AppConstant.SAVE_TEXT,
-                  style: TextStyle(
-                    fontSize: 25,
-                    color: ColorConstant.MAIN_COLOR,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
+                child: TextButton(
+                  style: TextButton.styleFrom(backgroundColor: ColorConstant.MAIN_COLOR_GREEN700),
+                  onPressed: () {
+                    selectProvider.addnew(context);
+                  },
+                  child: isLoading
+                      ? CircularProgressIndicator(
+                          color: ColorConstant.MAIN_COLOR,
+                          backgroundColor: ColorConstant.MAIN_COLOR_GREEN700,
+                        )
+                      : Text(
+                          AppConstant.SAVE_TEXT,
+                          style: TextStyle(
+                            fontSize: 25,
+                            color: ColorConstant.MAIN_COLOR,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                )),
             SizedBox(
               height: dynamicHeight(0.14),
             ),
