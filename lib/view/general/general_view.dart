@@ -14,14 +14,19 @@ import 'package:tele_connect/view/general/general_view_model.dart';
 import 'package:tele_connect/core/model/person_model.dart';
 import 'package:tele_connect/view/selectSend/select_send_view.dart';
 import 'package:tele_connect/core/components/screen_field.dart';
-//değişicek init state
+
+import '../../core/provider/sms_listen_provider.dart';
+
 //switch tuşu yerine button üstünde dinliyo dinlemiyo falan yazan
 
 class SmsReadView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => SwitchProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => SMSReadViewModel()),
+        ChangeNotifierProvider(create: (context) => SwitchProvider()),
+      ],
       child: MaterialApp(
         home: Home(),
       ),
@@ -38,27 +43,10 @@ class _HomeState extends BaseState<Home> {
   final GeneralViewModel viewModel = GeneralViewModel();
   final SMSReadViewModel readModel = SMSReadViewModel();
 
-  void initState() {
-    super.initState();
-    readModel.getPermission().then((value) {
-      if (value) {
-        readModel.plugin.read();
-
-        readModel.plugin.smsStream.listen((event) {
-          setState(() {
-            readModel.sms = event.body;
-            readModel.sender = event.sender;
-            readModel.sendSMSMethod();
-            readModel.mailSender();
-          });
-        });
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final swiprovider = Provider.of<SwitchProvider>(context);
+    final readModelProvider = Provider.of<SMSReadViewModel>(context, listen: false);
     bool isOn = swiprovider.isOn;
 
     return Scaffold(
@@ -82,6 +70,9 @@ class _HomeState extends BaseState<Home> {
                 value: isOn,
                 onChanged: (value) {
                   swiprovider.toggleIsOn(value);
+                  if (value) {
+                    readModelProvider.startListening();
+                  }
                 },
                 activeColor: ColorConstant.MAIN_COLOR_GREEN700,
               ),
