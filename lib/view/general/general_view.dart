@@ -206,7 +206,7 @@ class _HomeState extends BaseState<Home> {
         ),
         child: CheckboxListTile(
           title: Text(person.personName),
-          subtitle: Text(person.personNumber),
+          subtitle: Text("${person.personNumber}/${person.personEmail}"),
           value: person.personSelect,
           onChanged: (bool? newValue) {
             viewModel.updatePersonSelect(person.personName, newValue);
