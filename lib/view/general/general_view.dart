@@ -72,6 +72,8 @@ class _HomeState extends BaseState<Home> {
                   swiprovider.toggleIsOn(value);
                   if (value) {
                     readModelProvider.startListening();
+                  } else {
+                    readModelProvider.dispose();
                   }
                 },
                 activeColor: ColorConstant.MAIN_COLOR_GREEN700,

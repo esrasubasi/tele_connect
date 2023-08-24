@@ -32,6 +32,12 @@ class SMSReadViewModel extends ChangeNotifier {
     }
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    plugin.dispose();
+  }
+
   void mailSender() {
     bool check = false;
     for (int i = 0; i < sendernumbers.length; i++) {
