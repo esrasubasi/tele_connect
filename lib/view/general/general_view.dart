@@ -9,6 +9,7 @@ import 'package:tele_connect/core/constant/color_constant.dart';
 import 'package:tele_connect/core/helper/route_helper.dart';
 import 'package:tele_connect/core/model/sender_model.dart';
 import 'package:tele_connect/core/provider/switch_provider.dart';
+import 'package:tele_connect/core/widget/double_check_box.dart';
 import 'package:tele_connect/view/add_person/add_person_view.dart';
 import 'package:tele_connect/view/general/general_view_model.dart';
 import 'package:tele_connect/core/model/person_model.dart';
@@ -99,7 +100,8 @@ class _HomeState extends BaseState<Home> {
                       personName: data['PersonName'],
                       personNumber: data['PersonNumber'],
                       personEmail: data['PersonEmail'],
-                      personSelect: data['PersonSelect'] ?? false,
+                      personSelectTel: data['PersonSelectTel'] ?? false,
+                      personSelectMail: data['PersonSelectMail'] ?? false,
                     );
                   }).toList();
 
@@ -114,7 +116,10 @@ class _HomeState extends BaseState<Home> {
                     child: SingleChildScrollView(
                       scrollDirection: Axis.vertical,
                       child: Column(
-                        children: [for (final person in persons) PadCheckBP(person), Text(recipients.toString())],
+                        children: [
+                          for (final person in persons) PadCheckBP(person),
+                          Text("Telnos:${recipients.toString()}/Mails:${mails.toString()}"),
+                        ],
                       ),
                     ),
                   );
@@ -196,7 +201,8 @@ class _HomeState extends BaseState<Home> {
   }
 
   Padding PadCheckBP(Person person) {
-    checkIfin(person);
+    checkIfinTel(person);
+    checkIfinMail(person);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Slidable(
@@ -204,16 +210,17 @@ class _HomeState extends BaseState<Home> {
           motion: const StretchMotion(),
           children: [SlidableAction(backgroundColor: ColorConstant.MAIN_COLOR_RED, icon: Icons.delete, label: "Delete", onPressed: (context) => viewModel.deletePerson(person.personName))],
         ),
-        child: CheckboxListTile(
-          title: Text(person.personName),
-          subtitle: Text("${person.personNumber}/${person.personEmail}"),
-          value: person.personSelect,
-          onChanged: (bool? newValue) {
-            viewModel.updatePersonSelect(person.personName, newValue);
+        child: DoubleCheckboxListTile(
+          title: person.personName,
+          subtitle: "${person.personNumber}/${person.personEmail}",
+          value1: person.personSelectTel,
+          onChanged1: (bool? newValue1) {
+            viewModel.updatePersonSelectTel(person.personName, newValue1);
           },
-          activeColor: ColorConstant.MAIN_COLOR_GREEN700,
-          checkColor: ColorConstant.MAIN_COLOR,
-          tileColor: ColorConstant.MAIN_COLOR,
+          value2: person.personSelectMail,
+          onChanged2: (bool? newValue2) {
+            viewModel.updatePersonSelectMail(person.personName, newValue2);
+          },
         ),
       ),
     );

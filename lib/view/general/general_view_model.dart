@@ -9,8 +9,12 @@ class GeneralViewModel {
   Stream<QuerySnapshot> get personsStream => FirebaseFirestore.instance.collection('Person').snapshots();
   Stream<QuerySnapshot> get sendersStream => FirebaseFirestore.instance.collection('Numbers').snapshots();
 
-  Future<void> updatePersonSelect(String personName, bool? newValue) async {
-    await FirebaseFirestore.instance.collection('Person').doc(personName).update({'PersonSelect': newValue});
+  Future<void> updatePersonSelectTel(String personName, bool? newValue) async {
+    await FirebaseFirestore.instance.collection('Person').doc(personName).update({'PersonSelectTel': newValue});
+  }
+
+  Future<void> updatePersonSelectMail(String personName, bool? newValue) async {
+    await FirebaseFirestore.instance.collection('Person').doc(personName).update({'PersonSelectMail': newValue});
   }
 
   Future<void> deletePerson(String personName) async {
@@ -26,9 +30,9 @@ class GeneralViewModel {
   }
 }
 
-void checkIfin(Person person) {
+void checkIfinTel(Person person) {
   int counter = 0;
-  if (person.personSelect == true) {
+  if (person.personSelectTel == true) {
     for (int i = 0; i < recipients.length; i++) {
       if (recipients[i] == person.personNumber) {
         counter++;
@@ -36,10 +40,24 @@ void checkIfin(Person person) {
     }
     if (counter == 0) {
       recipients.add(person.personNumber);
-      mails.add(person.personEmail);
     }
   } else {
     recipients.remove(person.personNumber);
+  }
+}
+
+void checkIfinMail(Person person) {
+  int counter = 0;
+  if (person.personSelectMail == true) {
+    for (int i = 0; i < mails.length; i++) {
+      if (mails[i] == person.personEmail) {
+        counter++;
+      }
+    }
+    if (counter == 0) {
+      mails.add(person.personEmail);
+    }
+  } else {
     mails.remove(person.personEmail);
   }
 }
