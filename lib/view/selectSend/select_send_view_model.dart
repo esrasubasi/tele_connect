@@ -1,6 +1,8 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:tele_connect/core/constant/app_constant.dart';
+import 'package:tele_connect/core/helper/feedback_helper.dart';
 import '../../core/helper/route_helper.dart';
 import '../general/general_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,17 +16,21 @@ class AddSenderViewModel extends ChangeNotifier {
   final TextEditingController SenderPhone = TextEditingController();
 
   void addnew(BuildContext con) async {
-    String addSenderName = SenderName.text;
-    String addSenderNumber = SenderPhone.text;
+    if (SenderName.text == "" || SenderPhone.text == "") {
+      errorMessage(con, AppConstant.ERROR_CANT_EMPTY_SENDER);
+    } else {
+      String addSenderName = SenderName.text;
+      String addSenderNumber = SenderPhone.text;
 
-    isLoading = true;
-    notifyListeners();
+      isLoading = true;
+      notifyListeners();
 
-    await addSender(addSenderName, addSenderNumber);
+      await addSender(addSenderName, addSenderNumber);
 
-    isLoading = false;
+      isLoading = false;
 
-    RouteHelper.push(con, SmsReadView());
+      RouteHelper.push(con, SmsReadView());
+    }
   }
 
   final FirebaseFirestore _firestor = FirebaseFirestore.instance;
