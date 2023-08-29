@@ -36,7 +36,7 @@ class _SendAppState extends BaseState<SendApp> {
       appBar: AppBar(
         leading: IconButton(icon: Icon(Icons.arrow_back, color: ColorConstant.MAIN_BLACK), onPressed: () => RouteHelper.push(context, SmsReadView())),
         centerTitle: true,
-        title: Text(AppConstant.SEND_SMS_HINT_TEXT, style: TextStyle(color: ColorConstant.MAIN_COLOR)),
+        title: Text(AppConstant.SEND_SMS_TEXT, style: TextStyle(color: ColorConstant.MAIN_COLOR)),
         backgroundColor: ColorConstant.MAIN_COLOR_GREEN700,
       ),
       body: SafeArea(
@@ -62,7 +62,7 @@ class _SendAppState extends BaseState<SendApp> {
                   onPressed: () {
                     selectProvider.addnew(context);
                   },
-                  child: isLoading
+                  child: selectProvider.isLoading
                       ? CircularProgressIndicator(
                           color: ColorConstant.MAIN_COLOR,
                           backgroundColor: ColorConstant.MAIN_COLOR_GREEN700,

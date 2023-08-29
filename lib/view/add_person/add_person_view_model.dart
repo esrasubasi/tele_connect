@@ -7,11 +7,10 @@ import 'package:tele_connect/core/helper/feedback_helper.dart';
 import '../../core/helper/route_helper.dart';
 import '../general/general_view.dart';
 
-bool isLoadingAdd = false;
-
 //isLoading true flase 13,15
 //+90 kısmına ülke seçtir
 class AddPersonViewModel extends ChangeNotifier {
+  bool isLoadingAdd = false;
   void addnew(BuildContext con) async {
     int mailvalidcounter = 0;
     if (textName.text == "" || textEmail.text == "" && textPhone.text == "") {
@@ -34,13 +33,11 @@ class AddPersonViewModel extends ChangeNotifier {
       }
       if (mailvalidcounter == 1 || addEmail == "-") {
         isLoadingAdd = true;
-
         notifyListeners();
-
         await addPerson(addName, addNumber, addEmail);
 
         isLoadingAdd = false;
-
+        notifyListeners();
         RouteHelper.push(con, SmsReadView());
       } else {
         errorMessage(con, AppConstant.ERROR_MAIL);

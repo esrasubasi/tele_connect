@@ -2,6 +2,7 @@
 
 class AppConstant {
   static const String SEND_SMS_HINT_TEXT = "Mesaj Alınacak Numara (Zorunlu Alan)";
+  static const String SEND_SMS_TEXT = "Mesaj Alınacak Seçici";
   static const String HINT_TEXT_NAME = "İsim ve Soyisim (Zorunlu Alan)";
   static const String HINT_TEXT_NUMBER = "Telefon Numarası (Mail Yoksa Zorunlu Alan)";
   static const String HINT_TEXT_EMAIL = "Email(Telno Yoksa Zorunlu Alan)";

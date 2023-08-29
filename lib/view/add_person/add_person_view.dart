@@ -30,7 +30,6 @@ class PersonApp extends StatefulWidget {
 class _PersonAppState extends BaseState<PersonApp> {
   @override
   Widget build(BuildContext context) {
-    final personViewModel = Provider.of<AddPersonViewModel>(context);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(icon: Icon(Icons.arrow_back, color: ColorConstant.MAIN_BLACK), onPressed: () => RouteHelper.push(context, SmsReadView())),
@@ -39,8 +38,8 @@ class _PersonAppState extends BaseState<PersonApp> {
         backgroundColor: ColorConstant.MAIN_COLOR_GREEN700,
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
+        child: SingleChildScrollView(child: Consumer<AddPersonViewModel>(builder: (context, personViewModel, _) {
+          return Column(
             children: [
               SizedBox(height: dynamicHeight(0.14)),
               CustomTextField(controller: personViewModel.textPhone, keyboardType: TextInputType.phone, hintText: AppConstant.HINT_TEXT_NUMBER, maxLenght: 13),
@@ -63,7 +62,7 @@ class _PersonAppState extends BaseState<PersonApp> {
                     onPressed: () {
                       personViewModel.addnew(context);
                     },
-                    child: isLoadingAdd
+                    child: personViewModel.isLoadingAdd
                         ? CircularProgressIndicator(
                             color: ColorConstant.MAIN_COLOR,
                             backgroundColor: ColorConstant.MAIN_COLOR_GREEN700,
@@ -78,8 +77,8 @@ class _PersonAppState extends BaseState<PersonApp> {
                           ),
                   )),
             ],
-          ),
-        ),
+          );
+        })),
       ),
     );
   }

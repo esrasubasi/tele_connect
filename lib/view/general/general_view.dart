@@ -16,6 +16,7 @@ import 'package:tele_connect/core/model/person_model.dart';
 import 'package:tele_connect/view/selectSend/select_send_view.dart';
 import 'package:tele_connect/core/components/screen_field.dart';
 
+import '../../core/provider/button_provider.dart';
 import '../../core/provider/sms_listen_provider.dart';
 
 //switch tuşu yerine button üstünde dinliyo dinlemiyo falan yazan
@@ -27,6 +28,7 @@ class SmsReadView extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => SMSReadViewModel()),
         ChangeNotifierProvider(create: (context) => SwitchProvider()),
+        ChangeNotifierProvider(create: (context) => ButtonProvider()),
       ],
       child: MaterialApp(
         home: Home(),
@@ -49,6 +51,7 @@ class _HomeState extends BaseState<Home> {
     final swiprovider = Provider.of<SwitchProvider>(context);
     final readModelProvider = Provider.of<SMSReadViewModel>(context, listen: false);
     bool isOn = swiprovider.isOn;
+    final buttonprovider = Provider.of<ButtonProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -65,20 +68,46 @@ class _HomeState extends BaseState<Home> {
           child: Column(
             children: [
               SizedBox(
-                height: dynamicHeight(0.01),
+                height: dynamicHeight(0.02),
               ),
-              Switch(
-                value: isOn,
-                onChanged: (value) {
-                  swiprovider.toggleIsOn(value);
-                  if (value) {
-                    readModelProvider.startListening();
-                  } else {
-                    readModelProvider.dispose();
-                  }
-                },
-                activeColor: ColorConstant.MAIN_COLOR_GREEN700,
+              Center(
+                child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: ColorConstant.MAIN_COLOR_GREEN700,
+                    ),
+                    height: dynamicHeight(0.06),
+                    width: dynamicHeight(0.18),
+                    child: TextButton(
+                      onPressed: () {
+                        buttonprovider.IsOnListen(context);
+                      },
+                      child: buttonprovider.isLoadingButton
+                          ? CircularProgressIndicator(
+                              color: ColorConstant.MAIN_COLOR,
+                              backgroundColor: ColorConstant.MAIN_COLOR_GREEN700,
+                            )
+                          : Text(
+                              buttonprovider.isListeningTF ? 'Dinliyor' : 'Dinlemiyor',
+                              style: TextStyle(color: ColorConstant.MAIN_COLOR, fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                    )),
               ),
+              SizedBox(
+                height: dynamicHeight(0.02),
+              ),
+              // Switch(
+              //   value: isOn,
+              //   onChanged: (value) {
+              //     swiprovider.toggleIsOn(value);
+              //     if (value) {
+              //       readModelProvider.startListening();
+              //     } else {
+              //       readModelProvider.dispose();
+              //     }
+              //   },
+              //   activeColor: ColorConstant.MAIN_COLOR_GREEN700,
+              // ),
               Text(
                 AppConstant.CONTAINER_NAME_SEND,
                 style: TextStyle(color: ColorConstant.MAIN_BLACK54, fontWeight: FontWeight.bold, fontSize: 18),

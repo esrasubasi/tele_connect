@@ -7,13 +7,17 @@ import '../../core/helper/route_helper.dart';
 import '../general/general_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-bool isLoading = false;
+//isLoading çift notifylistener kullanmadan olmuyo
+
+//isloading kısmında patlıyo orayı düzelt
 
 //+90 kısmına ülke seçtir
 class AddSenderViewModel extends ChangeNotifier {
   final TextEditingController SenderName = TextEditingController();
 
   final TextEditingController SenderPhone = TextEditingController();
+
+  bool isLoading = false;
 
   void addnew(BuildContext con) async {
     if (SenderName.text == "" || SenderPhone.text == "") {
@@ -24,10 +28,10 @@ class AddSenderViewModel extends ChangeNotifier {
 
       isLoading = true;
       notifyListeners();
-
       await addSender(addSenderName, addSenderNumber);
 
       isLoading = false;
+      notifyListeners();
 
       RouteHelper.push(con, SmsReadView());
     }
