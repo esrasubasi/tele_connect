@@ -1,4 +1,8 @@
 {
     "cmake.configureOnOpen": false,
-    "cmake.sourceDirectory": "C:/Projects/tele_connect/linux"
+    "cmake.sourceDirectory": "C:/Projects/tele_connect/linux",
+    "files.associations": {
+        "vector": "cpp",
+        "iostream": "cpp"
+    }
 }

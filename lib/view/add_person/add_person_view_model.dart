@@ -3,13 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tele_connect/core/constant/app_constant.dart';
-import 'package:tele_connect/core/helper/feedback_helper.dart';
+import 'package:tele_connect/core/helper/error_text_helper.dart';
 import '../../core/helper/route_helper.dart';
 import '../general/general_view.dart';
-
+//timeout
 //isLoading true flase 13,15
-//+90 kısmına ülke seçtir
+
 class AddPersonViewModel extends ChangeNotifier {
+  String addnum = "";
   bool isLoadingAdd = false;
   void addnew(BuildContext con) async {
     int mailvalidcounter = 0;
@@ -17,7 +18,10 @@ class AddPersonViewModel extends ChangeNotifier {
       errorMessage(con, AppConstant.ERROR_CANT_EMPTY_ADD);
     } else {
       String addName = textName.text;
-      String addNumber = textPhone.text;
+      String addNumber = "-";
+      if (textPhone.text.isNotEmpty) {
+        addNumber = addnum;
+      }
       String addEmail = textEmail.text;
       if (addEmail == "") {
         addEmail = "-";
@@ -34,11 +38,18 @@ class AddPersonViewModel extends ChangeNotifier {
       if (mailvalidcounter == 1 || addEmail == "-") {
         isLoadingAdd = true;
         notifyListeners();
-        await addPerson(addName, addNumber, addEmail);
 
-        isLoadingAdd = false;
-        notifyListeners();
-        RouteHelper.push(con, SmsReadView());
+        try {
+          await addPerson(addName, addNumber, addEmail).timeout(Duration(seconds: 10));
+          isLoadingAdd = false;
+          notifyListeners();
+          RouteHelper.push(con, SmsReadView());
+        } catch (e) {
+          isLoadingAdd = false;
+          notifyListeners();
+          errorMessage(con, "Kişi Eklenirken Bir Hata Oluştu!");
+          deletePerson(addName);
+        }
       } else {
         errorMessage(con, AppConstant.ERROR_MAIL);
       }
@@ -57,5 +68,9 @@ class AddPersonViewModel extends ChangeNotifier {
       "PersonNumber": number,
       "PersonEmail": email,
     });
+  }
+
+  Future<void> deletePerson(String personName) async {
+    await FirebaseFirestore.instance.collection("Person").doc(personName).delete();
   }
 }

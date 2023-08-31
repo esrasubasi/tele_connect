@@ -2,36 +2,43 @@
 
 import 'package:flutter/material.dart';
 import 'package:tele_connect/core/constant/app_constant.dart';
-import 'package:tele_connect/core/helper/feedback_helper.dart';
+import 'package:tele_connect/core/helper/error_text_helper.dart';
 import '../../core/helper/route_helper.dart';
 import '../general/general_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-//isLoading çift notifylistener kullanmadan olmuyo
-
-//isloading kısmında patlıyo orayı düzelt
-
-//+90 kısmına ülke seçtir
+//çift notify düzeltebiliyorsan düzelt
+//+90kalıyor kalmasın
 class AddSenderViewModel extends ChangeNotifier {
   final TextEditingController SenderName = TextEditingController();
 
   final TextEditingController SenderPhone = TextEditingController();
 
   bool isLoading = false;
-
+  String addnum = "";
   void addnew(BuildContext con) async {
     if (SenderName.text == "" || SenderPhone.text == "") {
       errorMessage(con, AppConstant.ERROR_CANT_EMPTY_SENDER);
     } else {
       String addSenderName = SenderName.text;
-      String addSenderNumber = SenderPhone.text;
+      String addSenderNumber = "-";
+      if (SenderPhone.text.isNotEmpty) {
+        addSenderNumber = addnum;
+      }
 
       isLoading = true;
       notifyListeners();
-      await addSender(addSenderName, addSenderNumber);
-
-      isLoading = false;
-      notifyListeners();
+      try {
+        await addSender(addSenderName, addSenderNumber).timeout(Duration(seconds: 10));
+        isLoading = false;
+        notifyListeners();
+        RouteHelper.push(con, SmsReadView());
+      } catch (e) {
+        isLoading = false;
+        notifyListeners();
+        errorMessage(con, "Kişi Eklenirken Bir Hata Oluştu!");
+        deleteSender(addSenderName);
+      }
 
       RouteHelper.push(con, SmsReadView());
     }
@@ -44,5 +51,9 @@ class AddSenderViewModel extends ChangeNotifier {
       "SenderName": name,
       "SenderNumber": number,
     });
+  }
+
+  Future<void> deleteSender(String SenderName) async {
+    await FirebaseFirestore.instance.collection("Numbers").doc(SenderName).delete();
   }
 }

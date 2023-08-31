@@ -77,3 +77,11 @@ void checkIfinSend(Senders sender) {
     sendernumbers.remove(sender.SenderNumber);
   }
 }
+
+bool checkGiveError(String control) {
+  if (control == "-") {
+    return true;
+  } else {
+    return false;
+  }
+}

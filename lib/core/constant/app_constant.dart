@@ -16,4 +16,5 @@ class AppConstant {
   static const String ERROR_CANT_EMPTY_SENDER = "Hata! Zorunlu Alanları Doldurun!";
   static const String ERROR_CANT_EMPTY_ADD = "Hata! Zorunlu Alanları Doldurun!";
   static const String ERROR_MAIL = "Hata! Geçerli Bir Mail Girin";
+  static const String SEND_SMS_SELECT_INVALID = "Geçersiz Numara";
 }

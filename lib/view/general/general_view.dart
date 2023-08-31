@@ -19,7 +19,8 @@ import 'package:tele_connect/core/components/screen_field.dart';
 import '../../core/provider/button_provider.dart';
 import '../../core/provider/sms_listen_provider.dart';
 
-//switch tuşu yerine button üstünde dinliyo dinlemiyo falan yazan
+//switch dönücem :D
+//maymun yapıyo yazmazsa tek checkbox çarpı olsun
 
 class SmsReadView extends StatelessWidget {
   @override
@@ -51,7 +52,7 @@ class _HomeState extends BaseState<Home> {
     final swiprovider = Provider.of<SwitchProvider>(context);
     final readModelProvider = Provider.of<SMSReadViewModel>(context, listen: false);
     bool isOn = swiprovider.isOn;
-    final buttonprovider = Provider.of<ButtonProvider>(context);
+    //final buttonprovider = Provider.of<ButtonProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -70,44 +71,44 @@ class _HomeState extends BaseState<Home> {
               SizedBox(
                 height: dynamicHeight(0.02),
               ),
-              Center(
-                child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: ColorConstant.MAIN_COLOR_GREEN700,
-                    ),
-                    height: dynamicHeight(0.06),
-                    width: dynamicHeight(0.18),
-                    child: TextButton(
-                      onPressed: () {
-                        buttonprovider.IsOnListen(context);
-                      },
-                      child: buttonprovider.isLoadingButton
-                          ? CircularProgressIndicator(
-                              color: ColorConstant.MAIN_COLOR,
-                              backgroundColor: ColorConstant.MAIN_COLOR_GREEN700,
-                            )
-                          : Text(
-                              buttonprovider.isListeningTF ? 'Dinliyor' : 'Dinlemiyor',
-                              style: TextStyle(color: ColorConstant.MAIN_COLOR, fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                    )),
-              ),
-              SizedBox(
-                height: dynamicHeight(0.02),
-              ),
-              // Switch(
-              //   value: isOn,
-              //   onChanged: (value) {
-              //     swiprovider.toggleIsOn(value);
-              //     if (value) {
-              //       readModelProvider.startListening();
-              //     } else {
-              //       readModelProvider.dispose();
-              //     }
-              //   },
-              //   activeColor: ColorConstant.MAIN_COLOR_GREEN700,
+              // Center(
+              //   child: Container(
+              //       decoration: BoxDecoration(
+              //         borderRadius: BorderRadius.circular(10),
+              //         color: ColorConstant.MAIN_COLOR_GREEN700,
+              //       ),
+              //       height: dynamicHeight(0.06),
+              //       width: dynamicHeight(0.18),
+              //       child: TextButton(
+              //         onPressed: () {
+              //           buttonprovider.IsOnListen(context);
+              //         },
+              //         child: buttonprovider.isLoadingButton
+              //             ? CircularProgressIndicator(
+              //                 color: ColorConstant.MAIN_COLOR,
+              //                 backgroundColor: ColorConstant.MAIN_COLOR_GREEN700,
+              //               )
+              //             : Text(
+              //                 buttonprovider.isListeningTF ? 'Dinliyor' : 'Dinlemiyor',
+              //                 style: TextStyle(color: ColorConstant.MAIN_COLOR, fontSize: 18, fontWeight: FontWeight.bold),
+              //               ),
+              //       )),
               // ),
+              // SizedBox(
+              //   height: dynamicHeight(0.02),
+              // ),
+              Switch(
+                value: isOn,
+                onChanged: (value) {
+                  swiprovider.toggleIsOn(value);
+                  if (value) {
+                    readModelProvider.startListening();
+                  } else {
+                    readModelProvider.dispose();
+                  }
+                },
+                activeColor: ColorConstant.MAIN_COLOR_GREEN700,
+              ),
               Text(
                 AppConstant.CONTAINER_NAME_SEND,
                 style: TextStyle(color: ColorConstant.MAIN_BLACK54, fontWeight: FontWeight.bold, fontSize: 18),
@@ -237,9 +238,11 @@ class _HomeState extends BaseState<Home> {
       child: Slidable(
         endActionPane: ActionPane(
           motion: const StretchMotion(),
-          children: [SlidableAction(backgroundColor: ColorConstant.MAIN_COLOR_RED, icon: Icons.delete, label: "Delete", onPressed: (context) => viewModel.deletePerson(person.personName))],
+          children: [SlidableAction(backgroundColor: ColorConstant.MAIN_COLOR_RED, icon: Icons.delete, label: "Sil", onPressed: (context) => viewModel.deletePerson(person.personName))],
         ),
         child: DoubleCheckboxListTile(
+          isErrM: checkGiveError(person.personEmail),
+          isErrNum: checkGiveError(person.personNumber),
           title: person.personName,
           subtitle: "${person.personNumber}/${person.personEmail}",
           value1: person.personSelectTel,
@@ -262,7 +265,7 @@ class _HomeState extends BaseState<Home> {
       child: Slidable(
         endActionPane: ActionPane(
           motion: const StretchMotion(),
-          children: [SlidableAction(backgroundColor: ColorConstant.MAIN_COLOR_RED, icon: Icons.delete, label: "Delete", onPressed: (context) => viewModel.deleteSender(sender.SenderName))],
+          children: [SlidableAction(backgroundColor: ColorConstant.MAIN_COLOR_RED, icon: Icons.delete, label: "Sil", onPressed: (context) => viewModel.deleteSender(sender.SenderName))],
         ),
         child: CheckboxListTile(
           title: Text(sender.SenderName),

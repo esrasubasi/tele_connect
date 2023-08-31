@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 import 'package:tele_connect/core/components/custom_textfield.dart';
 import 'package:tele_connect/core/constant/app_constant.dart';
@@ -10,6 +11,7 @@ import 'package:tele_connect/view/add_person/add_person_view_model.dart';
 import 'package:tele_connect/view/general/general_view.dart';
 import '../../core/components/screen_field.dart';
 
+//+90 yazmasın
 class PersonView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,7 @@ class PersonApp extends StatefulWidget {
 }
 
 class _PersonAppState extends BaseState<PersonApp> {
+  FocusNode focusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +45,21 @@ class _PersonAppState extends BaseState<PersonApp> {
           return Column(
             children: [
               SizedBox(height: dynamicHeight(0.14)),
-              CustomTextField(controller: personViewModel.textPhone, keyboardType: TextInputType.phone, hintText: AppConstant.HINT_TEXT_NUMBER, maxLenght: 13),
+              IntlPhoneField(
+                  invalidNumberMessage: AppConstant.SEND_SMS_SELECT_INVALID,
+                  focusNode: focusNode,
+                  decoration: InputDecoration(
+                    labelText: AppConstant.SEND_SMS_HINT_TEXT,
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(),
+                    ),
+                  ),
+                  languageCode: "tr",
+                  onChanged: (phone) {
+                    personViewModel.addnum = phone.completeNumber;
+                  },
+                  onCountryChanged: (country) {},
+                  controller: personViewModel.textPhone),
               SizedBox(
                 height: dynamicHeight(0.04),
               ),

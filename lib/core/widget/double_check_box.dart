@@ -9,6 +9,8 @@ class DoubleCheckboxListTile extends StatelessWidget {
   final Function(bool?) onChanged2;
   final String title;
   final String subtitle;
+  final bool isErrNum;
+  final bool isErrM;
 
   DoubleCheckboxListTile({
     required this.value1,
@@ -17,6 +19,8 @@ class DoubleCheckboxListTile extends StatelessWidget {
     required this.onChanged2,
     required this.title,
     required this.subtitle,
+    required this.isErrNum,
+    required this.isErrM,
   });
 
   @override
@@ -33,12 +37,14 @@ class DoubleCheckboxListTile extends StatelessWidget {
         child: Row(
           children: [
             Checkbox(
+              isError: isErrNum,
               value: value1,
               onChanged: onChanged1,
               activeColor: ColorConstant.MAIN_COLOR_GREEN700,
               checkColor: ColorConstant.MAIN_COLOR,
             ),
             Checkbox(
+              isError: isErrM,
               value: value2,
               onChanged: onChanged2,
               activeColor: ColorConstant.MAIN_COLOR_GREEN700,

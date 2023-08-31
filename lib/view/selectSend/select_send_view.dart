@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 import 'package:tele_connect/core/components/custom_textfield.dart';
 import 'package:tele_connect/core/constant/app_constant.dart';
@@ -28,6 +29,7 @@ class SendApp extends StatefulWidget {
 }
 
 class _SendAppState extends BaseState<SendApp> {
+  FocusNode focusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     final selectProvider = Provider.of<AddSenderViewModel>(context);
@@ -45,7 +47,21 @@ class _SendAppState extends BaseState<SendApp> {
             SizedBox(
               height: dynamicHeight(0.14),
             ),
-            CustomTextField(controller: selectProvider.SenderPhone, hintText: AppConstant.SEND_SMS_HINT_TEXT, keyboardType: TextInputType.phone, maxLenght: 13),
+            IntlPhoneField(
+                invalidNumberMessage: AppConstant.SEND_SMS_SELECT_INVALID,
+                focusNode: focusNode,
+                decoration: InputDecoration(
+                  labelText: AppConstant.SEND_SMS_HINT_TEXT,
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(),
+                  ),
+                ),
+                languageCode: "tr",
+                onChanged: (phone) {
+                  selectProvider.addnum = phone.completeNumber;
+                },
+                onCountryChanged: (country) {},
+                controller: selectProvider.SenderPhone),
             SizedBox(
               height: dynamicHeight(0.04),
             ),
