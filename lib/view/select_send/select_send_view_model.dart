@@ -16,8 +16,10 @@ class AddSenderViewModel extends ChangeNotifier {
 
   bool isLoading = false;
   String addnum = "";
-
+  String withoutS = "";
+  String countrycode = "";
   void addnew(BuildContext con) async {
+    countrycode = addnum.replaceAll(withoutS, "");
     if (SenderName.text == "" || SenderPhone.text == "") {
       errorMessage(con, AppConstant.ERROR_CANT_EMPTY_SENDER);
     } else {
@@ -51,6 +53,7 @@ class AddSenderViewModel extends ChangeNotifier {
     await _firestor.collection("Numbers").doc(name).set({
       "SenderName": name,
       "SenderNumber": number,
+      "SenderCountryCode": countrycode,
     });
   }
 

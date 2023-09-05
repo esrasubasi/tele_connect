@@ -4,10 +4,12 @@ class Senders {
   final String SenderName;
   final String SenderNumber;
   final bool SenderSelect;
+  final String SenderCountryCode;
 
   Senders({
     required this.SenderName,
     required this.SenderNumber,
     this.SenderSelect = false,
+    required this.SenderCountryCode,
   });
 }

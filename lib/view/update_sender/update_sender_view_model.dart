@@ -9,13 +9,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 //çift notify düzeltebiliyorsan düzelt
 
 class UpdateSenderViewModel extends ChangeNotifier {
-  String withoutcountry = "";
+  String withoutcountry = oldS.SenderCountryCode;
   final TextEditingController SenderName = TextEditingController(text: oldS.SenderName);
 
   final TextEditingController SenderPhone = TextEditingController(text: oldS.SenderNumber);
   String oldnam = oldS.SenderName;
   bool isLoading = false;
   String addnum = "";
+
   void updatesender(BuildContext con) async {
     if (SenderName.text == "" || SenderPhone.text == "") {
       errorMessage(con, AppConstant.ERROR_CANT_EMPTY_SENDER);
@@ -29,7 +30,7 @@ class UpdateSenderViewModel extends ChangeNotifier {
       isLoading = true;
       notifyListeners();
       try {
-        await updateSender(addSenderName, addSenderNumber, oldnam).timeout(Duration(seconds: 10));
+        await updateSender(addSenderName, addSenderNumber, oldnam, withoutcountry).timeout(Duration(seconds: 10));
         isLoading = false;
         notifyListeners();
         RouteHelper.push(con, SmsReadView());
@@ -46,10 +47,11 @@ class UpdateSenderViewModel extends ChangeNotifier {
 
   final FirebaseFirestore _firestor = FirebaseFirestore.instance;
 
-  Future<void> updateSender(String name, String number, String oldnam) async {
+  Future<void> updateSender(String name, String number, String oldnam, String couco) async {
     await _firestor.collection("Numbers").doc(oldnam).update({
       "SenderName": name,
       "SenderNumber": number,
+      "SenderCountryCode": couco,
     });
   }
 

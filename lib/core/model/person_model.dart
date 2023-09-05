@@ -2,6 +2,7 @@ class Person {
   final String personName;
   final String personNumber;
   final String personEmail;
+  final String personCountryCode;
   final bool personSelectTel;
   final bool personSelectMail;
 
@@ -9,6 +10,7 @@ class Person {
     required this.personName,
     required this.personNumber,
     required this.personEmail,
+    required this.personCountryCode,
     this.personSelectTel = false,
     this.personSelectMail = false,
   });

@@ -9,17 +9,16 @@ import 'package:tele_connect/core/constant/color_constant.dart';
 import 'package:tele_connect/core/helper/route_helper.dart';
 import 'package:tele_connect/core/model/sender_model.dart';
 import 'package:tele_connect/core/provider/switch_provider.dart';
-import 'package:tele_connect/core/widget/double_check_box.dart';
+import 'package:tele_connect/core/components/double_check_box.dart';
 import 'package:tele_connect/view/add_person/add_person_view.dart';
 import 'package:tele_connect/view/add_person/add_person_view_model.dart';
 import 'package:tele_connect/view/general/general_view_model.dart';
 import 'package:tele_connect/core/model/person_model.dart';
-import 'package:tele_connect/view/selectSend/select_send_view.dart';
-import 'package:tele_connect/core/components/screen_field.dart';
+import 'package:tele_connect/view/select_send/select_send_view.dart';
+import 'package:tele_connect/core/helper/dynamic_helper.dart';
 import 'package:tele_connect/view/update_person/update_person_view.dart';
 import 'package:tele_connect/view/update_sender/update_sender_view.dart';
 
-import '../../core/provider/button_provider.dart';
 import '../../core/provider/sms_listen_provider.dart';
 
 class SmsReadView extends StatelessWidget {
@@ -29,7 +28,6 @@ class SmsReadView extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => SMSReadViewModel()),
         ChangeNotifierProvider(create: (context) => SwitchProvider()),
-        ChangeNotifierProvider(create: (context) => ButtonProvider()),
       ],
       child: MaterialApp(
         home: Home(),
@@ -121,6 +119,7 @@ class _HomeState extends BaseState<Home> {
                     personName: data['PersonName'] ?? "",
                     personNumber: data['PersonNumber'] ?? "",
                     personEmail: data['PersonEmail'] ?? "",
+                    personCountryCode: data['PersonCountryCode'] ?? "",
                     personSelectTel: data['PersonSelectTel'] ?? false,
                     personSelectMail: data['PersonSelectMail'] ?? false,
                   );
@@ -231,6 +230,7 @@ class _HomeState extends BaseState<Home> {
                       SenderName: data['SenderName'] ?? "",
                       SenderNumber: data['SenderNumber'] ?? "",
                       SenderSelect: data['SenderSelect'] ?? false,
+                      SenderCountryCode: data['SenderCountryCode'] ?? "",
                     );
                   }).toList();
                   return Container(
@@ -315,7 +315,7 @@ class _HomeState extends BaseState<Home> {
               label: "Güncelle",
               onPressed: (context) {
                 RouteHelper.push(context, PersonUpdateView());
-                oldP = Person(personName: person.personName, personNumber: person.personNumber, personEmail: person.personEmail);
+                oldP = Person(personName: person.personName, personNumber: person.personNumber, personEmail: person.personEmail, personCountryCode: person.personCountryCode);
               })
         ]),
         endActionPane: ActionPane(
@@ -356,7 +356,7 @@ class _HomeState extends BaseState<Home> {
               label: "Güncelle",
               onPressed: (context) {
                 RouteHelper.push(context, SendUpdateView());
-                oldS = Senders(SenderName: sender.SenderName, SenderNumber: sender.SenderNumber);
+                oldS = Senders(SenderName: sender.SenderName, SenderNumber: sender.SenderNumber, SenderCountryCode: sender.SenderCountryCode);
               })
         ]),
         endActionPane: ActionPane(

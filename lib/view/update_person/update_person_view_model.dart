@@ -15,6 +15,7 @@ class UpdatePersonViewModel extends ChangeNotifier {
 
   void updateP(Person oldP, BuildContext con) async {
     String oldPName = oldP.personName;
+    String coucode = addnum.replaceAll(textPhone.text, "");
 
     int mailvalidcounter = 0;
     if (textName.text == "" || textEmail.text == "" && textPhone.text == "") {
@@ -43,7 +44,7 @@ class UpdatePersonViewModel extends ChangeNotifier {
         notifyListeners();
 
         try {
-          await updatePerson(addName, addNumber, addEmail, oldPName).timeout(Duration(seconds: 10));
+          await updatePerson(addName, addNumber, addEmail, oldPName, coucode).timeout(Duration(seconds: 10));
           isLoadingAdd = false;
           notifyListeners();
           RouteHelper.push(con, SmsReadView());
@@ -60,7 +61,7 @@ class UpdatePersonViewModel extends ChangeNotifier {
   }
 
   final TextEditingController textName = TextEditingController(text: oldP.personName);
-  final TextEditingController textPhone = TextEditingController(text: oldP.personNumber);
+  final TextEditingController textPhone = TextEditingController(text: oldP.personNumber.replaceAll(oldP.personCountryCode, ""));
   final TextEditingController textEmail = TextEditingController(text: oldP.personEmail);
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -69,11 +70,12 @@ class UpdatePersonViewModel extends ChangeNotifier {
     await FirebaseFirestore.instance.collection("Person").doc(personName).delete();
   }
 
-  Future<void> updatePerson(String name, String number, String email, String oldName) async {
+  Future<void> updatePerson(String name, String number, String email, String oldName, String coucode) async {
     await _firestore.collection("Person").doc(oldName).update({
       "PersonName": name,
       "PersonNumber": number,
       "PersonEmail": email,
+      "PersonCountryCode": coucode,
     });
   }
 }
