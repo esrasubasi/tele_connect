@@ -8,4 +8,5 @@ class ColorConstant {
   static const Color MAIN_BLACK = Colors.black;
   static const Color MAIN_BLACK54 = Colors.black54;
   static const Color MAIN_COLOR_RED = Colors.red;
+  static const Color MAIN_BLUE = Colors.blue;
 }

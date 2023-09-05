@@ -13,6 +13,8 @@ class Person {
     this.personSelectMail = false,
   });
 
+  get name => null;
+
   // Map<String, dynamic> toJson() {
   //   return {
   //     'personName': personName,

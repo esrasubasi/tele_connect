@@ -7,31 +7,36 @@ import 'package:tele_connect/core/components/custom_textfield.dart';
 import 'package:tele_connect/core/constant/app_constant.dart';
 import 'package:tele_connect/core/constant/color_constant.dart';
 import 'package:tele_connect/core/helper/route_helper.dart';
-import 'package:tele_connect/view/add_person/add_person_view_model.dart';
 import 'package:tele_connect/view/general/general_view.dart';
 import '../../core/components/screen_field.dart';
+import 'package:tele_connect/view/update_person/update_person_view_model.dart';
+import 'package:tele_connect/core/model/person_model.dart';
 
-class PersonView extends StatelessWidget {
+Person oldP = Person(personName: "personName", personNumber: "personNumber", personEmail: "personEmail");
+
+class PersonUpdateView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => AddPersonViewModel(),
+      create: (context) => UpdatePersonViewModel(),
       child: MaterialApp(
-        home: PersonApp(),
+        home: PersonUpdateApp(),
       ),
     );
   }
 }
 
-class PersonApp extends StatefulWidget {
+class PersonUpdateApp extends StatefulWidget {
   @override
-  State<PersonApp> createState() => _PersonAppState();
+  State<PersonUpdateApp> createState() => _PersonUpdateAppState();
 }
 
-class _PersonAppState extends BaseState<PersonApp> {
+class _PersonUpdateAppState extends BaseState<PersonUpdateApp> {
   FocusNode focusNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
+    final updateProvider = Provider.of<UpdatePersonViewModel>(context);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(icon: Icon(Icons.arrow_back, color: ColorConstant.MAIN_BLACK), onPressed: () => RouteHelper.push(context, SmsReadView())),
@@ -40,8 +45,8 @@ class _PersonAppState extends BaseState<PersonApp> {
         backgroundColor: ColorConstant.MAIN_COLOR_GREEN700,
       ),
       body: SafeArea(
-        child: SingleChildScrollView(child: Consumer<AddPersonViewModel>(builder: (context, personViewModel, _) {
-          return Column(
+        child: SingleChildScrollView(
+          child: Column(
             children: [
               SizedBox(height: dynamicHeight(0.14)),
               IntlPhoneField(
@@ -56,16 +61,16 @@ class _PersonAppState extends BaseState<PersonApp> {
                   ),
                   languageCode: "tr",
                   onChanged: (phone) {
-                    personViewModel.addnum = phone.completeNumber;
+                    updateProvider.addnum = phone.completeNumber;
                   },
                   onCountryChanged: (country) {},
-                  controller: personViewModel.textPhone),
+                  controller: updateProvider.textPhone),
               SizedBox(
                 height: dynamicHeight(0.04),
               ),
-              CustomTextField(controller: personViewModel.textName, keyboardType: TextInputType.name, hintText: AppConstant.HINT_TEXT_NAME, maxLenght: 50),
+              CustomTextField(controller: updateProvider.textName, keyboardType: TextInputType.name, hintText: AppConstant.HINT_TEXT_NAME, maxLenght: 50),
               SizedBox(height: dynamicHeight(0.04)),
-              CustomTextField(controller: personViewModel.textEmail, keyboardType: TextInputType.emailAddress, hintText: AppConstant.HINT_TEXT_EMAIL, maxLenght: 350),
+              CustomTextField(controller: updateProvider.textEmail, keyboardType: TextInputType.emailAddress, hintText: AppConstant.HINT_TEXT_EMAIL, maxLenght: 350),
               SizedBox(height: dynamicHeight(0.04)),
               Container(
                   margin: EdgeInsets.symmetric(horizontal: dynamicWidth(0.27)),
@@ -77,9 +82,9 @@ class _PersonAppState extends BaseState<PersonApp> {
                   child: TextButton(
                     style: TextButton.styleFrom(backgroundColor: ColorConstant.MAIN_COLOR_GREEN700),
                     onPressed: () {
-                      personViewModel.addnew(context);
+                      updateProvider.updateP(oldP, context);
                     },
-                    child: personViewModel.isLoadingAdd
+                    child: updateProvider.isLoadingAdd
                         ? CircularProgressIndicator(
                             color: ColorConstant.MAIN_COLOR,
                             backgroundColor: ColorConstant.MAIN_COLOR_GREEN700,
@@ -94,8 +99,8 @@ class _PersonAppState extends BaseState<PersonApp> {
                           ),
                   )),
             ],
-          );
-        })),
+          ),
+        ),
       ),
     );
   }

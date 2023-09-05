@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -9,30 +9,33 @@ import 'package:tele_connect/core/helper/route_helper.dart';
 import 'package:tele_connect/view/general/general_view.dart';
 import 'package:tele_connect/core/constant/color_constant.dart';
 import '../../core/components/screen_field.dart';
-import 'package:tele_connect/view/selectSend/select_send_view_model.dart';
+import 'package:tele_connect/core/model/sender_model.dart';
+import 'package:tele_connect/view/update_sender/update_sender_view_model.dart';
 
-class SendView extends StatelessWidget {
+Senders oldS = Senders(SenderName: "SenderName", SenderNumber: "SenderNumber");
+
+class SendUpdateView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => AddSenderViewModel(),
+      create: (context) => UpdateSenderViewModel(),
       child: MaterialApp(
-        home: SendApp(),
+        home: SendUpdateApp(),
       ),
     );
   }
 }
 
-class SendApp extends StatefulWidget {
+class SendUpdateApp extends StatefulWidget {
   @override
-  State<SendApp> createState() => _SendAppState();
+  State<SendUpdateApp> createState() => _SendUpdateAppState();
 }
 
-class _SendAppState extends BaseState<SendApp> {
+class _SendUpdateAppState extends BaseState<SendUpdateApp> {
   FocusNode focusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
-    final selectProvider = Provider.of<AddSenderViewModel>(context);
+    final selectProvider = Provider.of<UpdateSenderViewModel>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -77,7 +80,7 @@ class _SendAppState extends BaseState<SendApp> {
                 child: TextButton(
                   style: TextButton.styleFrom(backgroundColor: ColorConstant.MAIN_COLOR_GREEN700),
                   onPressed: () {
-                    selectProvider.addnew(context);
+                    selectProvider.updatesender(context);
                   },
                   child: selectProvider.isLoading
                       ? CircularProgressIndicator(
