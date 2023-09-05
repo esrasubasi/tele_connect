@@ -8,11 +8,11 @@ import 'package:tele_connect/core/constant/app_constant.dart';
 import 'package:tele_connect/core/constant/color_constant.dart';
 import 'package:tele_connect/core/helper/route_helper.dart';
 import 'package:tele_connect/view/general/general_view.dart';
-import '../../core/components/screen_field.dart';
+import '../../core/helper/dynamic_helper.dart';
 import 'package:tele_connect/view/update_person/update_person_view_model.dart';
 import 'package:tele_connect/core/model/person_model.dart';
 
-Person oldP = Person(personName: "personName", personNumber: "personNumber", personEmail: "personEmail");
+Person oldP = Person(personName: "personName", personNumber: "personNumber", personEmail: "personEmail", personCountryCode: "personCountryCode");
 
 class PersonUpdateView extends StatelessWidget {
   @override
@@ -39,7 +39,7 @@ class _PersonUpdateAppState extends BaseState<PersonUpdateApp> {
     final updateProvider = Provider.of<UpdatePersonViewModel>(context);
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(icon: Icon(Icons.arrow_back, color: ColorConstant.MAIN_BLACK), onPressed: () => RouteHelper.push(context, SmsReadView())),
+        leading: IconButton(icon: Icon(Icons.arrow_back, color: ColorConstant.MAIN_COLOR), onPressed: () => RouteHelper.push(context, SmsReadView())),
         centerTitle: true,
         title: Text(AppConstant.PERSON_TEXT, style: TextStyle(color: ColorConstant.MAIN_COLOR)),
         backgroundColor: ColorConstant.MAIN_COLOR_GREEN700,
@@ -50,7 +50,7 @@ class _PersonUpdateAppState extends BaseState<PersonUpdateApp> {
             children: [
               SizedBox(height: dynamicHeight(0.14)),
               IntlPhoneField(
-                  initialCountryCode: "TR",
+                  initialCountryCode: oldP.personCountryCode,
                   invalidNumberMessage: AppConstant.SEND_SMS_SELECT_INVALID,
                   focusNode: focusNode,
                   decoration: InputDecoration(

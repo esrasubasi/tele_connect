@@ -9,7 +9,7 @@ import 'package:tele_connect/core/constant/color_constant.dart';
 import 'package:tele_connect/core/helper/route_helper.dart';
 import 'package:tele_connect/view/add_person/add_person_view_model.dart';
 import 'package:tele_connect/view/general/general_view.dart';
-import '../../core/components/screen_field.dart';
+import '../../core/helper/dynamic_helper.dart';
 
 class PersonView extends StatelessWidget {
   @override
@@ -34,7 +34,7 @@ class _PersonAppState extends BaseState<PersonApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(icon: Icon(Icons.arrow_back, color: ColorConstant.MAIN_BLACK), onPressed: () => RouteHelper.push(context, SmsReadView())),
+        leading: IconButton(icon: Icon(Icons.arrow_back, color: ColorConstant.MAIN_COLOR), onPressed: () => RouteHelper.push(context, SmsReadView())),
         centerTitle: true,
         title: Text(AppConstant.PERSON_TEXT, style: TextStyle(color: ColorConstant.MAIN_COLOR)),
         backgroundColor: ColorConstant.MAIN_COLOR_GREEN700,

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
+// ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -9,33 +9,30 @@ import 'package:tele_connect/core/helper/route_helper.dart';
 import 'package:tele_connect/view/general/general_view.dart';
 import 'package:tele_connect/core/constant/color_constant.dart';
 import '../../core/helper/dynamic_helper.dart';
-import 'package:tele_connect/core/model/sender_model.dart';
-import 'package:tele_connect/view/update_sender/update_sender_view_model.dart';
+import 'package:tele_connect/view/select_send/select_send_view_model.dart';
 
-Senders oldS = Senders(SenderName: "SenderName", SenderNumber: "SenderNumber", SenderCountryCode: "SenderCountryCode");
-
-class SendUpdateView extends StatelessWidget {
+class SendView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => UpdateSenderViewModel(),
+      create: (context) => AddSenderViewModel(),
       child: MaterialApp(
-        home: SendUpdateApp(),
+        home: SendApp(),
       ),
     );
   }
 }
 
-class SendUpdateApp extends StatefulWidget {
+class SendApp extends StatefulWidget {
   @override
-  State<SendUpdateApp> createState() => _SendUpdateAppState();
+  State<SendApp> createState() => _SendAppState();
 }
 
-class _SendUpdateAppState extends BaseState<SendUpdateApp> {
+class _SendAppState extends BaseState<SendApp> {
   FocusNode focusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
-    final selectProvider = Provider.of<UpdateSenderViewModel>(context);
+    final selectProvider = Provider.of<AddSenderViewModel>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -51,7 +48,7 @@ class _SendUpdateAppState extends BaseState<SendUpdateApp> {
               height: dynamicHeight(0.14),
             ),
             IntlPhoneField(
-                initialCountryCode: oldS.SenderCountryCode,
+                initialCountryCode: "TR",
                 invalidNumberMessage: AppConstant.SEND_SMS_SELECT_INVALID,
                 focusNode: focusNode,
                 decoration: InputDecoration(
@@ -80,7 +77,7 @@ class _SendUpdateAppState extends BaseState<SendUpdateApp> {
                 child: TextButton(
                   style: TextButton.styleFrom(backgroundColor: ColorConstant.MAIN_COLOR_GREEN700),
                   onPressed: () {
-                    selectProvider.updatesender(context);
+                    selectProvider.addnew(context);
                   },
                   child: selectProvider.isLoading
                       ? CircularProgressIndicator(
