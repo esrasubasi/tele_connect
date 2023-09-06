@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:tele_connect/core/constant/app_constant.dart';
 import 'package:tele_connect/core/helper/error_text_helper.dart';
@@ -9,17 +11,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 //çift notify düzeltebiliyorsan düzelt
 
 class UpdateSenderViewModel extends ChangeNotifier {
-  String withoutcountry = oldS.SenderCountryCode;
+  String country = "";
   final TextEditingController SenderName = TextEditingController(text: oldS.SenderName);
 
-  final TextEditingController SenderPhone = TextEditingController(text: oldS.SenderNumber);
+  final TextEditingController SenderPhone = TextEditingController(text: oldS.SenderNumber.replaceAll(oldS.SenderCountryCode, ""));
   String oldnam = oldS.SenderName;
   bool isLoading = false;
   String addnum = "";
 
   void updatesender(BuildContext con) async {
+    country = addnum.replaceAll(SenderPhone.text, "");
     if (SenderName.text == "" || SenderPhone.text == "") {
-      errorMessage(con, AppConstant.ERROR_CANT_EMPTY_SENDER);
+      ErrorText.errorMessage(con, AppConstant.errorcantEmptySender);
     } else {
       String addSenderName = SenderName.text;
       String addSenderNumber = "-";
@@ -30,28 +33,29 @@ class UpdateSenderViewModel extends ChangeNotifier {
       isLoading = true;
       notifyListeners();
       try {
-        await updateSender(addSenderName, addSenderNumber, oldnam, withoutcountry).timeout(Duration(seconds: 10));
+        await deleteSender(oldnam).timeout(const Duration(seconds: 10));
+        await addSender(addSenderName, addSenderNumber, country).timeout(const Duration(seconds: 10));
         isLoading = false;
         notifyListeners();
-        RouteHelper.push(con, SmsReadView());
+        RouteHelper.push(con, Home());
       } catch (e) {
         isLoading = false;
         notifyListeners();
-        errorMessage(con, "Kişi Değiştirlirken Bir Hata Oluştu!");
+        ErrorText.errorMessage(con, AppConstant.userChangeError);
         deleteSender(addSenderName);
       }
 
-      RouteHelper.push(con, SmsReadView());
+      RouteHelper.push(con, Home());
     }
   }
 
   final FirebaseFirestore _firestor = FirebaseFirestore.instance;
 
-  Future<void> updateSender(String name, String number, String oldnam, String couco) async {
-    await _firestor.collection("Numbers").doc(oldnam).update({
+  Future<void> addSender(String name, String number, String countrycode) async {
+    await _firestor.collection("Numbers").doc(name).set({
       "SenderName": name,
       "SenderNumber": number,
-      "SenderCountryCode": couco,
+      "SenderCountryCode": countrycode,
     });
   }
 

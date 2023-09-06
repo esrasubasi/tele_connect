@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -10,18 +10,6 @@ import 'package:tele_connect/view/general/general_view.dart';
 import 'package:tele_connect/core/constant/color_constant.dart';
 import '../../core/helper/dynamic_helper.dart';
 import 'package:tele_connect/view/select_send/select_send_view_model.dart';
-
-class SendView extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => AddSenderViewModel(),
-      child: MaterialApp(
-        home: SendApp(),
-      ),
-    );
-  }
-}
 
 class SendApp extends StatefulWidget {
   @override
@@ -36,10 +24,10 @@ class _SendAppState extends BaseState<SendApp> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(icon: Icon(Icons.arrow_back, color: ColorConstant.MAIN_COLOR), onPressed: () => RouteHelper.push(context, SmsReadView())),
+        leading: IconButton(icon: Icon(Icons.arrow_back, color: mainWhite), onPressed: () => RouteHelper.push(context, Home())),
         centerTitle: true,
-        title: Text(AppConstant.SEND_SMS_TEXT, style: TextStyle(color: ColorConstant.MAIN_COLOR)),
-        backgroundColor: ColorConstant.MAIN_COLOR_GREEN700,
+        title: Text(AppConstant.sendSmsText, style: TextStyle(color: mainWhite)),
+        backgroundColor: mainColorGreen700,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -49,10 +37,10 @@ class _SendAppState extends BaseState<SendApp> {
             ),
             IntlPhoneField(
                 initialCountryCode: "TR",
-                invalidNumberMessage: AppConstant.SEND_SMS_SELECT_INVALID,
+                invalidNumberMessage: AppConstant.sendSmsSelectInvalid,
                 focusNode: focusNode,
                 decoration: InputDecoration(
-                  labelText: AppConstant.SEND_SMS_HINT_TEXT,
+                  labelText: AppConstant.sendSmsHintText,
                   border: OutlineInputBorder(
                     borderSide: BorderSide(),
                   ),
@@ -66,29 +54,29 @@ class _SendAppState extends BaseState<SendApp> {
             SizedBox(
               height: dynamicHeight(0.04),
             ),
-            CustomTextField(controller: selectProvider.SenderName, hintText: AppConstant.SEND_SMS_NAME_HINT_TEXT, keyboardType: TextInputType.name, maxLenght: 50),
+            CustomTextField(controller: selectProvider.SenderName, hintText: AppConstant.sendSmsNameHintText, keyboardType: TextInputType.name, maxLenght: 50),
             Container(
                 margin: EdgeInsets.symmetric(horizontal: dynamicWidth(0.27)),
                 padding: EdgeInsets.all(18.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
-                  color: ColorConstant.MAIN_COLOR_GREEN700,
+                  color: mainColorGreen700,
                 ),
                 child: TextButton(
-                  style: TextButton.styleFrom(backgroundColor: ColorConstant.MAIN_COLOR_GREEN700),
+                  style: TextButton.styleFrom(backgroundColor: mainColorGreen700),
                   onPressed: () {
                     selectProvider.addnew(context);
                   },
                   child: selectProvider.isLoading
                       ? CircularProgressIndicator(
-                          color: ColorConstant.MAIN_COLOR,
-                          backgroundColor: ColorConstant.MAIN_COLOR_GREEN700,
+                          color: mainWhite,
+                          backgroundColor: mainColorGreen700,
                         )
                       : Text(
-                          AppConstant.SAVE_TEXT,
+                          AppConstant.saveText,
                           style: TextStyle(
                             fontSize: 25,
-                            color: ColorConstant.MAIN_COLOR,
+                            color: mainWhite,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

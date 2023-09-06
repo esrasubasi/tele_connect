@@ -7,7 +7,7 @@ import 'package:sms_receiver/sms_receiver.dart';
 import '../api/api.dart';
 import '../model/dto_mail_request.dart';
 
-final List<String> recipients = [];
+List<String> recipients = [];
 List<String> mails = [];
 List<String> sendernumbers = [];
 

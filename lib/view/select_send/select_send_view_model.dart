@@ -19,9 +19,10 @@ class AddSenderViewModel extends ChangeNotifier {
   String withoutS = "";
   String countrycode = "";
   void addnew(BuildContext con) async {
+    withoutS = SenderPhone.text;
     countrycode = addnum.replaceAll(withoutS, "");
     if (SenderName.text == "" || SenderPhone.text == "") {
-      errorMessage(con, AppConstant.ERROR_CANT_EMPTY_SENDER);
+      ErrorText.errorMessage(con, AppConstant.errorcantEmptySender);
     } else {
       String addSenderName = SenderName.text;
       String addSenderNumber = "-";
@@ -32,24 +33,24 @@ class AddSenderViewModel extends ChangeNotifier {
       isLoading = true;
       notifyListeners();
       try {
-        await addSender(addSenderName, addSenderNumber).timeout(Duration(seconds: 10));
+        await addSender(addSenderName, addSenderNumber, countrycode).timeout(const Duration(seconds: 10));
         isLoading = false;
         notifyListeners();
-        RouteHelper.push(con, SmsReadView());
+        RouteHelper.push(con, Home());
       } catch (e) {
         isLoading = false;
         notifyListeners();
-        errorMessage(con, "Kişi Eklenirken Bir Hata Oluştu!");
+        ErrorText.errorMessage(con, AppConstant.userAddError);
         deleteSender(addSenderName);
       }
 
-      RouteHelper.push(con, SmsReadView());
+      RouteHelper.push(con, Home());
     }
   }
 
   final FirebaseFirestore _firestor = FirebaseFirestore.instance;
 
-  Future<void> addSender(String name, String number) async {
+  Future<void> addSender(String name, String number, String countrycode) async {
     await _firestor.collection("Numbers").doc(name).set({
       "SenderName": name,
       "SenderNumber": number,
