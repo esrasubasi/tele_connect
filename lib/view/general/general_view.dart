@@ -289,8 +289,8 @@ class _HomeState extends BaseState<Home> {
               icon: Icons.update,
               label: "Güncelle",
               onPressed: (context) {
-                RouteHelper.push(context, PersonUpdateApp());
                 oldP = Person(personName: person.personName, personNumber: person.personNumber, personEmail: person.personEmail, personCountryCode: person.personCountryCode);
+                RouteHelper.push(context, PersonUpdateApp());
               })
         ]),
         endActionPane: ActionPane(
@@ -330,8 +330,8 @@ class _HomeState extends BaseState<Home> {
               icon: Icons.update,
               label: "Güncelle",
               onPressed: (context) {
-                RouteHelper.push(context, SendUpdateApp());
                 oldS = Senders(SenderName: sender.SenderName, SenderNumber: sender.SenderNumber, SenderCountryCode: sender.SenderCountryCode);
+                RouteHelper.push(context, SendUpdateApp());
               })
         ]),
         endActionPane: ActionPane(

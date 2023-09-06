@@ -10,23 +10,35 @@ import 'package:tele_connect/core/model/person_model.dart';
 import 'package:tele_connect/view/update_person/update_person_view.dart';
 
 class UpdatePersonViewModel extends ChangeNotifier {
+  final TextEditingController textNameU = TextEditingController();
+  final TextEditingController textPhoneU = TextEditingController();
+  final TextEditingController textEmailU = TextEditingController();
+  void callP() {
+    textEmailU.text = oldP.personEmail;
+    textNameU.text = oldP.personName;
+    textPhoneU.text = oldP.personNumber.replaceAll(oldP.personCountryCode, "");
+  }
+
   String addnum = "";
   bool isLoadingAdd = false;
 
   void updateP(Person oldP, BuildContext con) async {
     String oldPName = oldP.personName;
-    String coucode = addnum.replaceAll(textPhone.text, "");
+    String coucode = oldP.personCountryCode;
+    if (addnum.isNotEmpty) {
+      coucode = addnum.replaceAll(textPhoneU.text, "");
+    }
 
     int mailvalidcounter = 0;
-    if (textName.text == "" || textEmail.text == "" && textPhone.text == "") {
+    if (textNameU.text == "" || textEmailU.text == "" && textPhoneU.text == "") {
       ErrorText.errorMessage(con, AppConstant.errorCantEmptyAdd);
     } else {
-      String addName = textName.text;
-      String addNumber = "-";
-      if (textPhone.text.isNotEmpty) {
+      String addName = textNameU.text;
+      String addNumber = oldP.personNumber;
+      if (textPhoneU.text.isNotEmpty && addnum.isNotEmpty) {
         addNumber = addnum;
       }
-      String addEmail = textEmail.text;
+      String addEmail = textEmailU.text;
       if (addEmail == "") {
         addEmail = "-";
       } else {
@@ -60,10 +72,6 @@ class UpdatePersonViewModel extends ChangeNotifier {
       }
     }
   }
-
-  final TextEditingController textName = TextEditingController(text: oldP.personName);
-  final TextEditingController textPhone = TextEditingController(text: oldP.personNumber.replaceAll(oldP.personCountryCode, ""));
-  final TextEditingController textEmail = TextEditingController(text: oldP.personEmail);
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 

@@ -25,6 +25,7 @@ class _PersonUpdateAppState extends BaseState<PersonUpdateApp> {
   @override
   Widget build(BuildContext context) {
     final updateProvider = Provider.of<UpdatePersonViewModel>(context);
+    updateProvider.callP();
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(icon: Icon(Icons.arrow_back, color: mainWhite), onPressed: () => RouteHelper.push(context, Home())),
@@ -52,13 +53,13 @@ class _PersonUpdateAppState extends BaseState<PersonUpdateApp> {
                     updateProvider.addnum = phone.completeNumber;
                   },
                   onCountryChanged: (country) {},
-                  controller: updateProvider.textPhone),
+                  controller: updateProvider.textPhoneU),
               SizedBox(
                 height: dynamicHeight(0.04),
               ),
-              CustomTextField(controller: updateProvider.textName, keyboardType: TextInputType.name, hintText: AppConstant.hintTextName, maxLenght: 50),
+              CustomTextField(controller: updateProvider.textNameU, keyboardType: TextInputType.name, hintText: AppConstant.hintTextName, maxLenght: 50),
               SizedBox(height: dynamicHeight(0.04)),
-              CustomTextField(controller: updateProvider.textEmail, keyboardType: TextInputType.emailAddress, hintText: AppConstant.hintTextEmail, maxLenght: 350),
+              CustomTextField(controller: updateProvider.textEmailU, keyboardType: TextInputType.emailAddress, hintText: AppConstant.hintTextEmail, maxLenght: 350),
               SizedBox(height: dynamicHeight(0.04)),
               Container(
                   margin: EdgeInsets.symmetric(horizontal: dynamicWidth(0.27)),

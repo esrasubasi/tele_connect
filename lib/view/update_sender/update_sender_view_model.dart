@@ -8,13 +8,17 @@ import '../../core/helper/route_helper.dart';
 import '../general/general_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-//çift notify düzeltebiliyorsan düzelt
-
 class UpdateSenderViewModel extends ChangeNotifier {
-  String country = "";
-  final TextEditingController SenderName = TextEditingController(text: oldS.SenderName);
+  final TextEditingController SenderName = TextEditingController();
 
-  final TextEditingController SenderPhone = TextEditingController(text: oldS.SenderNumber.replaceAll(oldS.SenderCountryCode, ""));
+  final TextEditingController SenderPhone = TextEditingController();
+  String country = "";
+  void call() {
+    SenderName.text = oldS.SenderName;
+
+    SenderPhone.text = oldS.SenderNumber.replaceAll(oldS.SenderCountryCode, "");
+  }
+
   String oldnam = oldS.SenderName;
   bool isLoading = false;
   String addnum = "";
@@ -49,6 +53,7 @@ class UpdateSenderViewModel extends ChangeNotifier {
     }
   }
 
+  @override
   final FirebaseFirestore _firestor = FirebaseFirestore.instance;
 
   Future<void> addSender(String name, String number, String countrycode) async {

@@ -24,7 +24,7 @@ class _SendUpdateAppState extends BaseState<SendUpdateApp> {
   @override
   Widget build(BuildContext context) {
     final selectProvider = Provider.of<UpdateSenderViewModel>(context);
-
+    selectProvider.call();
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(icon: Icon(Icons.arrow_back, color: mainWhite), onPressed: () => RouteHelper.push(context, Home())),
@@ -33,7 +33,7 @@ class _SendUpdateAppState extends BaseState<SendUpdateApp> {
             style: TextStyle(
               color: mainWhite,
             )),
-        backgroundColor: mainWhite,
+        backgroundColor: mainColorGreen700,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
