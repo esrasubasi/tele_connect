@@ -6,7 +6,6 @@ import 'package:tele_connect/core/constant/app_constant.dart';
 import 'package:tele_connect/core/helper/error_text_helper.dart';
 import '../../core/helper/route_helper.dart';
 import '../general/general_view.dart';
-import 'package:tele_connect/core/model/person_model.dart';
 
 class AddPersonViewModel extends ChangeNotifier {
   String addnum = "";
@@ -19,7 +18,7 @@ class AddPersonViewModel extends ChangeNotifier {
 
     int mailvalidcounter = 0;
     if (textName.text == "" || textEmail.text == "" && textPhone.text == "") {
-      errorMessage(con, AppConstant.ERROR_CANT_EMPTY_ADD);
+      ErrorText.errorMessage(con, AppConstant.errorCantEmptyAdd);
     } else {
       String addName = textName.text;
       String addNumber = "-";
@@ -44,18 +43,18 @@ class AddPersonViewModel extends ChangeNotifier {
         notifyListeners();
 
         try {
-          await addPerson(addName, addNumber, addEmail, countrycode).timeout(Duration(seconds: 10));
+          await addPerson(addName, addNumber, addEmail, countrycode).timeout(const Duration(seconds: 10));
           isLoadingAdd = false;
           notifyListeners();
-          RouteHelper.push(con, SmsReadView());
+          RouteHelper.push(con, Home());
         } catch (e) {
           isLoadingAdd = false;
           notifyListeners();
-          errorMessage(con, "Kişi Eklenirken Bir Hata Oluştu!");
+          ErrorText.errorMessage(con, AppConstant.userAddError);
           deletePerson(addName);
         }
       } else {
-        errorMessage(con, AppConstant.ERROR_MAIL);
+        ErrorText.errorMessage(con, AppConstant.errorMail);
       }
     }
   }

@@ -19,7 +19,7 @@ class UpdatePersonViewModel extends ChangeNotifier {
 
     int mailvalidcounter = 0;
     if (textName.text == "" || textEmail.text == "" && textPhone.text == "") {
-      errorMessage(con, AppConstant.ERROR_CANT_EMPTY_ADD);
+      ErrorText.errorMessage(con, AppConstant.errorCantEmptyAdd);
     } else {
       String addName = textName.text;
       String addNumber = "-";
@@ -44,18 +44,19 @@ class UpdatePersonViewModel extends ChangeNotifier {
         notifyListeners();
 
         try {
-          await updatePerson(addName, addNumber, addEmail, oldPName, coucode).timeout(Duration(seconds: 10));
+          await deletePerson(oldPName).timeout(const Duration(seconds: 10));
+          await addPerson(addName, addNumber, addEmail, coucode).timeout(const Duration(seconds: 10));
           isLoadingAdd = false;
           notifyListeners();
-          RouteHelper.push(con, SmsReadView());
+          RouteHelper.push(con, Home());
         } catch (e) {
           isLoadingAdd = false;
           notifyListeners();
-          errorMessage(con, "Kişi Değiştirilirken Bir Hata Oluştu!");
+          ErrorText.errorMessage(con, AppConstant.userChangeError);
           deletePerson(addName);
         }
       } else {
-        errorMessage(con, AppConstant.ERROR_MAIL);
+        ErrorText.errorMessage(con, AppConstant.errorMail);
       }
     }
   }
@@ -70,12 +71,12 @@ class UpdatePersonViewModel extends ChangeNotifier {
     await FirebaseFirestore.instance.collection("Person").doc(personName).delete();
   }
 
-  Future<void> updatePerson(String name, String number, String email, String oldName, String coucode) async {
-    await _firestore.collection("Person").doc(oldName).update({
+  Future<void> addPerson(String name, String number, String email, String coucod) async {
+    await _firestore.collection("Person").doc(name).set({
       "PersonName": name,
       "PersonNumber": number,
       "PersonEmail": email,
-      "PersonCountryCode": coucode,
+      "PersonCountryCode": coucod,
     });
   }
 }

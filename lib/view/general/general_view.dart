@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, non_constant_identifier_names
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -11,7 +9,6 @@ import 'package:tele_connect/core/model/sender_model.dart';
 import 'package:tele_connect/core/provider/switch_provider.dart';
 import 'package:tele_connect/core/components/double_check_box.dart';
 import 'package:tele_connect/view/add_person/add_person_view.dart';
-import 'package:tele_connect/view/add_person/add_person_view_model.dart';
 import 'package:tele_connect/view/general/general_view_model.dart';
 import 'package:tele_connect/core/model/person_model.dart';
 import 'package:tele_connect/view/select_send/select_send_view.dart';
@@ -21,28 +18,16 @@ import 'package:tele_connect/view/update_sender/update_sender_view.dart';
 
 import '../../core/provider/sms_listen_provider.dart';
 
-class SmsReadView extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => SMSReadViewModel()),
-        ChangeNotifierProvider(create: (context) => SwitchProvider()),
-      ],
-      child: MaterialApp(
-        home: Home(),
-      ),
-    );
-  }
-}
-
 class Home extends StatefulWidget {
+  const Home({super.key});
+
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends BaseState<Home> {
   final GeneralViewModel viewModel = GeneralViewModel();
+
   final SMSReadViewModel readModel = SMSReadViewModel();
   int currentPageIndex = 0;
   @override
@@ -55,26 +40,26 @@ class _HomeState extends BaseState<Home> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          AppConstant.GENERAL_TITLE_TEXT,
-          style: TextStyle(color: ColorConstant.MAIN_COLOR),
+          AppConstant.generalTitleText,
+          style: TextStyle(color: mainWhite),
         ),
-        backgroundColor: ColorConstant.MAIN_COLOR_GREEN700,
+        backgroundColor: mainColorGreen700,
       ),
-      backgroundColor: ColorConstant.MAIN_COLOR,
+      backgroundColor: mainWhite,
       bottomNavigationBar: BottomNavigationBar(
-        fixedColor: ColorConstant.MAIN_COLOR_GREEN700,
+        fixedColor: mainColorGreen700,
         iconSize: 40,
         currentIndex: currentPageIndex,
         items: const [
           BottomNavigationBarItem(
             activeIcon: Icon(Icons.person_add_rounded),
             icon: Icon(Icons.person_add),
-            label: 'Mesaj Alınacaklar',
+            label: AppConstant.containerNameSender,
           ),
           BottomNavigationBarItem(
             activeIcon: Icon(Icons.add_comment_rounded),
             icon: Icon(Icons.add_comment),
-            label: 'Mesaj Atılacaklar',
+            label: AppConstant.containerNameSend,
           ),
         ],
         onTap: (int index) {
@@ -96,12 +81,13 @@ class _HomeState extends BaseState<Home> {
                   readModelProvider.dispose();
                 }
               },
-              activeColor: ColorConstant.MAIN_COLOR_GREEN700,
+              activeColor: mainColorGreen700,
             ),
-            Text(
-              AppConstant.CONTAINER_NAME_SEND,
-              style: TextStyle(color: ColorConstant.MAIN_BLACK54, fontWeight: FontWeight.bold, fontSize: 18),
-            ),
+            // Text(
+            //   AppConstant.containerNameSender,
+            //   style: TextStyle(color: ColorConstant.MAIN_BLACK54, fontWeight: FontWeight.bold, fontSize: 18),
+            // ),
+
             StreamBuilder<QuerySnapshot>(
               stream: viewModel.personsStream,
               builder: (context, snapshot) {
@@ -131,7 +117,7 @@ class _HomeState extends BaseState<Home> {
                   margin: const EdgeInsets.all(10.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
-                    border: Border.all(color: ColorConstant.MAIN_BLACK54, width: 3),
+                    border: Border.all(color: mainB54, width: 3),
                   ),
                   child: SingleChildScrollView(
                     child: Column(
@@ -145,26 +131,26 @@ class _HomeState extends BaseState<Home> {
                               width: dynamicWidth(0.04),
                             ),
                             Text(
-                              AppConstant.USER_INFORMATIONS,
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: ColorConstant.MAIN_BLACK54),
+                              AppConstant.userInformation,
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: mainB54),
                             ),
                             SizedBox(
                               width: dynamicWidth(0.4),
                             ),
                             Icon(
                               Icons.send,
-                              color: ColorConstant.MAIN_BLACK54,
+                              color: mainB54,
                             ),
                             SizedBox(width: dynamicHeight(0.03)),
                             Icon(
                               Icons.mail,
-                              color: ColorConstant.MAIN_BLACK54,
+                              color: mainB54,
                             ),
                           ],
                         ),
                         Divider(
                           height: 3,
-                          color: ColorConstant.MAIN_BLACK54,
+                          color: mainB54,
                           thickness: 3,
                         ),
                         SingleChildScrollView(
@@ -184,14 +170,14 @@ class _HomeState extends BaseState<Home> {
             Center(
               child: IconButton(
                   onPressed: () {
-                    RouteHelper.push(maincontext, PersonView());
+                    RouteHelper.push(maincontext, PersonApp());
                   },
                   icon: Padding(
                     padding: const EdgeInsets.all(1.0),
                     child: Icon(Icons.person_add),
                   ),
                   iconSize: 100,
-                  color: ColorConstant.MAIN_COLOR_GREEN700),
+                  color: mainColorGreen700),
             ),
           ],
         ),
@@ -207,11 +193,32 @@ class _HomeState extends BaseState<Home> {
                   readModelProvider.dispose();
                 }
               },
-              activeColor: ColorConstant.MAIN_COLOR_GREEN700,
+              activeColor: mainColorGreen700,
             ),
-            Text(
-              AppConstant.CONTAINER_NAME_SENDER,
-              style: TextStyle(color: ColorConstant.MAIN_BLACK54, fontWeight: FontWeight.bold, fontSize: 18),
+            // Text(
+            //   AppConstant.containerNameSend,
+            //   style: TextStyle(color: ColorConstant.MAIN_BLACK54, fontWeight: FontWeight.bold, fontSize: 18),
+            // ),
+            SizedBox(
+              height: dynamicHeight(0.01),
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: dynamicWidth(0.07),
+                ),
+                Text(
+                  AppConstant.userInformation,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: mainB54),
+                ),
+                SizedBox(
+                  width: dynamicWidth(0.53),
+                ),
+                Icon(
+                  Icons.send,
+                  color: mainB54,
+                ),
+              ],
             ),
             StreamBuilder<QuerySnapshot>(
                 stream: viewModel.sendersStream,
@@ -234,67 +241,35 @@ class _HomeState extends BaseState<Home> {
                     );
                   }).toList();
                   return Container(
-                    height: dynamicHeight(0.45),
+                    height: dynamicHeight(0.4),
                     width: dynamicWidth(0.95),
                     margin: const EdgeInsets.all(10.0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
-                      border: Border.all(color: ColorConstant.MAIN_BLACK54, width: 3),
+                      border: Border.all(color: mainB54, width: 3),
                     ),
                     child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
                       child: Column(
-                        children: [
-                          SizedBox(
-                            height: dynamicHeight(0.01),
-                          ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: dynamicWidth(0.04),
-                              ),
-                              Text(
-                                AppConstant.USER_INFORMATIONS,
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: ColorConstant.MAIN_BLACK54),
-                              ),
-                              SizedBox(
-                                width: dynamicWidth(0.53),
-                              ),
-                              Icon(
-                                Icons.send,
-                                color: ColorConstant.MAIN_BLACK54,
-                              ),
-                            ],
-                          ),
-                          Divider(
-                            color: ColorConstant.MAIN_BLACK54,
-                            height: 3,
-                            thickness: 3,
-                          ),
-                          SingleChildScrollView(
-                            scrollDirection: Axis.vertical,
-                            child: Column(
-                              children: [for (final sender in senders) PadCheckBS(sender), Text(sendernumbers.toString())],
-                            ),
-                          ),
-                        ],
+                        children: [for (final sender in senders) PadCheckBS(sender), Text(sendernumbers.toString())],
                       ),
                     ),
                   );
                 }),
             SizedBox(
-              height: dynamicHeight(0.06),
+              height: dynamicHeight(0.01),
             ),
             Center(
               child: IconButton(
                   onPressed: () {
-                    RouteHelper.push(maincontext, SendView());
+                    RouteHelper.push(maincontext, SendApp());
                   },
                   icon: Padding(
                     padding: const EdgeInsets.all(6.0),
                     child: Icon(Icons.add_comment),
                   ),
                   iconSize: 100,
-                  color: ColorConstant.MAIN_COLOR_GREEN700),
+                  color: mainColorGreen700),
             ),
           ],
         ),
@@ -310,17 +285,17 @@ class _HomeState extends BaseState<Home> {
       child: Slidable(
         startActionPane: ActionPane(motion: const StretchMotion(), children: [
           SlidableAction(
-              backgroundColor: ColorConstant.MAIN_BLUE,
+              backgroundColor: mainBlue,
               icon: Icons.update,
               label: "Güncelle",
               onPressed: (context) {
-                RouteHelper.push(context, PersonUpdateView());
+                RouteHelper.push(context, PersonUpdateApp());
                 oldP = Person(personName: person.personName, personNumber: person.personNumber, personEmail: person.personEmail, personCountryCode: person.personCountryCode);
               })
         ]),
         endActionPane: ActionPane(
           motion: const StretchMotion(),
-          children: [SlidableAction(backgroundColor: ColorConstant.MAIN_COLOR_RED, icon: Icons.delete, label: "Sil", onPressed: (context) => viewModel.deletePerson(person.personName))],
+          children: [SlidableAction(backgroundColor: mainRed, icon: Icons.delete, label: "Sil", onPressed: (context) => viewModel.deletePerson(person.personName))],
         ),
         child: DoubleCheckboxListTile(
           isErrM: checkGiveError(person.personEmail),
@@ -351,17 +326,17 @@ class _HomeState extends BaseState<Home> {
       child: Slidable(
         startActionPane: ActionPane(motion: const StretchMotion(), children: [
           SlidableAction(
-              backgroundColor: ColorConstant.MAIN_BLUE,
+              backgroundColor: mainBlue,
               icon: Icons.update,
               label: "Güncelle",
               onPressed: (context) {
-                RouteHelper.push(context, SendUpdateView());
+                RouteHelper.push(context, SendUpdateApp());
                 oldS = Senders(SenderName: sender.SenderName, SenderNumber: sender.SenderNumber, SenderCountryCode: sender.SenderCountryCode);
               })
         ]),
         endActionPane: ActionPane(
           motion: const StretchMotion(),
-          children: [SlidableAction(backgroundColor: ColorConstant.MAIN_COLOR_RED, icon: Icons.delete, label: "Sil", onPressed: (context) => viewModel.deleteSender(sender.SenderName))],
+          children: [SlidableAction(backgroundColor: mainRed, icon: Icons.delete, label: "Sil", onPressed: (context) => viewModel.deleteSender(sender.SenderName))],
         ),
         child: CheckboxListTile(
           title: Text(sender.SenderName),
@@ -370,9 +345,9 @@ class _HomeState extends BaseState<Home> {
           onChanged: (bool? newValue) {
             viewModel.updateSenderSelect(sender.SenderName, newValue);
           },
-          activeColor: ColorConstant.MAIN_COLOR_GREEN700,
-          checkColor: ColorConstant.MAIN_COLOR,
-          tileColor: ColorConstant.MAIN_COLOR,
+          activeColor: mainColorGreen700,
+          checkColor: mainWhite,
+          tileColor: mainWhite,
         ),
       ),
     );

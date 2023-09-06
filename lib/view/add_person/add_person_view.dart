@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -11,18 +11,6 @@ import 'package:tele_connect/view/add_person/add_person_view_model.dart';
 import 'package:tele_connect/view/general/general_view.dart';
 import '../../core/helper/dynamic_helper.dart';
 
-class PersonView extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => AddPersonViewModel(),
-      child: MaterialApp(
-        home: PersonApp(),
-      ),
-    );
-  }
-}
-
 class PersonApp extends StatefulWidget {
   @override
   State<PersonApp> createState() => _PersonAppState();
@@ -34,10 +22,10 @@ class _PersonAppState extends BaseState<PersonApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(icon: Icon(Icons.arrow_back, color: ColorConstant.MAIN_COLOR), onPressed: () => RouteHelper.push(context, SmsReadView())),
+        leading: IconButton(icon: Icon(Icons.arrow_back, color: mainWhite), onPressed: () => RouteHelper.push(context, Home())),
         centerTitle: true,
-        title: Text(AppConstant.PERSON_TEXT, style: TextStyle(color: ColorConstant.MAIN_COLOR)),
-        backgroundColor: ColorConstant.MAIN_COLOR_GREEN700,
+        title: Text(AppConstant.personText, style: TextStyle(color: mainWhite)),
+        backgroundColor: mainColorGreen700,
       ),
       body: SafeArea(
         child: SingleChildScrollView(child: Consumer<AddPersonViewModel>(builder: (context, personViewModel, _) {
@@ -46,10 +34,10 @@ class _PersonAppState extends BaseState<PersonApp> {
               SizedBox(height: dynamicHeight(0.14)),
               IntlPhoneField(
                   initialCountryCode: "TR",
-                  invalidNumberMessage: AppConstant.SEND_SMS_SELECT_INVALID,
+                  invalidNumberMessage: AppConstant.sendSmsSelectInvalid,
                   focusNode: focusNode,
                   decoration: InputDecoration(
-                    labelText: AppConstant.SEND_SMS_HINT_TEXT,
+                    labelText: AppConstant.sendSmsHintText,
                     border: OutlineInputBorder(
                       borderSide: BorderSide(),
                     ),
@@ -63,32 +51,32 @@ class _PersonAppState extends BaseState<PersonApp> {
               SizedBox(
                 height: dynamicHeight(0.04),
               ),
-              CustomTextField(controller: personViewModel.textName, keyboardType: TextInputType.name, hintText: AppConstant.HINT_TEXT_NAME, maxLenght: 50),
+              CustomTextField(controller: personViewModel.textName, keyboardType: TextInputType.name, hintText: AppConstant.hintTextName, maxLenght: 50),
               SizedBox(height: dynamicHeight(0.04)),
-              CustomTextField(controller: personViewModel.textEmail, keyboardType: TextInputType.emailAddress, hintText: AppConstant.HINT_TEXT_EMAIL, maxLenght: 350),
+              CustomTextField(controller: personViewModel.textEmail, keyboardType: TextInputType.emailAddress, hintText: AppConstant.hintTextEmail, maxLenght: 350),
               SizedBox(height: dynamicHeight(0.04)),
               Container(
                   margin: EdgeInsets.symmetric(horizontal: dynamicWidth(0.27)),
                   padding: EdgeInsets.all(18.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
-                    color: ColorConstant.MAIN_COLOR_GREEN700,
+                    color: mainColorGreen700,
                   ),
                   child: TextButton(
-                    style: TextButton.styleFrom(backgroundColor: ColorConstant.MAIN_COLOR_GREEN700),
+                    style: TextButton.styleFrom(backgroundColor: mainColorGreen700),
                     onPressed: () {
                       personViewModel.addnew(context);
                     },
                     child: personViewModel.isLoadingAdd
                         ? CircularProgressIndicator(
-                            color: ColorConstant.MAIN_COLOR,
-                            backgroundColor: ColorConstant.MAIN_COLOR_GREEN700,
+                            color: mainWhite,
+                            backgroundColor: mainColorGreen700,
                           )
                         : Text(
-                            AppConstant.SAVE_TEXT,
+                            AppConstant.saveText,
                             style: TextStyle(
                               fontSize: 25,
-                              color: ColorConstant.MAIN_COLOR,
+                              color: mainWhite,
                               fontWeight: FontWeight.bold,
                             ),
                           ),

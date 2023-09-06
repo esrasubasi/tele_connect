@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors_in_immutables
+
 import 'package:flutter/material.dart';
 
 import '../constant/color_constant.dart';
@@ -40,15 +42,15 @@ class DoubleCheckboxListTile extends StatelessWidget {
               isError: isErrNum,
               value: value1,
               onChanged: onChanged1,
-              activeColor: ColorConstant.MAIN_COLOR_GREEN700,
-              checkColor: ColorConstant.MAIN_COLOR,
+              activeColor: mainColorGreen700,
+              checkColor: mainWhite,
             ),
             Checkbox(
               isError: isErrM,
               value: value2,
               onChanged: onChanged2,
-              activeColor: ColorConstant.MAIN_COLOR_GREEN700,
-              checkColor: ColorConstant.MAIN_COLOR,
+              activeColor: mainColorGreen700,
+              checkColor: mainWhite,
             ),
           ],
         ),
