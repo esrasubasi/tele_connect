@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tele_connect/core/constant/app_constant.dart';
@@ -46,7 +44,7 @@ class AddPersonViewModel extends ChangeNotifier {
           await addPerson(addName, addNumber, addEmail, countrycode).timeout(const Duration(seconds: 10));
           isLoadingAdd = false;
           notifyListeners();
-          RouteHelper.push(con, Home());
+          RouteHelper.pop(con, const Home());
         } catch (e) {
           isLoadingAdd = false;
           notifyListeners();

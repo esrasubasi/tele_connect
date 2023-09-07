@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
-
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +10,8 @@ import 'package:tele_connect/view/general/general_view.dart';
 import '../../core/helper/dynamic_helper.dart';
 
 class PersonApp extends StatefulWidget {
+  const PersonApp({super.key});
+
   @override
   State<PersonApp> createState() => _PersonAppState();
 }
@@ -22,9 +22,9 @@ class _PersonAppState extends BaseState<PersonApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(icon: Icon(Icons.arrow_back, color: mainWhite), onPressed: () => RouteHelper.push(context, Home())),
+        leading: IconButton(icon: const Icon(Icons.arrow_back, color: mainWhite), onPressed: () => RouteHelper.pop(context, const Home())),
         centerTitle: true,
-        title: Text(AppConstant.personText, style: TextStyle(color: mainWhite)),
+        title: const Text(AppConstant.personText, style: TextStyle(color: mainWhite)),
         backgroundColor: mainColorGreen700,
       ),
       body: SafeArea(
@@ -36,7 +36,7 @@ class _PersonAppState extends BaseState<PersonApp> {
                   initialCountryCode: "TR",
                   invalidNumberMessage: AppConstant.sendSmsSelectInvalid,
                   focusNode: focusNode,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: AppConstant.sendSmsHintText,
                     border: OutlineInputBorder(
                       borderSide: BorderSide(),
@@ -57,7 +57,7 @@ class _PersonAppState extends BaseState<PersonApp> {
               SizedBox(height: dynamicHeight(0.04)),
               Container(
                   margin: EdgeInsets.symmetric(horizontal: dynamicWidth(0.27)),
-                  padding: EdgeInsets.all(18.0),
+                  padding: const EdgeInsets.all(18.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
                     color: mainColorGreen700,
@@ -68,11 +68,11 @@ class _PersonAppState extends BaseState<PersonApp> {
                       personViewModel.addnew(context);
                     },
                     child: personViewModel.isLoadingAdd
-                        ? CircularProgressIndicator(
+                        ? const CircularProgressIndicator(
                             color: mainWhite,
                             backgroundColor: mainColorGreen700,
                           )
-                        : Text(
+                        : const Text(
                             AppConstant.saveText,
                             style: TextStyle(
                               fontSize: 25,
