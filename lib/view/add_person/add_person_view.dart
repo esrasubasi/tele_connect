@@ -18,8 +18,12 @@ class PersonApp extends StatefulWidget {
 
 class _PersonAppState extends BaseState<PersonApp> {
   FocusNode focusNode = FocusNode();
+  int counter = 1;
   @override
   Widget build(BuildContext context) {
+    final addpersonprovider = Provider.of<AddPersonViewModel>(context);
+    addpersonprovider.resetP(counter);
+    counter = 2;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(icon: const Icon(Icons.arrow_back, color: mainWhite), onPressed: () => RouteHelper.pop(context, const Home())),
@@ -28,8 +32,8 @@ class _PersonAppState extends BaseState<PersonApp> {
         backgroundColor: mainColorGreen700,
       ),
       body: SafeArea(
-        child: SingleChildScrollView(child: Consumer<AddPersonViewModel>(builder: (context, personViewModel, _) {
-          return Column(
+        child: SingleChildScrollView(
+          child: Column(
             children: [
               SizedBox(height: dynamicHeight(0.14)),
               IntlPhoneField(
@@ -44,16 +48,16 @@ class _PersonAppState extends BaseState<PersonApp> {
                   ),
                   languageCode: "tr",
                   onChanged: (phone) {
-                    personViewModel.addnum = phone.completeNumber;
+                    addpersonprovider.addnum = phone.completeNumber;
                   },
                   onCountryChanged: (country) {},
-                  controller: personViewModel.textPhone),
+                  controller: addpersonprovider.textPhone),
               SizedBox(
                 height: dynamicHeight(0.04),
               ),
-              CustomTextField(controller: personViewModel.textName, keyboardType: TextInputType.name, hintText: AppConstant.hintTextName, maxLenght: 50),
+              CustomTextField(controller: addpersonprovider.textName, keyboardType: TextInputType.name, hintText: AppConstant.hintTextName, maxLenght: 50),
               SizedBox(height: dynamicHeight(0.04)),
-              CustomTextField(controller: personViewModel.textEmail, keyboardType: TextInputType.emailAddress, hintText: AppConstant.hintTextEmail, maxLenght: 350),
+              CustomTextField(controller: addpersonprovider.textEmail, keyboardType: TextInputType.emailAddress, hintText: AppConstant.hintTextEmail, maxLenght: 350),
               SizedBox(height: dynamicHeight(0.04)),
               Container(
                   margin: EdgeInsets.symmetric(horizontal: dynamicWidth(0.27)),
@@ -65,9 +69,10 @@ class _PersonAppState extends BaseState<PersonApp> {
                   child: TextButton(
                     style: TextButton.styleFrom(backgroundColor: mainColorGreen700),
                     onPressed: () {
-                      personViewModel.addnew(context);
+                      addpersonprovider.addnew(context);
+                      addpersonprovider.resetP(1);
                     },
-                    child: personViewModel.isLoadingAdd
+                    child: addpersonprovider.isLoadingAdd
                         ? const CircularProgressIndicator(
                             color: mainWhite,
                             backgroundColor: mainColorGreen700,
@@ -82,8 +87,8 @@ class _PersonAppState extends BaseState<PersonApp> {
                           ),
                   )),
             ],
-          );
-        })),
+          ),
+        ),
       ),
     );
   }

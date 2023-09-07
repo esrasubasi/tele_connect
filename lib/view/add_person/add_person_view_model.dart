@@ -6,6 +6,18 @@ import '../../core/helper/route_helper.dart';
 import '../general/general_view.dart';
 
 class AddPersonViewModel extends ChangeNotifier {
+  final TextEditingController textName = TextEditingController(text: "");
+  final TextEditingController textPhone = TextEditingController(text: "");
+  final TextEditingController textEmail = TextEditingController(text: "");
+
+  void resetP(int counter) {
+    if (counter == 1) {
+      textEmail.text = "";
+      textName.text = "";
+      textPhone.text = "";
+    }
+  }
+
   String addnum = "";
   bool isLoadingAdd = false;
   String withoutC = "";
@@ -56,10 +68,6 @@ class AddPersonViewModel extends ChangeNotifier {
       }
     }
   }
-
-  final TextEditingController textName = TextEditingController(text: "");
-  final TextEditingController textPhone = TextEditingController(text: "");
-  final TextEditingController textEmail = TextEditingController(text: "");
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
