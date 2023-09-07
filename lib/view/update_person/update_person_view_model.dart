@@ -1,12 +1,9 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tele_connect/core/constant/app_constant.dart';
 import 'package:tele_connect/core/helper/error_text_helper.dart';
 import '../../core/helper/route_helper.dart';
 import '../general/general_view.dart';
-import 'package:tele_connect/core/model/person_model.dart';
 import 'package:tele_connect/view/update_person/update_person_view.dart';
 
 class UpdatePersonViewModel extends ChangeNotifier {
@@ -63,7 +60,7 @@ class UpdatePersonViewModel extends ChangeNotifier {
 
           isLoadingAdd = false;
           notifyListeners();
-          RouteHelper.push(con, Home());
+          RouteHelper.pop(con, const Home());
         } catch (e) {
           isLoadingAdd = false;
           notifyListeners();

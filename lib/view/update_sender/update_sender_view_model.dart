@@ -46,19 +46,16 @@ class UpdateSenderViewModel extends ChangeNotifier {
         await addSender(addSenderName, addSenderNumber, country).timeout(const Duration(seconds: 10));
         isLoading = false;
         notifyListeners();
-        RouteHelper.push(con, Home());
+        RouteHelper.pop(con, const Home());
       } catch (e) {
         isLoading = false;
         notifyListeners();
         ErrorText.errorMessage(con, AppConstant.userChangeError);
         deleteSender(addSenderName);
       }
-
-      RouteHelper.push(con, Home());
     }
   }
 
-  @override
   final FirebaseFirestore _firestor = FirebaseFirestore.instance;
 
   Future<void> addSender(String name, String number, String countrycode) async {

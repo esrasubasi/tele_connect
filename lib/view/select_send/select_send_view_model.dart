@@ -7,8 +7,6 @@ import '../../core/helper/route_helper.dart';
 import '../general/general_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-//çift notify düzeltebiliyorsan düzelt
-
 class AddSenderViewModel extends ChangeNotifier {
   final TextEditingController SenderName = TextEditingController();
 
@@ -36,15 +34,13 @@ class AddSenderViewModel extends ChangeNotifier {
         await addSender(addSenderName, addSenderNumber, countrycode).timeout(const Duration(seconds: 10));
         isLoading = false;
         notifyListeners();
-        RouteHelper.push(con, Home());
+        RouteHelper.pop(con, const Home());
       } catch (e) {
         isLoading = false;
         notifyListeners();
         ErrorText.errorMessage(con, AppConstant.userAddError);
         deleteSender(addSenderName);
       }
-
-      RouteHelper.push(con, Home());
     }
   }
 

@@ -1,5 +1,3 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors_in_immutables
-
 import 'package:flutter/material.dart';
 
 import '../constant/color_constant.dart';
@@ -14,7 +12,8 @@ class DoubleCheckboxListTile extends StatelessWidget {
   final bool isErrNum;
   final bool isErrM;
 
-  DoubleCheckboxListTile({
+  const DoubleCheckboxListTile({
+    super.key,
     required this.value1,
     required this.value2,
     required this.onChanged1,

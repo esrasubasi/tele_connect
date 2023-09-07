@@ -14,7 +14,6 @@ import 'package:tele_connect/core/model/person_model.dart';
 import 'package:tele_connect/view/select_send/select_send_view.dart';
 import 'package:tele_connect/core/helper/dynamic_helper.dart';
 import 'package:tele_connect/view/update_person/update_person_view.dart';
-import 'package:tele_connect/view/update_person/update_person_view_model.dart';
 import 'package:tele_connect/view/update_sender/update_sender_view.dart';
 
 import '../../core/provider/sms_listen_provider.dart';
@@ -40,7 +39,7 @@ class _HomeState extends BaseState<Home> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
+        title: const Text(
           AppConstant.generalTitleText,
           style: TextStyle(color: mainWhite),
         ),
@@ -97,7 +96,7 @@ class _HomeState extends BaseState<Home> {
                 }
 
                 if (!snapshot.hasData) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }
 
                 final persons = snapshot.data!.docs.map((doc) {
@@ -131,25 +130,25 @@ class _HomeState extends BaseState<Home> {
                             SizedBox(
                               width: dynamicWidth(0.04),
                             ),
-                            Text(
+                            const Text(
                               AppConstant.userInformation,
                               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: mainB54),
                             ),
                             SizedBox(
                               width: dynamicWidth(0.4),
                             ),
-                            Icon(
+                            const Icon(
                               Icons.send,
                               color: mainB54,
                             ),
                             SizedBox(width: dynamicHeight(0.03)),
-                            Icon(
+                            const Icon(
                               Icons.mail,
                               color: mainB54,
                             ),
                           ],
                         ),
-                        Divider(
+                        const Divider(
                           height: 3,
                           color: mainB54,
                           thickness: 3,
@@ -157,7 +156,7 @@ class _HomeState extends BaseState<Home> {
                         SingleChildScrollView(
                           child: Column(
                             children: [
-                              for (final person in persons) PadCheckBP(person),
+                              for (final person in persons) padCheckBP(person),
                               Text("Telnos:${recipients.toString()}/Mails:${mails.toString()}"),
                             ],
                           ),
@@ -171,10 +170,10 @@ class _HomeState extends BaseState<Home> {
             Center(
               child: IconButton(
                   onPressed: () {
-                    RouteHelper.push(maincontext, PersonApp());
+                    RouteHelper.push(maincontext, const PersonApp());
                   },
-                  icon: Padding(
-                    padding: const EdgeInsets.all(1.0),
+                  icon: const Padding(
+                    padding: EdgeInsets.all(1.0),
                     child: Icon(Icons.person_add),
                   ),
                   iconSize: 100,
@@ -208,14 +207,14 @@ class _HomeState extends BaseState<Home> {
                 SizedBox(
                   width: dynamicWidth(0.07),
                 ),
-                Text(
+                const Text(
                   AppConstant.userInformation,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: mainB54),
                 ),
                 SizedBox(
                   width: dynamicWidth(0.53),
                 ),
-                Icon(
+                const Icon(
                   Icons.send,
                   color: mainB54,
                 ),
@@ -229,7 +228,7 @@ class _HomeState extends BaseState<Home> {
                   }
 
                   if (!snapshot.hasData) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   }
 
                   final senders = snapshot.data!.docs.map((doc) {
@@ -252,7 +251,7 @@ class _HomeState extends BaseState<Home> {
                     child: SingleChildScrollView(
                       scrollDirection: Axis.vertical,
                       child: Column(
-                        children: [for (final sender in senders) PadCheckBS(sender), Text(sendernumbers.toString())],
+                        children: [for (final sender in senders) padCheckBS(sender), Text(sendernumbers.toString())],
                       ),
                     ),
                   );
@@ -263,10 +262,10 @@ class _HomeState extends BaseState<Home> {
             Center(
               child: IconButton(
                   onPressed: () {
-                    RouteHelper.push(maincontext, SendApp());
+                    RouteHelper.push(maincontext, const SendApp());
                   },
-                  icon: Padding(
-                    padding: const EdgeInsets.all(6.0),
+                  icon: const Padding(
+                    padding: EdgeInsets.all(6.0),
                     child: Icon(Icons.add_comment),
                   ),
                   iconSize: 100,
@@ -278,7 +277,7 @@ class _HomeState extends BaseState<Home> {
     );
   }
 
-  Padding PadCheckBP(Person person) {
+  Padding padCheckBP(Person person) {
     checkIfinTel(person);
     checkIfinMail(person);
     return Padding(
@@ -291,7 +290,7 @@ class _HomeState extends BaseState<Home> {
               label: "Güncelle",
               onPressed: (context) {
                 oldP = Person(personName: person.personName, personNumber: person.personNumber, personEmail: person.personEmail, personCountryCode: person.personCountryCode);
-                RouteHelper.push(context, PersonUpdateApp());
+                RouteHelper.push(context, const PersonUpdateApp());
               })
         ]),
         endActionPane: ActionPane(
@@ -320,7 +319,7 @@ class _HomeState extends BaseState<Home> {
     );
   }
 
-  Padding PadCheckBS(Senders sender) {
+  Padding padCheckBS(Senders sender) {
     checkIfinSend(sender);
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -332,7 +331,7 @@ class _HomeState extends BaseState<Home> {
               label: "Güncelle",
               onPressed: (context) {
                 oldS = Senders(SenderName: sender.SenderName, SenderNumber: sender.SenderNumber, SenderCountryCode: sender.SenderCountryCode);
-                RouteHelper.push(context, SendUpdateApp());
+                RouteHelper.push(context, const SendUpdateApp());
               })
         ]),
         endActionPane: ActionPane(

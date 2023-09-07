@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
-
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +10,8 @@ import '../../core/helper/dynamic_helper.dart';
 import 'package:tele_connect/view/select_send/select_send_view_model.dart';
 
 class SendApp extends StatefulWidget {
+  const SendApp({super.key});
+
   @override
   State<SendApp> createState() => _SendAppState();
 }
@@ -24,9 +24,9 @@ class _SendAppState extends BaseState<SendApp> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(icon: Icon(Icons.arrow_back, color: mainWhite), onPressed: () => RouteHelper.push(context, Home())),
+        leading: IconButton(icon: const Icon(Icons.arrow_back, color: mainWhite), onPressed: () => RouteHelper.pop(context, const Home())),
         centerTitle: true,
-        title: Text(AppConstant.sendSmsText, style: TextStyle(color: mainWhite)),
+        title: const Text(AppConstant.sendSmsText, style: TextStyle(color: mainWhite)),
         backgroundColor: mainColorGreen700,
       ),
       body: SafeArea(
@@ -39,7 +39,7 @@ class _SendAppState extends BaseState<SendApp> {
                 initialCountryCode: "TR",
                 invalidNumberMessage: AppConstant.sendSmsSelectInvalid,
                 focusNode: focusNode,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: AppConstant.sendSmsHintText,
                   border: OutlineInputBorder(
                     borderSide: BorderSide(),
@@ -57,7 +57,7 @@ class _SendAppState extends BaseState<SendApp> {
             CustomTextField(controller: selectProvider.SenderName, hintText: AppConstant.sendSmsNameHintText, keyboardType: TextInputType.name, maxLenght: 50),
             Container(
                 margin: EdgeInsets.symmetric(horizontal: dynamicWidth(0.27)),
-                padding: EdgeInsets.all(18.0),
+                padding: const EdgeInsets.all(18.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
                   color: mainColorGreen700,
@@ -68,11 +68,11 @@ class _SendAppState extends BaseState<SendApp> {
                     selectProvider.addnew(context);
                   },
                   child: selectProvider.isLoading
-                      ? CircularProgressIndicator(
+                      ? const CircularProgressIndicator(
                           color: mainWhite,
                           backgroundColor: mainColorGreen700,
                         )
-                      : Text(
+                      : const Text(
                           AppConstant.saveText,
                           style: TextStyle(
                             fontSize: 25,

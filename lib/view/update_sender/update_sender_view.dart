@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
-
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +13,8 @@ import 'package:tele_connect/view/update_sender/update_sender_view_model.dart';
 Senders oldS = Senders(SenderName: "SenderName", SenderNumber: "SenderNumber", SenderCountryCode: "SenderCountryCode");
 
 class SendUpdateApp extends StatefulWidget {
+  const SendUpdateApp({super.key});
+
   @override
   State<SendUpdateApp> createState() => _SendUpdateAppState();
 }
@@ -30,13 +30,13 @@ class _SendUpdateAppState extends BaseState<SendUpdateApp> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: mainWhite),
+            icon: const Icon(Icons.arrow_back, color: mainWhite),
             onPressed: () {
               upSelectProvider.callS(1);
-              RouteHelper.push(context, Home());
+              RouteHelper.pop(context, const Home());
             }),
         centerTitle: true,
-        title: Text("Mesaj Alınacak Kişi Güncelleme",
+        title: const Text("Mesaj Alınacak Kişi Güncelleme",
             style: TextStyle(
               color: mainWhite,
             )),
@@ -52,7 +52,7 @@ class _SendUpdateAppState extends BaseState<SendUpdateApp> {
                 initialValue: oldS.SenderCountryCode,
                 invalidNumberMessage: AppConstant.sendSmsSelectInvalid,
                 focusNode: focusNode,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: AppConstant.sendSmsHintText,
                   border: OutlineInputBorder(
                     borderSide: BorderSide(),
@@ -70,7 +70,7 @@ class _SendUpdateAppState extends BaseState<SendUpdateApp> {
             CustomTextField(controller: upSelectProvider.SenderNameU, hintText: AppConstant.sendSmsNameHintText, keyboardType: TextInputType.name, maxLenght: 50),
             Container(
                 margin: EdgeInsets.symmetric(horizontal: dynamicWidth(0.27)),
-                padding: EdgeInsets.all(18.0),
+                padding: const EdgeInsets.all(18.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
                   color: mainColorGreen700,
@@ -82,11 +82,11 @@ class _SendUpdateAppState extends BaseState<SendUpdateApp> {
                     upSelectProvider.callS(1);
                   },
                   child: upSelectProvider.isLoading
-                      ? CircularProgressIndicator(
+                      ? const CircularProgressIndicator(
                           color: mainWhite,
                           backgroundColor: mainColorGreen700,
                         )
-                      : Text(
+                      : const Text(
                           AppConstant.saveText,
                           style: TextStyle(
                             fontSize: 25,
