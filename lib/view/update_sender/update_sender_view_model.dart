@@ -9,28 +9,33 @@ import '../general/general_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UpdateSenderViewModel extends ChangeNotifier {
-  final TextEditingController SenderName = TextEditingController();
+  final TextEditingController SenderNameU = TextEditingController();
 
-  final TextEditingController SenderPhone = TextEditingController();
+  final TextEditingController SenderPhoneU = TextEditingController();
   String country = "";
-  void call() {
-    SenderName.text = oldS.SenderName;
+  void callS(int check) {
+    if (check == 1) {
+      SenderNameU.text = oldS.SenderName;
 
-    SenderPhone.text = oldS.SenderNumber.replaceAll(oldS.SenderCountryCode, "");
+      SenderPhoneU.text = oldS.SenderNumber.replaceAll(oldS.SenderCountryCode, "");
+    }
   }
 
-  String oldnam = oldS.SenderName;
   bool isLoading = false;
   String addnum = "";
-
+  String addSenderNumber = oldS.SenderNumber;
   void updatesender(BuildContext con) async {
-    country = addnum.replaceAll(SenderPhone.text, "");
-    if (SenderName.text == "" || SenderPhone.text == "") {
+    String oldnam = oldS.SenderName;
+    country = oldS.SenderCountryCode;
+    if (addnum.length > 5) {
+      country = addnum.replaceAll(SenderPhoneU.text, "");
+    }
+
+    if (SenderNameU.text == "" || SenderPhoneU.text == "") {
       ErrorText.errorMessage(con, AppConstant.errorcantEmptySender);
     } else {
-      String addSenderName = SenderName.text;
-      String addSenderNumber = "-";
-      if (SenderPhone.text.isNotEmpty) {
+      String addSenderName = SenderNameU.text;
+      if (SenderPhoneU.text.isNotEmpty && addnum.isNotEmpty) {
         addSenderNumber = addnum;
       }
 

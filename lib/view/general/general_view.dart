@@ -14,6 +14,7 @@ import 'package:tele_connect/core/model/person_model.dart';
 import 'package:tele_connect/view/select_send/select_send_view.dart';
 import 'package:tele_connect/core/helper/dynamic_helper.dart';
 import 'package:tele_connect/view/update_person/update_person_view.dart';
+import 'package:tele_connect/view/update_person/update_person_view_model.dart';
 import 'package:tele_connect/view/update_sender/update_sender_view.dart';
 
 import '../../core/provider/sms_listen_provider.dart';

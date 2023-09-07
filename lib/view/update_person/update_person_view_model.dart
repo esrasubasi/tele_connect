@@ -13,19 +13,21 @@ class UpdatePersonViewModel extends ChangeNotifier {
   final TextEditingController textNameU = TextEditingController();
   final TextEditingController textPhoneU = TextEditingController();
   final TextEditingController textEmailU = TextEditingController();
-  void callP() {
-    textEmailU.text = oldP.personEmail;
-    textNameU.text = oldP.personName;
-    textPhoneU.text = oldP.personNumber.replaceAll(oldP.personCountryCode, "");
+  void callP(int test) {
+    if (test == 1) {
+      textEmailU.text = oldP.personEmail;
+      textNameU.text = oldP.personName;
+      textPhoneU.text = oldP.personNumber.replaceAll(oldP.personCountryCode, "");
+    }
   }
 
   String addnum = "";
   bool isLoadingAdd = false;
-
-  void updateP(Person oldP, BuildContext con) async {
+  String addNumber = oldP.personNumber;
+  void updateP(BuildContext con) async {
     String oldPName = oldP.personName;
     String coucode = oldP.personCountryCode;
-    if (addnum.isNotEmpty) {
+    if (addnum.length > 5) {
       coucode = addnum.replaceAll(textPhoneU.text, "");
     }
 
@@ -34,7 +36,7 @@ class UpdatePersonViewModel extends ChangeNotifier {
       ErrorText.errorMessage(con, AppConstant.errorCantEmptyAdd);
     } else {
       String addName = textNameU.text;
-      String addNumber = oldP.personNumber;
+
       if (textPhoneU.text.isNotEmpty && addnum.isNotEmpty) {
         addNumber = addnum;
       }
@@ -58,6 +60,7 @@ class UpdatePersonViewModel extends ChangeNotifier {
         try {
           await deletePerson(oldPName).timeout(const Duration(seconds: 10));
           await addPerson(addName, addNumber, addEmail, coucode).timeout(const Duration(seconds: 10));
+
           isLoadingAdd = false;
           notifyListeners();
           RouteHelper.push(con, Home());

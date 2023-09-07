@@ -21,16 +21,22 @@ class PersonUpdateApp extends StatefulWidget {
 
 class _PersonUpdateAppState extends BaseState<PersonUpdateApp> {
   FocusNode focusNode = FocusNode();
-
+  int counter = 1;
   @override
   Widget build(BuildContext context) {
     final updateProvider = Provider.of<UpdatePersonViewModel>(context);
-    updateProvider.callP();
+    updateProvider.callP(counter);
+    counter = 2;
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(icon: Icon(Icons.arrow_back, color: mainWhite), onPressed: () => RouteHelper.push(context, Home())),
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: mainWhite),
+            onPressed: () {
+              updateProvider.callP(1);
+              RouteHelper.push(context, Home());
+            }),
         centerTitle: true,
-        title: Text(AppConstant.personText, style: TextStyle(color: mainWhite)),
+        title: Text("Mesaj Gönderilecek Kişi Güncelleme", style: TextStyle(color: mainWhite)),
         backgroundColor: mainColorGreen700,
       ),
       body: SafeArea(
@@ -71,7 +77,8 @@ class _PersonUpdateAppState extends BaseState<PersonUpdateApp> {
                   child: TextButton(
                     style: TextButton.styleFrom(backgroundColor: mainColorGreen700),
                     onPressed: () {
-                      updateProvider.updateP(oldP, context);
+                      updateProvider.updateP(context);
+                      updateProvider.callP(1);
                     },
                     child: updateProvider.isLoadingAdd
                         ? CircularProgressIndicator(

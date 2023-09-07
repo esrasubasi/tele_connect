@@ -59,9 +59,9 @@ class AddPersonViewModel extends ChangeNotifier {
     }
   }
 
-  final TextEditingController textName = TextEditingController();
-  final TextEditingController textPhone = TextEditingController();
-  final TextEditingController textEmail = TextEditingController();
+  final TextEditingController textName = TextEditingController(text: "");
+  final TextEditingController textPhone = TextEditingController(text: "");
+  final TextEditingController textEmail = TextEditingController(text: "");
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 

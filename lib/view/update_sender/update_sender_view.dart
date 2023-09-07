@@ -21,15 +21,22 @@ class SendUpdateApp extends StatefulWidget {
 
 class _SendUpdateAppState extends BaseState<SendUpdateApp> {
   FocusNode focusNode = FocusNode();
+  int count = 1;
   @override
   Widget build(BuildContext context) {
-    final selectProvider = Provider.of<UpdateSenderViewModel>(context);
-    selectProvider.call();
+    final upSelectProvider = Provider.of<UpdateSenderViewModel>(context);
+    upSelectProvider.callS(count);
+    count = 2;
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(icon: Icon(Icons.arrow_back, color: mainWhite), onPressed: () => RouteHelper.push(context, Home())),
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: mainWhite),
+            onPressed: () {
+              upSelectProvider.callS(1);
+              RouteHelper.push(context, Home());
+            }),
         centerTitle: true,
-        title: Text(AppConstant.sendSmsText,
+        title: Text("Mesaj Alınacak Kişi Güncelleme",
             style: TextStyle(
               color: mainWhite,
             )),
@@ -53,14 +60,14 @@ class _SendUpdateAppState extends BaseState<SendUpdateApp> {
                 ),
                 languageCode: "tr",
                 onChanged: (phone) {
-                  selectProvider.addnum = phone.completeNumber;
+                  upSelectProvider.addnum = phone.completeNumber;
                 },
                 onCountryChanged: (country) {},
-                controller: selectProvider.SenderPhone),
+                controller: upSelectProvider.SenderPhoneU),
             SizedBox(
               height: dynamicHeight(0.04),
             ),
-            CustomTextField(controller: selectProvider.SenderName, hintText: AppConstant.sendSmsNameHintText, keyboardType: TextInputType.name, maxLenght: 50),
+            CustomTextField(controller: upSelectProvider.SenderNameU, hintText: AppConstant.sendSmsNameHintText, keyboardType: TextInputType.name, maxLenght: 50),
             Container(
                 margin: EdgeInsets.symmetric(horizontal: dynamicWidth(0.27)),
                 padding: EdgeInsets.all(18.0),
@@ -71,9 +78,10 @@ class _SendUpdateAppState extends BaseState<SendUpdateApp> {
                 child: TextButton(
                   style: TextButton.styleFrom(backgroundColor: mainColorGreen700),
                   onPressed: () {
-                    selectProvider.updatesender(context);
+                    upSelectProvider.updatesender(context);
+                    upSelectProvider.callS(1);
                   },
-                  child: selectProvider.isLoading
+                  child: upSelectProvider.isLoading
                       ? CircularProgressIndicator(
                           color: mainWhite,
                           backgroundColor: mainColorGreen700,
