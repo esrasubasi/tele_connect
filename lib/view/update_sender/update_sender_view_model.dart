@@ -21,37 +21,43 @@ class UpdateSenderViewModel extends ChangeNotifier {
     }
   }
 
+  bool numtrueUS = false;
   bool isLoading = false;
-  String addnum = "";
-  String addSenderNumber = oldS.SenderNumber;
+  String addnumUS = "";
+  String addSenderNumber = "";
   void updatesender(BuildContext con) async {
-    String oldnam = oldS.SenderName;
-    country = oldS.SenderCountryCode;
-    if (addnum.length > 5) {
-      country = addnum.replaceAll(SenderPhoneU.text, "");
-    }
-
-    if (SenderNameU.text == "" || SenderPhoneU.text == "") {
-      ErrorText.errorMessage(con, AppConstant.errorcantEmptySender);
+    if (numtrueUS == false) {
+      ErrorText.errorMessage(con, AppConstant.invalidNumberError);
     } else {
-      String addSenderName = SenderNameU.text;
-      if (SenderPhoneU.text.isNotEmpty && addnum.isNotEmpty) {
-        addSenderNumber = addnum;
+      String oldnam = oldS.SenderName;
+      addSenderNumber = oldS.SenderNumber;
+      country = oldS.SenderCountryCode;
+      if (addnumUS.length > 5) {
+        country = addnumUS.replaceAll(SenderPhoneU.text, "");
       }
 
-      isLoading = true;
-      notifyListeners();
-      try {
-        await deleteSender(oldnam).timeout(const Duration(seconds: 10));
-        await addSender(addSenderName, addSenderNumber, country).timeout(const Duration(seconds: 10));
-        isLoading = false;
+      if (SenderNameU.text == "" || SenderPhoneU.text == "") {
+        ErrorText.errorMessage(con, AppConstant.errorcantEmptySender);
+      } else {
+        String addSenderName = SenderNameU.text;
+        if (SenderPhoneU.text.isNotEmpty && addnumUS.isNotEmpty) {
+          addSenderNumber = addnumUS;
+        }
+
+        isLoading = true;
         notifyListeners();
-        RouteHelper.pop(con, const Home());
-      } catch (e) {
-        isLoading = false;
-        notifyListeners();
-        ErrorText.errorMessage(con, AppConstant.userChangeError);
-        deleteSender(addSenderName);
+        try {
+          await deleteSender(oldnam).timeout(const Duration(seconds: 10));
+          await addSender(addSenderName, addSenderNumber, country).timeout(const Duration(seconds: 10));
+          isLoading = false;
+          notifyListeners();
+          RouteHelper.pop(con, const Home());
+        } catch (e) {
+          isLoading = false;
+          notifyListeners();
+          ErrorText.errorMessage(con, AppConstant.userChangeError);
+          deleteSender(addSenderName);
+        }
       }
     }
   }

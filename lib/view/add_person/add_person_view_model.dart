@@ -18,53 +18,58 @@ class AddPersonViewModel extends ChangeNotifier {
     }
   }
 
+  bool numtrue = false;
   String addnum = "";
   bool isLoadingAdd = false;
   String withoutC = "";
   String countrycode = "";
   void addnew(BuildContext con) async {
-    withoutC = textPhone.text;
-    countrycode = addnum.replaceAll(withoutC, "");
-
-    int mailvalidcounter = 0;
-    if (textName.text == "" || textEmail.text == "" && textPhone.text == "") {
-      ErrorText.errorMessage(con, AppConstant.errorCantEmptyAdd);
+    if (numtrue == false) {
+      ErrorText.errorMessage(con, AppConstant.invalidNumberError);
     } else {
-      String addName = textName.text;
-      String addNumber = "-";
-      if (textPhone.text.isNotEmpty) {
-        addNumber = addnum;
-      }
-      String addEmail = textEmail.text;
-      if (addEmail == "") {
-        addEmail = "-";
+      withoutC = textPhone.text;
+      countrycode = addnum.replaceAll(withoutC, "");
+
+      int mailvalidcounter = 0;
+      if (textName.text == "" || textEmail.text == "" && textPhone.text == "") {
+        ErrorText.errorMessage(con, AppConstant.errorCantEmptyAdd);
       } else {
-        for (int i = 0; i < addEmail.length; i++) {
-          if (addEmail[i] == "@") {
-            mailvalidcounter++;
+        String addName = textName.text;
+        String addNumber = "-";
+        if (textPhone.text.isNotEmpty) {
+          addNumber = addnum;
+        }
+        String addEmail = textEmail.text;
+        if (addEmail == "") {
+          addEmail = "-";
+        } else {
+          for (int i = 0; i < addEmail.length; i++) {
+            if (addEmail[i] == "@") {
+              mailvalidcounter++;
+            }
           }
         }
-      }
-      if (addNumber == "") {
-        addNumber = "-";
-      }
-      if (mailvalidcounter == 1 || addEmail == "-") {
-        isLoadingAdd = true;
-        notifyListeners();
-
-        try {
-          await addPerson(addName, addNumber, addEmail, countrycode).timeout(const Duration(seconds: 10));
-          isLoadingAdd = false;
-          notifyListeners();
-          RouteHelper.pop(con, const Home());
-        } catch (e) {
-          isLoadingAdd = false;
-          notifyListeners();
-          ErrorText.errorMessage(con, AppConstant.userAddError);
-          deletePerson(addName);
+        if (addNumber == "") {
+          addNumber = "-";
         }
-      } else {
-        ErrorText.errorMessage(con, AppConstant.errorMail);
+        if (mailvalidcounter == 1 || addEmail == "-") {
+          isLoadingAdd = true;
+          notifyListeners();
+
+          try {
+            await addPerson(addName, addNumber, addEmail, countrycode).timeout(const Duration(seconds: 10));
+            isLoadingAdd = false;
+            notifyListeners();
+            RouteHelper.pop(con, const Home());
+          } catch (e) {
+            isLoadingAdd = false;
+            notifyListeners();
+            ErrorText.errorMessage(con, AppConstant.userAddError);
+            deletePerson(addName);
+          }
+        } else {
+          ErrorText.errorMessage(con, AppConstant.errorMail);
+        }
       }
     }
   }

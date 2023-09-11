@@ -61,7 +61,6 @@ class SMSReadViewModel extends ChangeNotifier {
       }
     }
   }
-
   // void startListeningMethod() async {
   //   if (smsReceiver == null) return;
   //   await smsReceiver?.startListening();

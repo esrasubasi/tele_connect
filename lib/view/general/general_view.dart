@@ -52,14 +52,14 @@ class _HomeState extends BaseState<Home> {
         currentIndex: currentPageIndex,
         items: const [
           BottomNavigationBarItem(
-            activeIcon: Icon(Icons.person_add_rounded),
-            icon: Icon(Icons.person_add),
-            label: AppConstant.containerNameSender,
+            activeIcon: Icon(Icons.send_rounded),
+            icon: Icon(Icons.send),
+            label: AppConstant.containerNameSend,
           ),
           BottomNavigationBarItem(
-            activeIcon: Icon(Icons.add_comment_rounded),
-            icon: Icon(Icons.add_comment),
-            label: AppConstant.containerNameSend,
+            activeIcon: Icon(Icons.message_rounded),
+            icon: Icon(Icons.message),
+            label: AppConstant.containerNameSender,
           ),
         ],
         onTap: (int index) {
@@ -69,159 +69,49 @@ class _HomeState extends BaseState<Home> {
         },
       ),
       body: <Widget>[
-        Column(
-          children: [
-            Switch(
-              value: isOn,
-              onChanged: (value) {
-                swiprovider.toggleIsOn(value);
-                if (value) {
-                  readModelProvider.startListening();
-                } else {
-                  readModelProvider.dispose();
-                }
-              },
-              activeColor: mainColorGreen700,
-            ),
-            // Text(
-            //   AppConstant.containerNameSender,
-            //   style: TextStyle(color: ColorConstant.MAIN_BLACK54, fontWeight: FontWeight.bold, fontSize: 18),
-            // ),
-
-            StreamBuilder<QuerySnapshot>(
-              stream: viewModel.personsStream,
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                }
-
-                if (!snapshot.hasData) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-
-                final persons = snapshot.data!.docs.map((doc) {
-                  final data = doc.data() as Map<String, dynamic>;
-                  return Person(
-                    personName: data['PersonName'] ?? "",
-                    personNumber: data['PersonNumber'] ?? "",
-                    personEmail: data['PersonEmail'] ?? "",
-                    personCountryCode: data['PersonCountryCode'] ?? "",
-                    personSelectTel: data['PersonSelectTel'] ?? false,
-                    personSelectMail: data['PersonSelectMail'] ?? false,
-                  );
-                }).toList();
-
-                return Container(
-                  height: dynamicHeight(0.45),
-                  width: dynamicWidth(0.95),
-                  margin: const EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    border: Border.all(color: mainB54, width: 3),
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              Switch(
+                value: isOn,
+                onChanged: (value) {
+                  swiprovider.toggleIsOn(value);
+                  if (value) {
+                    readModelProvider.startListening();
+                  } else {
+                    readModelProvider.dispose();
+                  }
+                },
+                activeColor: mainColorGreen700,
+              ),
+              SizedBox(
+                height: dynamicHeight(0.01),
+              ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: dynamicWidth(0.06),
                   ),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: dynamicHeight(0.01),
-                        ),
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: dynamicWidth(0.04),
-                            ),
-                            const Text(
-                              AppConstant.userInformation,
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: mainB54),
-                            ),
-                            SizedBox(
-                              width: dynamicWidth(0.4),
-                            ),
-                            const Icon(
-                              Icons.send,
-                              color: mainB54,
-                            ),
-                            SizedBox(width: dynamicHeight(0.03)),
-                            const Icon(
-                              Icons.mail,
-                              color: mainB54,
-                            ),
-                          ],
-                        ),
-                        const Divider(
-                          height: 3,
-                          color: mainB54,
-                          thickness: 3,
-                        ),
-                        SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              for (final person in persons) padCheckBP(person),
-                              Text("Telnos:${recipients.toString()}/Mails:${mails.toString()}"),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                  const Text(
+                    AppConstant.userInformation,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: mainB54),
                   ),
-                );
-              },
-            ),
-            Center(
-              child: IconButton(
-                  onPressed: () {
-                    RouteHelper.push(maincontext, const PersonApp());
-                  },
-                  icon: const Padding(
-                    padding: EdgeInsets.all(1.0),
-                    child: Icon(Icons.person_add),
+                  SizedBox(
+                    width: dynamicWidth(0.41),
                   ),
-                  iconSize: 100,
-                  color: mainColorGreen700),
-            ),
-          ],
-        ),
-        Column(
-          children: [
-            Switch(
-              value: isOn,
-              onChanged: (value) {
-                swiprovider.toggleIsOn(value);
-                if (value) {
-                  readModelProvider.startListening();
-                } else {
-                  readModelProvider.dispose();
-                }
-              },
-              activeColor: mainColorGreen700,
-            ),
-            // Text(
-            //   AppConstant.containerNameSend,
-            //   style: TextStyle(color: ColorConstant.MAIN_BLACK54, fontWeight: FontWeight.bold, fontSize: 18),
-            // ),
-            SizedBox(
-              height: dynamicHeight(0.01),
-            ),
-            Row(
-              children: [
-                SizedBox(
-                  width: dynamicWidth(0.07),
-                ),
-                const Text(
-                  AppConstant.userInformation,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: mainB54),
-                ),
-                SizedBox(
-                  width: dynamicWidth(0.53),
-                ),
-                const Icon(
-                  Icons.send,
-                  color: mainB54,
-                ),
-              ],
-            ),
-            StreamBuilder<QuerySnapshot>(
-                stream: viewModel.sendersStream,
+                  const Icon(
+                    Icons.send,
+                    color: mainB54,
+                  ),
+                  SizedBox(width: dynamicWidth(0.057)),
+                  const Icon(
+                    Icons.mail,
+                    color: mainB54,
+                  ),
+                ],
+              ),
+              StreamBuilder<QuerySnapshot>(
+                stream: viewModel.personsStream,
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
@@ -231,17 +121,20 @@ class _HomeState extends BaseState<Home> {
                     return const Center(child: CircularProgressIndicator());
                   }
 
-                  final senders = snapshot.data!.docs.map((doc) {
+                  final persons = snapshot.data!.docs.map((doc) {
                     final data = doc.data() as Map<String, dynamic>;
-                    return Senders(
-                      SenderName: data['SenderName'] ?? "",
-                      SenderNumber: data['SenderNumber'] ?? "",
-                      SenderSelect: data['SenderSelect'] ?? false,
-                      SenderCountryCode: data['SenderCountryCode'] ?? "",
+                    return Person(
+                      personName: data['PersonName'] ?? "",
+                      personNumber: data['PersonNumber'] ?? "",
+                      personEmail: data['PersonEmail'] ?? "",
+                      personCountryCode: data['PersonCountryCode'] ?? "",
+                      personSelectTel: data['PersonSelectTel'] ?? false,
+                      personSelectMail: data['PersonSelectMail'] ?? false,
                     );
                   }).toList();
+
                   return Container(
-                    height: dynamicHeight(0.4),
+                    height: dynamicHeight(0.45),
                     width: dynamicWidth(0.95),
                     margin: const EdgeInsets.all(10.0),
                     decoration: BoxDecoration(
@@ -249,29 +142,126 @@ class _HomeState extends BaseState<Home> {
                       border: Border.all(color: mainB54, width: 3),
                     ),
                     child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
                       child: Column(
-                        children: [for (final sender in senders) padCheckBS(sender), Text(sendernumbers.toString())],
+                        children: [
+                          SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                for (final person in persons) padCheckBP(person),
+                                Text("Telnos:${recipients.toString()}/Mails:${mails.toString()}"),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   );
-                }),
-            SizedBox(
-              height: dynamicHeight(0.01),
-            ),
-            Center(
-              child: IconButton(
-                  onPressed: () {
-                    RouteHelper.push(maincontext, const SendApp());
-                  },
-                  icon: const Padding(
-                    padding: EdgeInsets.all(6.0),
-                    child: Icon(Icons.add_comment),
+                },
+              ),
+              Center(
+                child: IconButton(
+                    onPressed: () {
+                      RouteHelper.push(maincontext, const PersonApp());
+                    },
+                    icon: const Padding(
+                      padding: EdgeInsets.all(1.0),
+                      child: Icon(Icons.person_add),
+                    ),
+                    iconSize: 100,
+                    color: mainColorGreen700),
+              ),
+            ],
+          ),
+        ),
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              Switch(
+                value: isOn,
+                onChanged: (value) {
+                  swiprovider.toggleIsOn(value);
+                  if (value) {
+                    readModelProvider.startListening();
+                  } else {
+                    readModelProvider.dispose();
+                  }
+                },
+                activeColor: mainColorGreen700,
+              ),
+              SizedBox(
+                height: dynamicHeight(0.01),
+              ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: dynamicWidth(0.07),
                   ),
-                  iconSize: 100,
-                  color: mainColorGreen700),
-            ),
-          ],
+                  const Text(
+                    AppConstant.userInformation,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: mainB54),
+                  ),
+                  SizedBox(
+                    width: dynamicWidth(0.53),
+                  ),
+                  const Icon(
+                    Icons.send,
+                    color: mainB54,
+                  ),
+                ],
+              ),
+              StreamBuilder<QuerySnapshot>(
+                  stream: viewModel.sendersStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    }
+
+                    if (!snapshot.hasData) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
+                    final senders = snapshot.data!.docs.map((doc) {
+                      final data = doc.data() as Map<String, dynamic>;
+                      return Senders(
+                        SenderName: data['SenderName'] ?? "",
+                        SenderNumber: data['SenderNumber'] ?? "",
+                        SenderSelect: data['SenderSelect'] ?? false,
+                        SenderCountryCode: data['SenderCountryCode'] ?? "",
+                      );
+                    }).toList();
+                    return Container(
+                      height: dynamicHeight(0.4),
+                      width: dynamicWidth(0.95),
+                      margin: const EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        border: Border.all(color: mainB54, width: 3),
+                      ),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Column(
+                          children: [for (final sender in senders) padCheckBS(sender), Text(sendernumbers.toString())],
+                        ),
+                      ),
+                    );
+                  }),
+              SizedBox(
+                height: dynamicHeight(0.01),
+              ),
+              Center(
+                child: IconButton(
+                    onPressed: () {
+                      RouteHelper.push(maincontext, const SendApp());
+                    },
+                    icon: const Padding(
+                      padding: EdgeInsets.all(6.0),
+                      child: Icon(Icons.add_comment),
+                    ),
+                    iconSize: 100,
+                    color: mainColorGreen700),
+              ),
+            ],
+          ),
         ),
       ][currentPageIndex],
     );

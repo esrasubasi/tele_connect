@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/countries.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 import 'package:tele_connect/core/components/custom_textfield.dart';
@@ -27,6 +28,8 @@ class _SendUpdateAppState extends BaseState<SendUpdateApp> {
     final upSelectProvider = Provider.of<UpdateSenderViewModel>(context);
     upSelectProvider.callS(count);
     count = 2;
+    bool numcheckUS = false;
+    var countryUS = countries.firstWhere((element) => element.dialCode == oldS.SenderCountryCode.replaceAll("+", ""));
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -36,7 +39,7 @@ class _SendUpdateAppState extends BaseState<SendUpdateApp> {
               RouteHelper.pop(context, const Home());
             }),
         centerTitle: true,
-        title: const Text("Mesaj Alınacak Kişi Güncelleme",
+        title: const Text(AppConstant.senderUpdate,
             style: TextStyle(
               color: mainWhite,
             )),
@@ -60,7 +63,14 @@ class _SendUpdateAppState extends BaseState<SendUpdateApp> {
                 ),
                 languageCode: "tr",
                 onChanged: (phone) {
-                  upSelectProvider.addnum = phone.completeNumber;
+                  if (phone.number.length >= countryUS.minLength && phone.number.length <= countryUS.maxLength) {
+                    numcheckUS = true;
+                    upSelectProvider.numtrueUS = numcheckUS;
+                  } else {
+                    numcheckUS = false;
+                    upSelectProvider.numtrueUS = numcheckUS;
+                  }
+                  upSelectProvider.addnumUS = phone.completeNumber;
                 },
                 onCountryChanged: (country) {},
                 controller: upSelectProvider.SenderPhoneU),

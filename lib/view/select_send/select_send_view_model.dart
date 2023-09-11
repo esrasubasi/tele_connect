@@ -11,35 +11,46 @@ class AddSenderViewModel extends ChangeNotifier {
   final TextEditingController SenderName = TextEditingController();
 
   final TextEditingController SenderPhone = TextEditingController();
+  void resetsender(int one) {
+    if (one == 1) {
+      SenderName.text = "";
+      SenderPhone.text = "";
+    }
+  }
 
+  bool numtrueS = false;
   bool isLoading = false;
   String addnum = "";
   String withoutS = "";
   String countrycode = "";
   void addnew(BuildContext con) async {
-    withoutS = SenderPhone.text;
-    countrycode = addnum.replaceAll(withoutS, "");
-    if (SenderName.text == "" || SenderPhone.text == "") {
-      ErrorText.errorMessage(con, AppConstant.errorcantEmptySender);
+    if (numtrueS == false) {
+      ErrorText.errorMessage(con, AppConstant.invalidNumberError);
     } else {
-      String addSenderName = SenderName.text;
-      String addSenderNumber = "-";
-      if (SenderPhone.text.isNotEmpty) {
-        addSenderNumber = addnum;
-      }
+      withoutS = SenderPhone.text;
+      countrycode = addnum.replaceAll(withoutS, "");
+      if (SenderName.text == "" || SenderPhone.text == "") {
+        ErrorText.errorMessage(con, AppConstant.errorcantEmptySender);
+      } else {
+        String addSenderName = SenderName.text;
+        String addSenderNumber = "-";
+        if (SenderPhone.text.isNotEmpty) {
+          addSenderNumber = addnum;
+        }
 
-      isLoading = true;
-      notifyListeners();
-      try {
-        await addSender(addSenderName, addSenderNumber, countrycode).timeout(const Duration(seconds: 10));
-        isLoading = false;
+        isLoading = true;
         notifyListeners();
-        RouteHelper.pop(con, const Home());
-      } catch (e) {
-        isLoading = false;
-        notifyListeners();
-        ErrorText.errorMessage(con, AppConstant.userAddError);
-        deleteSender(addSenderName);
+        try {
+          await addSender(addSenderName, addSenderNumber, countrycode).timeout(const Duration(seconds: 10));
+          isLoading = false;
+          notifyListeners();
+          RouteHelper.pop(con, const Home());
+        } catch (e) {
+          isLoading = false;
+          notifyListeners();
+          ErrorText.errorMessage(con, AppConstant.userAddError);
+          deleteSender(addSenderName);
+        }
       }
     }
   }

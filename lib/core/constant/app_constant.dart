@@ -1,6 +1,6 @@
 class AppConstant {
   static const String sendSmsHintText = "Mesaj Alınacak Numara (Zorunlu Alan)";
-  static const String sendSmsText = "Mesaj Alınacak Seçici";
+  static const String sendSmsText = "Mesaj Alınacak Ekleyici";
   static const String hintTextName = "İsim ve Soyisim (Zorunlu Alan)";
   static const String hintTextNumber = "Telefon Numarası (Mail Yoksa Zorunlu Alan)";
   static const String hintTextEmail = "Email(Telno Yoksa Zorunlu Alan)";
@@ -18,4 +18,7 @@ class AppConstant {
   static const String userInformation = "Kişi Bilgileri";
   static const String userAddError = "Kişi Eklenirken Hata Oluştu!";
   static const String userChangeError = "Kişi Değiştirilirken Hata Oluştu!";
+  static const String personUpdate = "Kişi Güncelleme";
+  static const String senderUpdate = "Alınacakları Güncelleme";
+  static const String invalidNumberError = "Geçersiz Numara! Lütfen Doğru Giriniz!";
 }

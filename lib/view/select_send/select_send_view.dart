@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/countries.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 import 'package:tele_connect/core/components/custom_textfield.dart';
@@ -18,10 +19,15 @@ class SendApp extends StatefulWidget {
 
 class _SendAppState extends BaseState<SendApp> {
   FocusNode focusNode = FocusNode();
+  int count = 1;
+
   @override
   Widget build(BuildContext context) {
     final selectProvider = Provider.of<AddSenderViewModel>(context);
-
+    selectProvider.resetsender(count);
+    count = 2;
+    var countryS = countries.firstWhere((element) => element.code == "TR");
+    bool numcheckS = false;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(icon: const Icon(Icons.arrow_back, color: mainWhite), onPressed: () => RouteHelper.pop(context, const Home())),
@@ -47,6 +53,13 @@ class _SendAppState extends BaseState<SendApp> {
                 ),
                 languageCode: "tr",
                 onChanged: (phone) {
+                  if (phone.number.length >= countryS.minLength && phone.number.length <= countryS.maxLength) {
+                    numcheckS = true;
+                    selectProvider.numtrueS = numcheckS;
+                  } else {
+                    numcheckS = false;
+                    selectProvider.numtrueS = numcheckS;
+                  }
                   selectProvider.addnum = phone.completeNumber;
                 },
                 onCountryChanged: (country) {},
@@ -66,6 +79,7 @@ class _SendAppState extends BaseState<SendApp> {
                   style: TextButton.styleFrom(backgroundColor: mainColorGreen700),
                   onPressed: () {
                     selectProvider.addnew(context);
+                    selectProvider.resetsender(1);
                   },
                   child: selectProvider.isLoading
                       ? const CircularProgressIndicator(

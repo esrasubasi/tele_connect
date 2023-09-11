@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/countries.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 import 'package:tele_connect/core/components/custom_textfield.dart';
@@ -19,11 +20,14 @@ class PersonApp extends StatefulWidget {
 class _PersonAppState extends BaseState<PersonApp> {
   FocusNode focusNode = FocusNode();
   int counter = 1;
+
   @override
   Widget build(BuildContext context) {
     final addpersonprovider = Provider.of<AddPersonViewModel>(context);
     addpersonprovider.resetP(counter);
     counter = 2;
+    var country = countries.firstWhere((element) => element.code == "TR");
+    bool numcheck = false;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(icon: const Icon(Icons.arrow_back, color: mainWhite), onPressed: () => RouteHelper.pop(context, const Home())),
@@ -48,6 +52,13 @@ class _PersonAppState extends BaseState<PersonApp> {
                   ),
                   languageCode: "tr",
                   onChanged: (phone) {
+                    if (phone.number.length >= country.minLength && phone.number.length <= country.maxLength) {
+                      numcheck = true;
+                      addpersonprovider.numtrue = numcheck;
+                    } else {
+                      numcheck = false;
+                      addpersonprovider.numtrue = numcheck;
+                    }
                     addpersonprovider.addnum = phone.completeNumber;
                   },
                   onCountryChanged: (country) {},

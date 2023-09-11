@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:tele_connect/view/select_send/select_send_view_model.dart';
 import 'package:tele_connect/view/update_person/update_person_view_model.dart';
 import 'package:tele_connect/view/update_sender/update_sender_view_model.dart';
-
 import 'core/provider/sms_listen_provider.dart';
 import 'core/provider/switch_provider.dart';
 

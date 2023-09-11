@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/countries.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 import 'package:tele_connect/core/components/custom_textfield.dart';
@@ -22,6 +23,8 @@ class PersonUpdateApp extends StatefulWidget {
 class _PersonUpdateAppState extends BaseState<PersonUpdateApp> {
   FocusNode focusNode = FocusNode();
   int counter = 1;
+  bool numcheckUP = false;
+  var countryUP = countries.firstWhere((element) => element.dialCode == oldP.personCountryCode.replaceAll("+", ""));
   @override
   Widget build(BuildContext context) {
     final updateProvider = Provider.of<UpdatePersonViewModel>(context);
@@ -36,7 +39,7 @@ class _PersonUpdateAppState extends BaseState<PersonUpdateApp> {
               RouteHelper.pop(context, const Home());
             }),
         centerTitle: true,
-        title: const Text("Mesaj Gönderilecek Kişi Güncelleme", style: TextStyle(color: mainWhite)),
+        title: const Text(AppConstant.personUpdate, style: TextStyle(color: mainWhite)),
         backgroundColor: mainColorGreen700,
       ),
       body: SafeArea(
@@ -56,7 +59,14 @@ class _PersonUpdateAppState extends BaseState<PersonUpdateApp> {
                   ),
                   languageCode: "tr",
                   onChanged: (phone) {
-                    updateProvider.addnum = phone.completeNumber;
+                    if (phone.number.length >= countryUP.minLength && phone.number.length <= countryUP.maxLength) {
+                      numcheckUP = true;
+                      updateProvider.numtrueUP = numcheckUP;
+                    } else {
+                      numcheckUP = false;
+                      updateProvider.numtrueUP = numcheckUP;
+                    }
+                    updateProvider.addnumUP = phone.completeNumber;
                   },
                   onCountryChanged: (country) {},
                   controller: updateProvider.textPhoneU),
